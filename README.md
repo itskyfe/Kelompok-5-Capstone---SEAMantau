@@ -119,7 +119,7 @@ private static final String PASS = "";
 
 * **Use Case Diagram:** [Use Case Diagram](https://drive.google.com/file/d/1rDLF2a2djfjGTg0d73RqV-xLF9lqe18J/view)
 
-<img width="10000" height="7776" alt="Image" src="https://github.com/user-attachments/assets/17e58dbb-579a-4377-8a66-cb52915fa3bd" />
+<img width="1390" height="1006" alt="Use Case SEAMantau-Copy of Page-1 drawio (1)" src="https://github.com/user-attachments/assets/33e078e9-288f-46ab-b0ae-2f42e992cd34" />
 
 * **Flowchart Program:** [Flowchart Porgram](https://drive.google.com/file/d/1sEJ96vtfeM0TtixbL2fQUgLSqq7eXLEw/view)
 
