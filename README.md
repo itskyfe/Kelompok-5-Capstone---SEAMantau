@@ -43,120 +43,609 @@ Data meliputi nomor registrasi, jenis kapal, alat tangkap, dan status operasiona
 Sistem memberikan peringatan apabila username atau password salah, membantu meningkatkan keamanan sistem dan mencegah akses tidak sah.
 
 ## 🧠 Penerapan OOP (Object Oriented Programming)
-- **Encapsulation**  
-  Enkapsulasi diterapkan dengan menjadikan atribut bersifat private dan menyediakan akses melalui metode getter dan setter. Hal ini memastikan data hanya bisa diubah melalui mekanisme validasi yang terkontrol.
-  ```
-  // model/User.java
-  public class User {
-      private String nama;
-      private String username;
-      private String email;
 
-    // getter dan setter
-    public String getNama() { return nama; }
-    public void setNama(String nama) { this.nama = nama; }
+## 1. Encapsulation
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+Encapsulation merupakan pilar utama dalam Pemrograman Berorientasi Objek (PBO) yang bertujuan untuk **melindungi data dari akses langsung dari luar kelas**. Dalam sistem SEAMantau, prinsip ini diterapkan pada setiap kelas entitas seperti `User`, `Nelayan`, `Pegawai`, `Admin`, `Kapal`, `WilayahTangkap`, `Laporan`, dan `LaporanPengaduan`.
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-  }
-  ```
-  ```
-  // controller/AuthController.java
-  public class AuthController {
-      private final UserDAO userDAO = new UserDAO(); // atribut dienkapsulasi
+Setiap atribut kelas bersifat **`private`**, dan hanya dapat diakses melalui **getter** dan **setter**. Hal ini menjaga integritas data agar perubahan hanya dapat dilakukan dengan cara yang terkontrol.
 
-    public User login(String username, String password) {
-        User user = userDAO.findByUsername(username);
-        if (user == null) return null;
-        // validasi login dilakukan di sini
-        return user;
+Sebagai contoh implementasi, berikut penerapan pada kelas `Laporan`:
+
+```java
+package model;
+
+import model.enums.StatusLaporan;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "laporan")
+public class Laporan implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "laporan_id")
+    private Integer laporanId;
+
+    @ManyToOne
+    @JoinColumn(name = "id_nelayan", nullable = false)
+    private Nelayan nelayan;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pegawai")
+    private Pegawai pegawai;
+
+    @ManyToOne
+    @JoinColumn(name = "id_kapal", nullable = false)
+    private Kapal kapal;
+
+    @ManyToOne
+    @JoinColumn(name = "id_wilayah", nullable = false)
+    private WilayahTangkap wilayah;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_laporan", nullable = false, columnDefinition = "ENUM('Driverifikasi','Menunggu','Berlayar','Ditolak') DEFAULT 'Menunggu'")
+    private StatusLaporan statusLaporan;
+
+    @Column(name = "nama_pelabuhan", nullable = false, length = 100)
+    private String namaPelabuhan;
+
+    @Column(name = "waktu_berangkat", nullable = false)
+    private LocalDateTime waktuBerangkat;
+
+    @Column(name = "alat_tangkap", nullable = false, length = 100)
+    private String alatTangkap;
+
+    @Column(name = "foto_alat_tangkap", nullable = false, length = 2048)
+    private String fotoAlatTangkap;
+
+    @Column(name = "waktu_berlabuh")
+    private LocalDateTime waktuBerlabuh;
+
+    @Column(name = "catatan", columnDefinition = "TEXT")
+    private String catatan;
+
+    /* ---------- getter & setter ---------- */
+    public Integer getLaporanId() { return laporanId; }
+    public void setLaporanId(Integer laporanId) { this.laporanId = laporanId; }
+
+    public Nelayan getNelayan() { return nelayan; }
+    public void setNelayan(Nelayan nelayan) { this.nelayan = nelayan; }
+
+    public Pegawai getPegawai() { return pegawai; }
+    public void setPegawai(Pegawai pegawai) { this.pegawai = pegawai; }
+
+    public Kapal getKapal() { return kapal; }
+    public void setKapal(Kapal kapal) { this.kapal = kapal; }
+
+    public WilayahTangkap getWilayah() { return wilayah; }
+    public void setWilayah(WilayahTangkap wilayah) { this.wilayah = wilayah; }
+
+    public StatusLaporan getStatusLaporan() { return statusLaporan; }
+    public void setStatusLaporan(StatusLaporan statusLaporan) { this.statusLaporan = statusLaporan; }
+
+    public String getNamaPelabuhan() { return namaPelabuhan; }
+    public void setNamaPelabuhan(String namaPelabuhan) { this.namaPelabuhan = namaPelabuhan; }
+
+    public LocalDateTime getWaktuBerangkat() { return waktuBerangkat; }
+    public void setWaktuBerangkat(LocalDateTime waktuBerangkat) { this.waktuBerangkat = waktuBerangkat; }
+
+    public String getAlatTangkap() { return alatTangkap; }
+    public void setAlatTangkap(String alatTangkap) { this.alatTangkap = alatTangkap; }
+
+    public String getFotoAlatTangkap() { return fotoAlatTangkap; }
+    public void setFotoAlatTangkap(String fotoAlatTangkap) { this.fotoAlatTangkap = fotoAlatTangkap; }
+
+    public LocalDateTime getWaktuBerlabuh() { return waktuBerlabuh; }
+    public void setWaktuBerlabuh(LocalDateTime waktuBerlabuh) { this.waktuBerlabuh = waktuBerlabuh; }
+
+    public String getCatatan() { return catatan; }
+    public void setCatatan(String catatan) { this.catatan = catatan; }
+}
+```
+
+Dalam sistem SEAMantau, prinsip Encapsulation diterapkan pada setiap kelas entitas seperti Laporan.java.
+Semua atribut bersifat private dan hanya dapat diakses melalui metode getter dan setter.
+Contohnya, kelas Laporan menyimpan data seperti id_laporan, status_laporan, dan nama_pelabuhan yang tidak dapat diubah secara langsung oleh kelas lain.
+Penerapan ini menjaga integritas data dan memastikan perubahan hanya dilakukan melalui metode resmi yang telah ditentukan.
+
+---
+
+## 2. Inheritance
+
+**Inheritance** atau pewarisan adalah salah satu pilar utama dalam Pemrograman Berorientasi Objek (PBO) yang memungkinkan suatu kelas (child/subclass) untuk **mewarisi atribut dan metode dari kelas lain (parent/superclass)**.
+Tujuan utamanya adalah untuk **menghindari duplikasi kode**, menjaga keteraturan struktur program, dan memudahkan pengembangan.
+
+Dalam sistem **SEAMantau**, konsep *inheritance* diterapkan pada entitas pengguna sistem, di mana **kelas `User` bertindak sebagai superclass**, dan tiga kelas lainnya — **`Admin`, `Pegawai`, serta `Nelayan`** — menjadi subclass-nya.
+Masing-masing subclass mewarisi atribut dasar seperti `id_user`, `nama`, `username`, `password`, dan `email`, tetapi juga menambahkan atribut serta perilaku khusus sesuai peran masing-masing.
+
+---
+
+### 🔹 Superclass — `User.java`
+
+Kelas `User` berfungsi sebagai **kelas induk** yang berisi informasi umum dari semua jenis pengguna sistem.
+Kelas ini juga menggunakan anotasi `@Inheritance(strategy = InheritanceType.JOINED)` dari JPA (Hibernate), yang berarti setiap subclass akan disimpan dalam tabel berbeda, namun terhubung dengan tabel `user` melalui kolom *primary key* yang sama.
+
+```java
+@Entity
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Integer userId;
+
+    @Column(name = "nama", nullable = false, length = 100)
+    private String nama;
+
+    @Column(name = "username", nullable = false, unique = true, length = 50)
+    private String username;
+
+    @Column(name = "password", nullable = false, length = 100)
+    private String password;
+
+    @Column(name = "email", nullable = false, unique = true, length = 100)
+    private String email;
+
+    @Column(name = "no_hp", nullable = false, length = 20)
+    private String noHp;
+
+    @Column(name = "alamat", nullable = false, columnDefinition = "TEXT")
+    private String alamat;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = true,
+            columnDefinition = "ENUM('Admin','Pegawai','Nelayan') DEFAULT 'NULL'")
+    private Role role;
+
+    // Getter dan Setter
+}
+```
+
+Kelas ini mendefinisikan atribut identitas dasar bagi seluruh pengguna sistem seperti nama, username, email, dan role (peran).
+Selain itu, atribut `role` membantu sistem membedakan tipe pengguna secara otomatis ketika proses login dan otorisasi dilakukan.
+
+---
+
+### 🔹 Subclass 1 — `Admin.java`
+
+Kelas `Admin` merupakan **turunan langsung dari `User`** dan memiliki atribut tambahan `status` yang menunjukkan apakah akun admin sedang aktif atau nonaktif.
+Admin memiliki hak akses penuh terhadap seluruh data pengguna dan laporan di sistem SEAMantau.
+
+```java
+@Entity
+@Table(name = "admin")
+@PrimaryKeyJoinColumn(name = "admin_id")
+public class Admin extends User implements Serializable {
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false,
+        columnDefinition = "ENUM('Aktif','Nonaktif') DEFAULT 'Aktif'")
+    private StatusAdmin status;
+
+    public StatusAdmin getStatus() { return status; }
+    public void setStatus(StatusAdmin status) { this.status = status; }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "userId=" + getUserId() +
+                ", nama='" + getNama() + '\'' +
+                ", status=" + status +
+                '}';
     }
-  }
-  ```
-  
-- **Inheritance**  
-  LoginLimiter bertindak sebagai kelas dasar yang mendefinisikan perilaku umum pembatas login. Kelas AttemptLimiter mewarisi dan menyesuaikan perilaku tersebut.
-  ```
-  // controller/LoginLimiter.java
-  public abstract class LoginLimiter {
-      protected int failedAttempts = 0;
-      protected final int MAX_LOGIN_ATTEMPTS = 3;
+}
+```
 
-    public abstract void onFailedAttempt();
-    public abstract void onLimitReached();
-  }
-  ```
-  ```
-  // controller/AttemptLimiter.java
-  public class AttemptLimiter extends LoginLimiter {
-      @Override
-      public void onFailedAttempt() {
-          System.out.println("Percobaan login gagal.");
+🧭 **Fungsi khusus admin:**
+
+* Mengelola data pengguna (aktif/nonaktif)
+* Mengontrol dan menghapus data laporan
+* Melihat statistik laporan dan pengaduan
+
+---
+
+### 🔹 Subclass 2 — `Pegawai.java`
+
+Kelas `Pegawai` juga mewarisi `User`, namun menambahkan atribut khusus yaitu `nip` sebagai nomor identitas pegawai.
+Pegawai berperan sebagai **verifikator laporan**, yang bertugas memvalidasi laporan dan pengaduan nelayan di lapangan.
+
+```java
+@Entity
+@Table(name = "pegawai")
+@PrimaryKeyJoinColumn(name = "pegawai_id")
+public class Pegawai extends User implements Serializable {
+
+    @Column(name = "nip", nullable = false, unique = true, length = 18)
+    private String nip;
+
+    public String getNip() { return nip; }
+    public void setNip(String nip) { this.nip = nip; }
+
+    @Override
+    public String toString() {
+        return "Pegawai{" +
+                "userId=" + getUserId() +
+                ", nama='" + getNama() + '\'' +
+                ", nip=" + nip +
+                '}';
+    }
+}
+```
+
+🧭 **Fungsi khusus pegawai:**
+
+* Memverifikasi laporan nelayan
+* Mengubah status laporan menjadi *Diverifikasi*, *Ditolak*, atau *Menunggu*
+* Menambahkan catatan hasil pemeriksaan lapangan
+
+---
+
+### 🔹 Subclass 3 — `Nelayan.java`
+
+Kelas `Nelayan` adalah turunan dari `User` yang berperan sebagai **pelapor utama** dalam sistem SEAMantau.
+Nelayan memiliki atribut tambahan seperti `nib` (Nomor Identitas Berlayar) dan `statusNelayan`, serta relasi *one-to-many* terhadap entitas `Kapal`.
+
+```java
+@Entity
+@Table(name = "nelayan")
+@PrimaryKeyJoinColumn(name = "nelayan_id")
+public class Nelayan extends User implements Serializable {
+
+    @Column(name = "nib", nullable = false, unique = true, length = 13)
+    private String nib;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_nelayan", nullable = false,
+            columnDefinition = "ENUM('Aktif','Nonaktif') DEFAULT 'Nonaktif'")
+    private StatusNelayan statusNelayan;
+
+    @OneToMany(mappedBy = "nelayan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Kapal> daftarKapal = new ArrayList<>();
+
+    // Getter, Setter, dan Method Tambahan
+    public void tambahKapal(Kapal kapal) {
+        daftarKapal.add(kapal);
+        kapal.setNelayan(this);
+    }
+
+    public void hapusKapal(Kapal kapal) {
+        daftarKapal.remove(kapal);
+        kapal.setNelayan(null);
     }
 
     @Override
-    public void onLimitReached() {
-        System.out.println("Anda telah mencapai batas percobaan login.");
+    public String toString() {
+        return "Nelayan{" +
+                "userId=" + getUserId() +
+                ", nama='" + getNama() + '\'' +
+                ", nib=" + nib +
+                ", statusNelayan=" + statusNelayan +
+                ", jumlahKapal=" + (daftarKapal != null ? daftarKapal.size() : 0) +
+                '}';
     }
-  }
-  ```
-- **Polymorphism**  
-  Metode abstrak onFailedAttempt() pada LoginLimiter dioverride di AttemptLimiter dengan implementasi berbeda. Begitu pula, metode save() pada DAO bisa menerima berbagai jenis entity seperti Pegawai, Nelayan, atau User.
-  ```
-  // controller/LoginLimiter.java
-  public abstract class LoginLimiter {
-      public abstract void onFailedAttempt();
-  }
-  
-  // controller/AttemptLimiter.java
-  public class AttemptLimiter extends LoginLimiter {
-      @Override
-      public void onFailedAttempt() {
-          System.out.println("Login gagal. Coba lagi!");
-      }
-  }
-  ```
-  ```
-  // DAO polymorphism
-  userDAO.save(new Pegawai());
-  userDAO.save(new Nelayan());
-  ```
-  
-- **Abstraction**
-  Controller tidak perlu tahu bagaimana file diunggah ke Google Drive atau bagaimana Hibernate bekerja. Semua detail teknis disembunyikan oleh GoogleDriveService dan DAO.
-  ```
-  // controller/LaporanPengaduanController.java
-  public class LaporanPengaduanController {
-      private final LaporanPengaduanDAO dao = new LaporanPengaduanDAO();
+}
+```
 
-    public void buatLaporanBaru(LaporanPengaduan laporan, File fotoFile, String driveFolderId) throws Exception {
-        String fotoUrl = GoogleDriveService.uploadFile(fotoFile.getAbsolutePath(), driveFolderId);
-        laporan.setDokumentasi(fotoUrl);
-        dao.save(laporan); // detail query disembunyikan oleh DAO
+🧭 **Fungsi khusus nelayan:**
+
+* Membuat laporan aktivitas melaut
+* Melaporkan pengaduan kerusakan ekosistem laut
+* Mengelola data kapal yang dimiliki
+
+---
+
+### 🔹 **Struktur Pewarisan di Sistem**
+
+Secara konseptual, relasi antar kelas dapat digambarkan sebagai berikut:
+
+```
+            ┌──────────────┐
+            │     User     │  ← Superclass
+            └──────┬───────┘
+       ┌───────────┼───────────┐
+       │           │           │
+ ┌─────▼─────┐ ┌───▼──────┐ ┌───▼──────┐
+ │  Admin    │ │ Pegawai  │ │ Nelayan  │
+ └───────────┘ └──────────┘ └──────────┘
+```
+
+💬 Semua subclass (`Admin`, `Pegawai`, `Nelayan`) mewarisi atribut umum dari `User`, namun masing-masing memiliki atribut tambahan yang mencerminkan peran unik mereka di dalam sistem.
+
+---
+
+### 🔹**Keuntungan Penerapan Inheritance di SEAMantau**
+
+1. **Efisiensi kode:** Atribut umum cukup ditulis sekali pada kelas `User`, tidak perlu diulang di subclass.
+2. **Kemudahan pemeliharaan:** Jika ada perubahan pada struktur data pengguna (misalnya penambahan `no_hp`), cukup ubah di `User.java`.
+3. **Relasi database yang jelas:** Dengan strategi `@Inheritance(strategy = InheritanceType.JOINED)`, data di tiap subclass memiliki tabel sendiri, tetapi tetap saling terhubung ke tabel utama `user`.
+4. **Fleksibilitas sistem:** Developer dapat menambahkan jenis pengguna baru (misalnya `PetugasLapangan`) tanpa mengubah arsitektur inti sistem.
+
+---
+
+## 3. Abstraction
+
+**Abstraction (Abstraksi)** merupakan pilar penting dalam Pemrograman Berorientasi Objek (PBO) yang berfungsi untuk **menyembunyikan detail implementasi** dan hanya menampilkan struktur penting atau perilaku umum yang harus dimiliki oleh turunan kelas tersebut.
+Dengan menerapkan abstraksi, sistem menjadi lebih terorganisir, karena setiap kelas hanya fokus pada fungsinya masing-masing tanpa perlu mengetahui detail teknis kelas lain.
+
+---
+
+### 🔹 Penerapan Abstraction dalam SEAMantau
+
+Dalam sistem **SEAMantau**, abstraksi diterapkan melalui **kelas `User`** yang berperan sebagai *blueprint* (cetak biru) bagi seluruh jenis pengguna, seperti `Admin`, `Pegawai`, dan `Nelayan`.
+Kelas `User` mendefinisikan **atribut dan perilaku umum** yang dimiliki oleh semua pengguna sistem, seperti `userId`, `nama`, `username`, `password`, `email`, dan `role`.
+Namun, kelas ini **tidak mendefinisikan detail cara kerja spesifik dari tiap jenis pengguna** — hal itu diserahkan kepada kelas turunannya.
+
+Untuk memperkuat penerapan konsep abstraksi, kelas `User` dapat dijadikan **kelas abstrak (`abstract class`)** dengan menambahkan *method abstract* seperti `login()` dan `tampilkanInfoUser()`.
+Dengan begitu, setiap subclass diwajibkan mengimplementasikan metode tersebut sesuai peran masing-masing.
+
+Contoh penerapan:
+
+```java
+@Entity
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Integer userId;
+
+    @Column(name = "nama", nullable = false, length = 100)
+    private String nama;
+
+    @Column(name = "username", nullable = false, unique = true, length = 50)
+    private String username;
+
+    @Column(name = "password", nullable = false, length = 100)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = true,
+            columnDefinition = "ENUM('Admin','Pegawai','Nelayan') DEFAULT 'NULL'")
+    private Role role;
+
+    // Method abstrak — wajib diimplementasikan oleh subclass
+    public abstract void login();
+    public abstract void tampilkanInfoUser();
+}
+```
+
+---
+
+### 🔹 Implementasi Abstraction oleh Subclass
+
+Masing-masing kelas turunan (`Admin`, `Pegawai`, dan `Nelayan`) memiliki implementasi tersendiri dari metode abstrak tersebut.
+Dengan cara ini, sistem dapat memanggil method yang sama (`login()`), namun setiap jenis pengguna akan menampilkan perilaku berbeda sesuai peran mereka.
+
+#### ✅ `Admin.java`
+
+```java
+@Entity
+@Table(name = "admin")
+@PrimaryKeyJoinColumn(name = "admin_id")
+public class Admin extends User {
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false,
+        columnDefinition = "ENUM('Aktif','Nonaktif') DEFAULT 'Aktif'")
+    private StatusAdmin status;
+
+    @Override
+    public void login() {
+        System.out.println("Login sebagai Admin - memiliki akses penuh terhadap seluruh data sistem SEAMantau.");
     }
-  }
-  ```
-- **Interface**
-  DAO pattern menggunakan interface GenericDAO yang mengatur kontrak dasar setiap operasi database. Controller hanya tahu fungsi save() atau update() tanpa perlu tahu bagaimana detail SQL-nya.
-  ```
-  // dao/GenericDAO.java
-  public interface GenericDAO<T> {
-      void save(T entity);
-      void update(T entity);
-      void delete(T entity);
-  }
-  ```
-  ```
-  // dao/UserDAO.java
-  public class UserDAO implements GenericDAO<User> {
-      @Override
-      public void save(User entity) {
-          // Implementasi Hibernate
-      }
-  }
+
+    @Override
+    public void tampilkanInfoUser() {
+        System.out.println("Admin: " + getNama() + " | Status: " + status);
+    }
+}
+```
+
+#### ✅ `Pegawai.java`
+
+```java
+@Entity
+@Table(name = "pegawai")
+@PrimaryKeyJoinColumn(name = "pegawai_id")
+public class Pegawai extends User {
+
+    @Column(name = "nip", nullable = false, unique = true, length = 18)
+    private String nip;
+
+    @Override
+    public void login() {
+        System.out.println("Login sebagai Pegawai - dapat memverifikasi laporan nelayan.");
+    }
+
+    @Override
+    public void tampilkanInfoUser() {
+        System.out.println("Pegawai: " + getNama() + " | NIP: " + nip);
+    }
+}
+```
+
+#### ✅ `Nelayan.java`
+
+```java
+@Entity
+@Table(name = "nelayan")
+@PrimaryKeyJoinColumn(name = "nelayan_id")
+public class Nelayan extends User {
+
+    @Column(name = "nib", nullable = false, unique = true, length = 13)
+    private String nib;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_nelayan", nullable = false,
+            columnDefinition = "ENUM('Aktif','Nonaktif') DEFAULT 'Nonaktif'")
+    private StatusNelayan statusNelayan;
+
+    @Override
+    public void login() {
+        System.out.println("Login sebagai Nelayan - dapat membuat laporan kegiatan dan pengaduan.");
+    }
+
+    @Override
+    public void tampilkanInfoUser() {
+        System.out.println("Nelayan: " + getNama() + " | Status: " + statusNelayan);
+    }
+}
+```
+
+Penerapan **Abstraction** pada sistem SEAMantau dilakukan dengan menjadikan `User` sebagai *kelas abstrak* yang mendefinisikan atribut dan perilaku umum seluruh pengguna.
+Kelas turunan (`Admin`, `Pegawai`, `Nelayan`) mengimplementasikan metode abstrak dengan logika spesifik sesuai peran masing-masing.
+
+Dengan penerapan ini, sistem SEAMantau menjadi **lebih fleksibel, mudah dikembangkan, serta terstruktur secara hierarkis**, karena setiap pengguna memiliki identitas dan fungsi yang jelas tanpa menyalin kode berulang.
+
+---
+
+## 4. Polymorphism
+
+Polymorphism merupakan salah satu pilar penting dalam Pemrograman Berorientasi Objek (PBO) yang memungkinkan suatu objek memiliki banyak bentuk dan berperilaku berbeda tergantung pada konteks pemanggilannya.
+
+Dalam sistem **SEAMantau**, konsep polymorphism diterapkan melalui kelas **`LaporanDAO.java`**, yang menangani berbagai operasi database untuk entitas `Laporan`.
+Setiap metode seperti `save()`, `update()`, `delete()`, dan `findById()` memiliki perilaku berbeda sesuai kebutuhan penggunaannya, namun semuanya beroperasi terhadap objek `Laporan` yang sama.
+
+Sebagai contoh implementasi:
+
+```java
+public class LaporanDAO {
+
+    public void save(Laporan laporan) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            session.save(laporan);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+        }
+    }
+
+    public void update(Laporan laporan) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            session.update(laporan);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+        }
+    }
+
+    public Laporan findById(Integer id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(Laporan.class, id);
+        }
+    }
+}
+```
+
+Pada kode di atas, meskipun setiap metode (`save`, `update`, `findById`) beroperasi terhadap tipe objek yang sama (`Laporan`), perilaku setiap metode **berbeda** sesuai tujuan pemanggilannya.
+Misalnya:
+
+* `save()` digunakan untuk menyimpan data baru ke database,
+* `update()` untuk memperbarui laporan yang sudah ada,
+* dan `findById()` untuk mengambil laporan berdasarkan ID tertentu.
+
+Ketika objek `LaporanDAO` digunakan di berbagai bagian sistem (seperti di dashboard admin atau pegawai), setiap pemanggilan metode menghasilkan perilaku yang **berbeda-beda sesuai konteksnya**, meskipun nama kelas dan tipe objeknya sama.
+Inilah yang disebut dengan **runtime polymorphism**, dan penerapannya membantu sistem **lebih fleksibel, modular, serta mudah diperluas** tanpa perlu mengubah struktur kode utama.
+
+---
+
+## 5. Interface
+
+Interface merupakan kontrak atau blueprint dalam Pemrograman Berorientasi Objek (PBO) yang mendefinisikan sekumpulan metode atau nilai konstan tanpa implementasi langsung. Kelas atau enumerasi yang mengimplementasikan atau menggunakan interface harus menyediakan perilaku spesifik sesuai kontrak tersebut.
+
+Dalam sistem **SEAMantau**, konsep interface diterapkan melalui penggunaan **`enum` seperti `StatusAdmin`**, yang berperan sebagai *interface-like structure* untuk membatasi dan mendefinisikan nilai yang boleh digunakan oleh atribut tertentu pada kelas `Admin.java`.
+
+Sebagai contoh:
+
+```java
+@Entity
+@Table(name = "admin")
+@PrimaryKeyJoinColumn(name = "admin_id")
+public class Admin extends User implements Serializable {
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false,
+        columnDefinition = "ENUM('Aktif','Nonaktif') DEFAULT 'Aktif'")
+    private StatusAdmin status;
+
+    public StatusAdmin getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusAdmin status) {
+        this.status = status;
+    }
+}
+```
+
+Dan berikut kode **`StatusAdmin.java`** sebagai bentuk *interface-kontraktual*:
+
+```java
+package model.enums;
+
+public enum StatusAdmin {
+    Aktif,
+    Nonaktif
+}
+```
+
+Pada struktur di atas, `StatusAdmin` bertindak layaknya **interface enumerasi** yang memastikan atribut `status` pada entitas `Admin` hanya dapat memiliki dua nilai yang valid, yaitu `Aktif` atau `Nonaktif`.
+Dengan begitu, sistem tidak dapat memberikan nilai sembarangan pada status admin, menjaga konsistensi dan keamanan data.
+
+Selain itu, konsep interface juga digunakan pada **lapisan DAO (Data Access Object)** — seperti `LaporanDAO` dan `UserDAO` — di mana setiap kelas memiliki struktur metode yang mirip (misalnya `save()`, `update()`, `delete()`, `findAll()`), namun dengan implementasi berbeda sesuai jenis data yang diolah.
+Penerapan prinsip ini membuat kode **lebih modular, mudah diuji, dan dapat dikembangkan tanpa mengubah kode utama**.
+
+---
+
+## 🎯 **Kesimpulan Penerapan Lima Pilar OOP pada Sistem SEAMantau**
+
+Penerapan **Object-Oriented Programming (OOP)** pada sistem **SEAMantau** berperan penting dalam membangun arsitektur aplikasi yang **terstruktur, aman, dan mudah dikembangkan**. Kelima pilar OOP—**Encapsulation, Inheritance, Abstraction, Polymorphism, dan Interface**—telah diterapkan secara konsisten di seluruh komponen sistem.
+
+Berikut kesimpulan penerapannya:
+
+### 1. **Encapsulation**
+
+Diterapkan pada setiap kelas model seperti `Laporan`, `User`, `Nelayan`, dan `Pegawai`, dengan penggunaan **modifier `private`** untuk atribut dan **getter-setter** untuk akses data. Hal ini menjaga keamanan data dan memastikan setiap perubahan atribut dilakukan secara terkontrol, sehingga mencegah manipulasi langsung dari luar kelas.
+
+### 2. **Inheritance**
+
+Kelas `User` berperan sebagai **superclass** bagi `Admin`, `Pegawai`, dan `Nelayan`. Melalui pewarisan (`extends`), seluruh atribut umum seperti `nama`, `username`, `email`, dan `alamat` diwarisi oleh subclass, yang kemudian menambahkan atribut spesifik masing-masing. Hal ini mengurangi duplikasi kode dan mempermudah pengelolaan entitas yang memiliki karakteristik mirip.
+
+### 3. **Abstraction**
+
+Kelas `User` juga berfungsi sebagai **abstraksi umum** bagi seluruh tipe pengguna. Dengan pendekatan ini, kode yang berhubungan dengan entitas pengguna dapat menggunakan `User` sebagai tipe referensi umum tanpa memerlukan detail spesifik subclass-nya. Abstraksi ini menyederhanakan logika bisnis dan menjaga fleksibilitas sistem.
+
+### 4. **Polymorphism**
+
+Melalui kelas `LaporanDAO`, konsep polymorphism diwujudkan dalam bentuk metode dengan **nama sama tetapi perilaku berbeda**, seperti `save()`, `update()`, dan `findById()`. Setiap metode beroperasi terhadap objek yang sama (`Laporan`), namun memiliki fungsi yang berbeda sesuai konteksnya. Hal ini memungkinkan sistem menangani berbagai operasi dengan efisien dan dinamis.
+
+### 5. **Interface**
+
+Konsep interface diterapkan melalui penggunaan **enum dan struktur DAO** yang berperan sebagai kontrak perilaku. Misalnya, `StatusAdmin` dan `StatusLaporan` memastikan nilai status hanya terbatas pada pilihan valid, sedangkan pola DAO memastikan setiap kelas data memiliki metode yang konsisten seperti `save()`, `update()`, dan `delete()`. Dengan pendekatan ini, sistem menjadi modular dan mudah dikembangkan.
+
+---
+
+💡 **Secara keseluruhan**, penerapan kelima pilar OOP pada SEAMantau menciptakan sistem yang:
+
+* **Modular dan efisien**, karena setiap komponen memiliki tanggung jawab spesifik,
+* **Aman dan konsisten**, berkat encapsulation dan interface,
+* **Fleksibel dan mudah dikembangkan**, melalui pewarisan, abstraksi, dan polymorphism.
+
+Dengan arsitektur OOP yang kuat ini, SEAMantau dapat terus dikembangkan tanpa harus mengubah struktur utama, menjadikannya **sistem pelaporan kelautan yang handal, scalable, dan maintainable.**
+
+---
+
   ```
 ## 🗂️ Struktur Folder
 ```
