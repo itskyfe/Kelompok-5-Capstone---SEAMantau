@@ -360,27 +360,42 @@ Halaman ini digunakan Admin untuk menambahkan atau memperbarui data wilayah tang
 ### 2. Pegawai ###
 ---
 #### ↳ Menu ####
+Setelah login, Pegawai akan diarahkan ke halaman utama yang menampilkan sambutan serta dua pilihan menu utama, yaitu Verifikasi Laporan dan Manajemen Akun Nelayan. Dari sini, Pegawai dapat memilih menu sesuai tugasnya. Terdapat juga tombol Profil untuk melihat atau memperbarui data pribadi, serta tombol Keluar untuk logout dari sistem.
+
 <img width="806" height="507" alt="image" src="https://github.com/user-attachments/assets/94c464fd-b85b-4103-85da-4272caba9747" />
 
 ---
 #### ↳ Profil Pegawai ####
+Halaman ini menampilkan informasi pribadi pegawai yang sedang login dan berisi kolom Nama, Username, Password, Email, Nomor Handphone, Alamat, dan NIP. Pegawai dapat memperbarui datanya jika terjadi perubahan, lalu menekan tombol Simpan Perubahan untuk menyimpan hasilnya.
+
 <img width="808" height="508" alt="image" src="https://github.com/user-attachments/assets/8a470920-199c-437c-b83d-cec06a1b2d81" />
 
 ---
 #### ↳ Verifikasi Laporan ####
+Pada halaman ini, Pegawai dapat meninjau laporan dari Nelayan/User. Terdapat dua bagian utama: Laporan Pengaduan dan Laporan Penangkapan. Setiap laporan menampilkan detail seperti tanggal, deskripsi, titik koordinat, dan status. Pegawai dapat memperbarui status laporan atau menambahkan catatan hasil verifikasi.
+
 <img width="806" height="507" alt="image" src="https://github.com/user-attachments/assets/b6fb56cd-e9d1-4dbb-9647-8f177df48c70" />
 
 #### ↳ Verifikasi Laporan Pengaduan ####
+Halaman ini digunakan untuk melihat atau mengverifikasi laporan pengaduan yang diajukan oleh nelayan maupun user biasa.
+Formulirnya berisi kolom Nama, Deskripsi, Titik Koordinat, Catatan, Status, dan Bukti Foto. Pegawai juga dapat membuka file pendukung untuk memastikan validitas laporan sebelum melakukan pembaruan status.
+
 <img width="772" height="509" alt="image" src="https://github.com/user-attachments/assets/83e7c4b7-f01c-48c9-860b-4bf8efdf0407" />
 
 #### ↳ Verifikasi Laporan Penangkapan ####
+Halaman ini menampilkan laporan hasil tangkapan dari nelayan. Formulir berisi kolom Nama, Nama Pelabuhan, Titik Koordinat Wilayah Tangkap, Waktu Berangkat, Waktu Berlabuh, Alat Tangkap, Deskripsi, dan Catatan. Pegawai dapat membuka bukti foto yang dikirim nelayan dan memperbarui status laporan sesuai hasil pengecekan.
+
 <img width="768" height="498" alt="image" src="https://github.com/user-attachments/assets/c4204a0b-e4f6-4430-bbc7-f7b581a88c45" />
 
 ---
 #### ↳ Manajemen Akun Nelayan ####
+Halaman ini digunakan Pegawai untuk memverifikasi dan mengelola akun milik nelayan. Terdapat dua tabel utama, yaitu Daftar Akun Nelayan dan Daftar Kapal Nelayan. Pegawai dapat menekan tombol Acc untuk menyetujui pendaftaran atau Tolak jika data tidak valid. Selain itu, Tersedia juga tombol Open untuk melihat detail kapal yang diajukan.
+
 <img width="809" height="508" alt="image" src="https://github.com/user-attachments/assets/42873225-7b6e-4f9f-87e1-a1f3b3c5883c" />
 
 #### ↳ Buka Pengajuan Kapal ####
+Halaman ini digunakan untuk meninjau data pengajuan kapal yang dikirim oleh nelayan. Form berisi kolom Username, NIB, Nomor Registrasi, Kategori, Jenis Kapal, Status, dan Bukti Foto. Pegawai juga dapat membuka bukti pendukung, lalu menentukan apakah pengajuan disetujui atau ditolak dengan menekan tombol Simpan setelah melakukan verifikasi.
+
 <img width="772" height="510" alt="image" src="https://github.com/user-attachments/assets/8bba3a14-144d-447f-8540-8769f4c8fb6e" />
 
 
