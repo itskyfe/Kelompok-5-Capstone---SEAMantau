@@ -841,14 +841,16 @@ Setelah berhasil login, Admin akan diarahkan ke halaman utama yang menampilkan s
 #### ↳ Manajemen Akun Pegawai ####
 Pada halaman ini, Admin dapat mengelola data pegawai yang terdaftar di sistem. Formulir berisi kolom Nama, Username, Password, NIP, Email, Nomor Telepon, dan Alamat yang dapat diisi untuk menambahkan pegawai baru. Setelah data diisi dengan lengkap, Admin dapat menekan tombol Tambah untuk menyimpan data atau Edit untuk memperbarui data yang sudah ada. Daftar pegawai yang tersimpan akan muncul di tabel di bagian bawah halaman.
 
-<img width="796" height="496" alt="image" src="https://github.com/user-attachments/assets/68b9db67-53ff-4bf9-b47a-e0322ff2edb9" />
+<img width="797" height="496" alt="Screenshot 2025-11-04 231645" src="https://github.com/user-attachments/assets/bc192689-7b9e-4cae-a0b0-5fab6857a979" />
+
 
 
 ---
 #### ↳ Manajemen Wilayah Tangkap ####
 Halaman ini digunakan Admin untuk menambahkan atau memperbarui data wilayah tangkap ikan. Admin dapat mengisi kolom Nama Wilayah Tangkap dan Titik Koordinat, lalu menekan tombol Tambah untuk menyimpan atau Edit untuk memperbarui data yang sudah ada. Setiap wilayah yang tersimpan akan ditampilkan pada tabel di bawah form input agar mudah dilihat dan dikelola.
 
-<img width="796" height="498" alt="image" src="https://github.com/user-attachments/assets/e35db40c-82a7-4f53-a931-464662378a37" />
+<img width="796" height="496" alt="Screenshot 2025-11-04 232149" src="https://github.com/user-attachments/assets/b801ab86-8e5a-4d79-a9c6-feaf1fe8aabb" />
+
 
 
 
@@ -884,7 +886,7 @@ Formulirnya berisi kolom Nama, Deskripsi, Titik Koordinat, Catatan, Status, dan 
 #### ↳ Verifikasi Laporan Penangkapan ####
 Halaman ini menampilkan laporan hasil tangkapan dari nelayan. Formulir berisi kolom Nama, Nama Pelabuhan, Titik Koordinat Wilayah Tangkap, Waktu Berangkat, Waktu Berlabuh, Alat Tangkap, Deskripsi, dan Catatan. Pegawai dapat membuka bukti foto yang dikirim nelayan dan memperbarui status laporan sesuai hasil pengecekan.
 
-<img width="756" height="485" alt="image" src="https://github.com/user-attachments/assets/4c4f6f82-2794-4df3-bff2-43564245f70f" />
+<img width="757" height="486" alt="Screenshot 2025-11-04 232008" src="https://github.com/user-attachments/assets/d564715d-7c8c-4413-be67-d7fda7097bd1" />
 
 
 ---
