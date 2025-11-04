@@ -328,10 +328,12 @@ Menampilkan logo, judul, serta deskripsi singkat mengenai tujuan program untuk p
 
 ### Halaman Registrasi ###
 Berisi kolom Nama, Username, Password, Email, Nomor Telepon, dan Alamat. Setelah mengisi data dengan lengkap, pengguna menekan tombol Buat Akun untuk registrasi. Selain itu, tersedia juga opsi “Login” bagi pengguna yang sudah memiliki akun.
+
 <img width="804" height="507" alt="image" src="https://github.com/user-attachments/assets/6990ce91-2d61-45c9-b818-f78cbc9ea59e" />
 
 ### Halaman Masuk ###
 Pengguna mengisi username dan password, lalu menekan tombol Submit untuk melanjutkan ke dashboard sesuai peran masing-masing. Terdapat juga tautan “Sign Up” untuk pengguna baru.
+
 <img width="805" height="504" alt="image" src="https://github.com/user-attachments/assets/50099865-add4-4d6d-bd54-e431412e71ec" />
 
 
