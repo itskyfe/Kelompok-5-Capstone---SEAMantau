@@ -376,43 +376,34 @@ Dengan menerapkan abstraksi, sistem menjadi lebih terorganisir, karena setiap ke
 
 ### 🔹 Penerapan Abstraction dalam SEAMantau
 
-Dalam sistem **SEAMantau**, abstraksi diterapkan melalui **kelas `User`** yang berperan sebagai *blueprint* (cetak biru) bagi seluruh jenis pengguna, seperti `Admin`, `Pegawai`, dan `Nelayan`.
-Kelas `User` mendefinisikan **atribut dan perilaku umum** yang dimiliki oleh semua pengguna sistem, seperti `userId`, `nama`, `username`, `password`, `email`, dan `role`.
-Namun, kelas ini **tidak mendefinisikan detail cara kerja spesifik dari tiap jenis pengguna** — hal itu diserahkan kepada kelas turunannya.
+Kita bikin `` `abstract class` `` untuk nanganin logika batas 3x gagal login.
 
-Untuk memperkuat penerapan konsep abstraksi, kelas `User` dapat dijadikan **kelas abstrak (`abstract class`)** dengan menambahkan *method abstract* seperti `login()` dan `tampilkanInfoUser()`.
-Dengan begitu, setiap subclass diwajibkan mengimplementasikan metode tersebut sesuai peran masing-masing.
+**`controller/LoginLimiter.java` (Abstract Class - Induk)**
 
+Kelas ini *abstrak*. Dia *tau* logikanya (ada `` `MAX_LOGIN_ATTEMPTS = 3` `` dan *method* `` `recordFailedLogin()` `` yang ngitung kegagalan).
+Tapi, dia *nggak tau* apa yang harus dilakuin pas gagal. Dia cuman nyediain "lubang" kosong:
 Contoh penerapan:
 
 ```java
-@Entity
-@Table(name = "user")
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User implements Serializable {
+public abstract class LoginLimiter {
+    protected final int MAX_LOGIN_ATTEMPTS = 3;
+    protected int failedAttempts = 0;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Integer userId;
+    // Method ini nyembunyiin kerumitan logic
+    public void recordFailedLogin() {
+        if (!hasReachedLimit()) {
+            failedAttempts++;
+            onFailedAttempt(); // Panggil "lubang" 1
+        }
+        if (hasReachedLimit()) {
+            onLimitReached(); // Panggil "lubang" 2
+        }
+    }
 
-    @Column(name = "nama", nullable = false, length = 100)
-    private String nama;
-
-    @Column(name = "username", nullable = false, unique = true, length = 50)
-    private String username;
-
-    @Column(name = "password", nullable = false, length = 100)
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = true,
-            columnDefinition = "ENUM('Admin','Pegawai','Nelayan') DEFAULT 'NULL'")
-    private Role role;
-
-    // Method abstrak — wajib diimplementasikan oleh subclass
-    public abstract void login();
-    public abstract void tampilkanInfoUser();
+    // --- "LUBANG" (Method Abstract) ---
+    // Induknya nggak tau ini mau diisi apa.
+    public abstract void onFailedAttempt();
+    public abstract void onLimitReached();
 }
 ```
 
@@ -420,89 +411,27 @@ public abstract class User implements Serializable {
 
 ### 🔹 Implementasi Abstraction oleh Subclass
 
-Masing-masing kelas turunan (`Admin`, `Pegawai`, dan `Nelayan`) memiliki implementasi tersendiri dari metode abstrak tersebut.
-Dengan cara ini, sistem dapat memanggil method yang sama (`login()`), namun setiap jenis pengguna akan menampilkan perilaku berbeda sesuai peran mereka.
+**`controller/AttemptLimiterGUI.java` (Abstract Class - anak)**
+Kelas ini yang ngisi lubang itu. Dia `extends LoginLimiter` dan ngasih tau cara nanganin kegagalan (pake `JOptionPane` dan `System.exit(0)`).
 
 #### ✅ `Admin.java`
 
 ```java
-@Entity
-@Table(name = "admin")
-@PrimaryKeyJoinColumn(name = "admin_id")
-public class Admin extends User {
+public class AttemptLimiterGUI extends LoginLimiter {
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false,
-        columnDefinition = "ENUM('Aktif','Nonaktif') DEFAULT 'Aktif'")
-    private StatusAdmin status;
-
-    @Override
-    public void login() {
-        System.out.println("Login sebagai Admin - memiliki akses penuh terhadap seluruh data sistem SEAMantau.");
+    @Override // Nimpah "lubang" 1
+    public void onFailedAttempt() {
+        int sisa = MAX_LOGIN_ATTEMPTS - failedAttempts;
+        JOptionPane.showMessageDialog(null, "Login gagal. Sisa percobaan: " + sisa);
     }
 
-    @Override
-    public void tampilkanInfoUser() {
-        System.out.println("Admin: " + getNama() + " | Status: " + status);
+    @Override // Nimpah "lubang" 2
+    public void onLimitReached() {
+        JOptionPane.showMessageDialog(null, "Anda sudah gagal 3x. Aplikasi akan ditutup.");
+        System.exit(0);
     }
 }
 ```
-
-#### ✅ `Pegawai.java`
-
-```java
-@Entity
-@Table(name = "pegawai")
-@PrimaryKeyJoinColumn(name = "pegawai_id")
-public class Pegawai extends User {
-
-    @Column(name = "nip", nullable = false, unique = true, length = 18)
-    private String nip;
-
-    @Override
-    public void login() {
-        System.out.println("Login sebagai Pegawai - dapat memverifikasi laporan nelayan.");
-    }
-
-    @Override
-    public void tampilkanInfoUser() {
-        System.out.println("Pegawai: " + getNama() + " | NIP: " + nip);
-    }
-}
-```
-
-#### ✅ `Nelayan.java`
-
-```java
-@Entity
-@Table(name = "nelayan")
-@PrimaryKeyJoinColumn(name = "nelayan_id")
-public class Nelayan extends User {
-
-    @Column(name = "nib", nullable = false, unique = true, length = 13)
-    private String nib;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status_nelayan", nullable = false,
-            columnDefinition = "ENUM('Aktif','Nonaktif') DEFAULT 'Nonaktif'")
-    private StatusNelayan statusNelayan;
-
-    @Override
-    public void login() {
-        System.out.println("Login sebagai Nelayan - dapat membuat laporan kegiatan dan pengaduan.");
-    }
-
-    @Override
-    public void tampilkanInfoUser() {
-        System.out.println("Nelayan: " + getNama() + " | Status: " + statusNelayan);
-    }
-}
-```
-
-Penerapan **Abstraction** pada sistem SEAMantau dilakukan dengan menjadikan `User` sebagai *kelas abstrak* yang mendefinisikan atribut dan perilaku umum seluruh pengguna.
-Kelas turunan (`Admin`, `Pegawai`, `Nelayan`) mengimplementasikan metode abstrak dengan logika spesifik sesuai peran masing-masing.
-
-Dengan penerapan ini, sistem SEAMantau menjadi **lebih fleksibel, mudah dikembangkan, serta terstruktur secara hierarkis**, karena setiap pengguna memiliki identitas dan fungsi yang jelas tanpa menyalin kode berulang.
 
 ---
 
@@ -510,53 +439,70 @@ Dengan penerapan ini, sistem SEAMantau menjadi **lebih fleksibel, mudah dikemban
 
 Polymorphism merupakan salah satu pilar penting dalam Pemrograman Berorientasi Objek (PBO) yang memungkinkan suatu objek memiliki banyak bentuk dan berperilaku berbeda tergantung pada konteks pemanggilannya.
 
-Dalam sistem **SEAMantau**, konsep polymorphism diterapkan melalui kelas **`LaporanDAO.java`**, yang menangani berbagai operasi database untuk entitas `Laporan`.
-Setiap metode seperti `save()`, `update()`, `delete()`, dan `findById()` memiliki perilaku berbeda sesuai kebutuhan penggunaannya, namun semuanya beroperasi terhadap objek `Laporan` yang sama.
+### 🔹 B. Polymorphism - Overriding (Menimpah Method)
 
-Sebagai contoh implementasi:
+Ini terjadi kalo *class anak* ngasih implementasi baru buat *method* yang nama dan parameternya **sama persis** kayak *class induk*-nya (ditandai `` `@Override` ``).
 
+**Contoh 1: `AttemptLimiterGUI.java`**
+* `LoginLimiter` (Induk) punya `abstract void onFailedAttempt()`.
+* `AttemptLimiterGUI` (Anak) nimpah method itu:
+    ```java
+    @Override
+    public void onFailedAttempt() {
+        // Ini adalah implementasi BARU (versi GUI)
+        JOptionPane.showMessageDialog(...); 
+    }
+    ```
+
+**Contoh 2: `WilayahTangkap.java` (di Model)**
+* Semua class di Java mewarisi `Object` (Induk), yang punya `public String toString()`.
+* Lo nimpah method itu di `WilayahTangkap` (Anak):
+    ```java
+    @Override
+    public String toString() {
+        // Implementasi baru: balikin nama, bukan "model.WilayahTangkap@123abc"
+        return namaWilayah;
+    }
+    ```
+* **Hasil:** `` `drpWilayah` `` (JComboBox) lo otomatis nampilin nama wilayah, bukan kode aneh.
+
+---
+
+### 🔹 C. Polymorphism - Overloading (Nama Sama, Parameter Beda)
+
+Ini terjadi di dalem **satu class** yang punya method (atau constructor) dengan **nama sama** tapi **parameter beda**.
+
+**Contoh 1: `GoogleDriveService.java` (Method Overloading)**
+Kita punya dua method `` `uploadFile` `` dengan nama sama:
 ```java
-public class LaporanDAO {
+// Method 1: Cuman 1 parameter (default)
+public static String uploadFile(String filePath) throws ... { ... }
 
-    public void save(Laporan laporan) {
-        Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            session.save(laporan);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-        }
-    }
-
-    public void update(Laporan laporan) {
-        Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            session.update(laporan);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-        }
-    }
-
-    public Laporan findById(Integer id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Laporan.class, id);
-        }
-    }
+// Method 2: Nama sama, tapi 2 parameter (spesifik)
+public static String uploadFile(String filePath, String folderId) throws ... { ... }
+```
+**Contoh 2: `MenuPegawai.java` (*Constructor Overloading*) Kita punya dua cara buat bikin MenuPegawai:
+```
+// Constructor 1: Kosongan
+public MenuPegawai() {
+    initComponents();
+}
+    
+// Constructor 2: Nama sama, tapi ada parameter
+public MenuPegawai(Pegawai pegawai) {
+    initComponents();
+    this.pegawaiLogin = pegawai;
 }
 ```
+**Contoh 2: `ImageViewerDialog.java` (*Constructor Overloading*) KKita bikin ini biar bisa dipanggil dari `JFrame` atau `JDialog`:
+```
+// Constructor 1: Nerima Frame
+public ImageViewerDialog(Frame parent, String googleDriveUrl) { ... }
 
-Pada kode di atas, meskipun setiap metode (`save`, `update`, `findById`) beroperasi terhadap tipe objek yang sama (`Laporan`), perilaku setiap metode **berbeda** sesuai tujuan pemanggilannya.
-Misalnya:
+// Constructor 2: Nama sama, tapi nerima JDialog
+public ImageViewerDialog(JDialog parent, String googleDriveUrl) { ... }
+```
 
-* `save()` digunakan untuk menyimpan data baru ke database,
-* `update()` untuk memperbarui laporan yang sudah ada,
-* dan `findById()` untuk mengambil laporan berdasarkan ID tertentu.
-
-Ketika objek `LaporanDAO` digunakan di berbagai bagian sistem (seperti di dashboard admin atau pegawai), setiap pemanggilan metode menghasilkan perilaku yang **berbeda-beda sesuai konteksnya**, meskipun nama kelas dan tipe objeknya sama.
-Inilah yang disebut dengan **runtime polymorphism**, dan penerapannya membantu sistem **lebih fleksibel, modular, serta mudah diperluas** tanpa perlu mengubah struktur kode utama.
 
 ---
 
