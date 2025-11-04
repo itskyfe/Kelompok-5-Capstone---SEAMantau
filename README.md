@@ -322,12 +322,16 @@ Program SEAMantau memiliki empat role utama pengguna, yaitu:
 
 Setiap role memiliki hak akses dan tampilan GUI yang berbeda. Berikut penjelasan lengkap mengenai cara penggunaan program untuk masing-masing role, disertai dengan tampilan GUI-nya.
 ### Halaman Utama ###
+Menampilkan logo, judul, serta deskripsi singkat mengenai tujuan program untuk pemantauan ekosistem laut dan dilengkapi dengan tombol Sign Up dan Login sebagai navigasi awal.
+
 <img width="804" height="505" alt="image" src="https://github.com/user-attachments/assets/bf6bbd28-3670-4850-8ffc-8585120253da" />
 
 ### Halaman Registrasi ###
+Berisi kolom Nama, Username, Password, Email, Nomor Telepon, dan Alamat. Setelah mengisi data dengan lengkap, pengguna menekan tombol Buat Akun untuk registrasi. Selain itu, tersedia juga opsi “Login” bagi pengguna yang sudah memiliki akun.
 <img width="804" height="507" alt="image" src="https://github.com/user-attachments/assets/6990ce91-2d61-45c9-b818-f78cbc9ea59e" />
 
 ### Halaman Masuk ###
+Pengguna mengisi username dan password, lalu menekan tombol Submit untuk melanjutkan ke dashboard sesuai peran masing-masing. Terdapat juga tautan “Sign Up” untuk pengguna baru.
 <img width="805" height="504" alt="image" src="https://github.com/user-attachments/assets/50099865-add4-4d6d-bd54-e431412e71ec" />
 
 
