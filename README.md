@@ -370,15 +370,17 @@ Halaman ini digunakan Admin untuk menambahkan atau memperbarui data wilayah tang
 #### ↳ Verifikasi Laporan ####
 <img width="806" height="507" alt="image" src="https://github.com/user-attachments/assets/b6fb56cd-e9d1-4dbb-9647-8f177df48c70" />
 
+#### ↳ Verifikasi Laporan Pengaduan ####
 <img width="772" height="509" alt="image" src="https://github.com/user-attachments/assets/83e7c4b7-f01c-48c9-860b-4bf8efdf0407" />
 
+#### ↳ Verifikasi Laporan Penangkapan ####
 <img width="768" height="498" alt="image" src="https://github.com/user-attachments/assets/c4204a0b-e4f6-4430-bbc7-f7b581a88c45" />
 
 ---
 #### ↳ Manajemen Akun Nelayan ####
 <img width="809" height="508" alt="image" src="https://github.com/user-attachments/assets/42873225-7b6e-4f9f-87e1-a1f3b3c5883c" />
 
-
+#### ↳ Buka Pengajuan Kapal ####
 <img width="772" height="510" alt="image" src="https://github.com/user-attachments/assets/8bba3a14-144d-447f-8540-8769f4c8fb6e" />
 
 
