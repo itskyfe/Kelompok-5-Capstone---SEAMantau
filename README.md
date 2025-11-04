@@ -340,16 +340,19 @@ Pengguna mengisi username dan password, lalu menekan tombol Submit untuk melanju
 ### 1. Admin ###
 ---
 #### ↳ Menu ####
+Setelah berhasil login, Admin akan diarahkan ke halaman utama yang menampilkan sambutan serta dua pilihan menu utama. Admin dapat memilih untuk membuka menu Manajemen Akun Pegawai atau Manajemen Wilayah Tangkap untuk melanjutkan pengelolaan data. Di bagian kanan atas juga terdapat tombol Keluar yang digunakan untuk logout dari sistem.
 
 <img width="804" height="504" alt="image" src="https://github.com/user-attachments/assets/3603bbfb-93d2-4aa3-863f-20043b297a48" />
 
 ---
 #### ↳ Manajemen Akun Pegawai ####
+Pada halaman ini, Admin dapat mengelola data pegawai yang terdaftar di sistem. Formulir berisi kolom Nama, Username, Password, NIP, Email, Nomor Telepon, dan Alamat yang dapat diisi untuk menambahkan pegawai baru. Setelah data diisi dengan lengkap, Admin dapat menekan tombol Tambah untuk menyimpan data atau Edit untuk memperbarui data yang sudah ada. Daftar pegawai yang tersimpan akan muncul di tabel di bagian bawah halaman.
 
 <img width="807" height="507" alt="image" src="https://github.com/user-attachments/assets/e49a1c11-3c9c-40fa-9166-2530e690d965" />
 
 ---
 #### ↳ Manajemen Wilayah Tangkap ####
+Halaman ini digunakan Admin untuk menambahkan atau memperbarui data wilayah tangkap ikan. Admin dapat mengisi kolom Nama Wilayah Tangkap dan Titik Koordinat, lalu menekan tombol Tambah untuk menyimpan atau Edit untuk memperbarui data yang sudah ada. Setiap wilayah yang tersimpan akan ditampilkan pada tabel di bawah form input agar mudah dilihat dan dikelola.
 
 <img width="808" height="508" alt="image" src="https://github.com/user-attachments/assets/4e22ff7e-ef7f-41a4-b273-7d19c3230192" />
 
