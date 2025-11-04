@@ -44,7 +44,7 @@ Sistem memberikan peringatan apabila username atau password salah, membantu meni
 
 ## 🧠 Penerapan OOP (Object Oriented Programming)
 
-## 1. Encapsulation
+### 1. Encapsulation
 
 Encapsulation merupakan pilar utama dalam Pemrograman Berorientasi Objek (PBO) yang bertujuan untuk **melindungi data dari akses langsung dari luar kelas**. Dalam sistem SEAMantau, prinsip ini diterapkan pada setiap kelas entitas seperti `User`, `Nelayan`, `Pegawai`, `Admin`, `Kapal`, `WilayahTangkap`, `Laporan`, dan `LaporanPengaduan`.
 
@@ -151,9 +151,7 @@ Semua atribut bersifat private dan hanya dapat diakses melalui metode getter dan
 Contohnya, kelas Laporan menyimpan data seperti id_laporan, status_laporan, dan nama_pelabuhan yang tidak dapat diubah secara langsung oleh kelas lain.
 Penerapan ini menjaga integritas data dan memastikan perubahan hanya dilakukan melalui metode resmi yang telah ditentukan.
 
----
-
-## 2. Inheritance
+### 2. Inheritance
 
 **Inheritance** atau pewarisan adalah salah satu pilar utama dalam Pemrograman Berorientasi Objek (PBO) yang memungkinkan suatu kelas (child/subclass) untuk **mewarisi atribut dan metode dari kelas lain (parent/superclass)**.
 Tujuan utamanya adalah untuk **menghindari duplikasi kode**, menjaga keteraturan struktur program, dan memudahkan pengembangan.
@@ -161,9 +159,7 @@ Tujuan utamanya adalah untuk **menghindari duplikasi kode**, menjaga keteraturan
 Dalam sistem **SEAMantau**, konsep *inheritance* diterapkan pada entitas pengguna sistem, di mana **kelas `User` bertindak sebagai superclass**, dan tiga kelas lainnya — **`Admin`, `Pegawai`, serta `Nelayan`** — menjadi subclass-nya.
 Masing-masing subclass mewarisi atribut dasar seperti `id_user`, `nama`, `username`, `password`, dan `email`, tetapi juga menambahkan atribut serta perilaku khusus sesuai peran masing-masing.
 
----
-
-### 🔹 Superclass — `User.java`
+#### 🔹 Superclass — `User.java`
 
 Kelas `User` berfungsi sebagai **kelas induk** yang berisi informasi umum dari semua jenis pengguna sistem.
 Kelas ini juga menggunakan anotasi `@Inheritance(strategy = InheritanceType.JOINED)` dari JPA (Hibernate), yang berarti setiap subclass akan disimpan dalam tabel berbeda, namun terhubung dengan tabel `user` melalui kolom *primary key* yang sama.
@@ -209,9 +205,7 @@ public class User implements Serializable {
 Kelas ini mendefinisikan atribut identitas dasar bagi seluruh pengguna sistem seperti nama, username, email, dan role (peran).
 Selain itu, atribut `role` membantu sistem membedakan tipe pengguna secara otomatis ketika proses login dan otorisasi dilakukan.
 
----
-
-### 🔹 Subclass 1 — `Admin.java`
+#### 🔹 Subclass 1 — `Admin.java`
 
 Kelas `Admin` merupakan **turunan langsung dari `User`** dan memiliki atribut tambahan `status` yang menunjukkan apakah akun admin sedang aktif atau nonaktif.
 Admin memiliki hak akses penuh terhadap seluruh data pengguna dan laporan di sistem SEAMantau.
@@ -247,9 +241,7 @@ public class Admin extends User implements Serializable {
 * Mengontrol dan menghapus data laporan
 * Melihat statistik laporan dan pengaduan
 
----
-
-### 🔹 Subclass 2 — `Pegawai.java`
+#### 🔹 Subclass 2 — `Pegawai.java`
 
 Kelas `Pegawai` juga mewarisi `User`, namun menambahkan atribut khusus yaitu `nip` sebagai nomor identitas pegawai.
 Pegawai berperan sebagai **verifikator laporan**, yang bertugas memvalidasi laporan dan pengaduan nelayan di lapangan.
@@ -283,9 +275,7 @@ public class Pegawai extends User implements Serializable {
 * Mengubah status laporan menjadi *Diverifikasi*, *Ditolak*, atau *Menunggu*
 * Menambahkan catatan hasil pemeriksaan lapangan
 
----
-
-### 🔹 Subclass 3 — `Nelayan.java`
+#### 🔹 Subclass 3 — `Nelayan.java`
 
 Kelas `Nelayan` adalah turunan dari `User` yang berperan sebagai **pelapor utama** dalam sistem SEAMantau.
 Nelayan memiliki atribut tambahan seperti `nib` (Nomor Identitas Berlayar) dan `statusNelayan`, serta relasi *one-to-many* terhadap entitas `Kapal`.
@@ -337,9 +327,7 @@ public class Nelayan extends User implements Serializable {
 * Melaporkan pengaduan kerusakan ekosistem laut
 * Mengelola data kapal yang dimiliki
 
----
-
-### 🔹 **Struktur Pewarisan di Sistem**
+#### 🔹 **Struktur Pewarisan di Sistem**
 
 Secara konseptual, relasi antar kelas dapat digambarkan sebagai berikut:
 
@@ -356,25 +344,12 @@ Secara konseptual, relasi antar kelas dapat digambarkan sebagai berikut:
 
 💬 Semua subclass (`Admin`, `Pegawai`, `Nelayan`) mewarisi atribut umum dari `User`, namun masing-masing memiliki atribut tambahan yang mencerminkan peran unik mereka di dalam sistem.
 
----
-
-### 🔹**Keuntungan Penerapan Inheritance di SEAMantau**
-
-1. **Efisiensi kode:** Atribut umum cukup ditulis sekali pada kelas `User`, tidak perlu diulang di subclass.
-2. **Kemudahan pemeliharaan:** Jika ada perubahan pada struktur data pengguna (misalnya penambahan `no_hp`), cukup ubah di `User.java`.
-3. **Relasi database yang jelas:** Dengan strategi `@Inheritance(strategy = InheritanceType.JOINED)`, data di tiap subclass memiliki tabel sendiri, tetapi tetap saling terhubung ke tabel utama `user`.
-4. **Fleksibilitas sistem:** Developer dapat menambahkan jenis pengguna baru (misalnya `PetugasLapangan`) tanpa mengubah arsitektur inti sistem.
-
----
-
-## 3. Abstraction
+### 3. Abstraction
 
 **Abstraction (Abstraksi)** merupakan pilar penting dalam Pemrograman Berorientasi Objek (PBO) yang berfungsi untuk **menyembunyikan detail implementasi** dan hanya menampilkan struktur penting atau perilaku umum yang harus dimiliki oleh turunan kelas tersebut.
 Dengan menerapkan abstraksi, sistem menjadi lebih terorganisir, karena setiap kelas hanya fokus pada fungsinya masing-masing tanpa perlu mengetahui detail teknis kelas lain.
 
----
-
-### 🔹 Penerapan Abstraction dalam SEAMantau
+#### 🔹 Penerapan Abstraction dalam SEAMantau
 
 Dalam sistem **SEAMantau**, abstraksi diterapkan melalui **kelas `User`** yang berperan sebagai *blueprint* (cetak biru) bagi seluruh jenis pengguna, seperti `Admin`, `Pegawai`, dan `Nelayan`.
 Kelas `User` mendefinisikan **atribut dan perilaku umum** yang dimiliki oleh semua pengguna sistem, seperti `userId`, `nama`, `username`, `password`, `email`, dan `role`.
@@ -416,14 +391,12 @@ public abstract class User implements Serializable {
 }
 ```
 
----
-
-### 🔹 Implementasi Abstraction oleh Subclass
+#### 🔹 Implementasi Abstraction oleh Subclass
 
 Masing-masing kelas turunan (`Admin`, `Pegawai`, dan `Nelayan`) memiliki implementasi tersendiri dari metode abstrak tersebut.
 Dengan cara ini, sistem dapat memanggil method yang sama (`login()`), namun setiap jenis pengguna akan menampilkan perilaku berbeda sesuai peran mereka.
 
-#### ✅ `Admin.java`
+##### ✅ `Admin.java`
 
 ```java
 @Entity
@@ -448,7 +421,7 @@ public class Admin extends User {
 }
 ```
 
-#### ✅ `Pegawai.java`
+##### ✅ `Pegawai.java`
 
 ```java
 @Entity
@@ -471,7 +444,7 @@ public class Pegawai extends User {
 }
 ```
 
-#### ✅ `Nelayan.java`
+##### ✅ `Nelayan.java`
 
 ```java
 @Entity
@@ -504,9 +477,7 @@ Kelas turunan (`Admin`, `Pegawai`, `Nelayan`) mengimplementasikan metode abstrak
 
 Dengan penerapan ini, sistem SEAMantau menjadi **lebih fleksibel, mudah dikembangkan, serta terstruktur secara hierarkis**, karena setiap pengguna memiliki identitas dan fungsi yang jelas tanpa menyalin kode berulang.
 
----
-
-## 4. Polymorphism
+### 4. Polymorphism
 
 Polymorphism merupakan salah satu pilar penting dalam Pemrograman Berorientasi Objek (PBO) yang memungkinkan suatu objek memiliki banyak bentuk dan berperilaku berbeda tergantung pada konteks pemanggilannya.
 
@@ -558,9 +529,8 @@ Misalnya:
 Ketika objek `LaporanDAO` digunakan di berbagai bagian sistem (seperti di dashboard admin atau pegawai), setiap pemanggilan metode menghasilkan perilaku yang **berbeda-beda sesuai konteksnya**, meskipun nama kelas dan tipe objeknya sama.
 Inilah yang disebut dengan **runtime polymorphism**, dan penerapannya membantu sistem **lebih fleksibel, modular, serta mudah diperluas** tanpa perlu mengubah struktur kode utama.
 
----
 
-## 5. Interface
+### 5. Interface
 
 Interface merupakan kontrak atau blueprint dalam Pemrograman Berorientasi Objek (PBO) yang mendefinisikan sekumpulan metode atau nilai konstan tanpa implementasi langsung. Kelas atau enumerasi yang mengimplementasikan atau menggunakan interface harus menyediakan perilaku spesifik sesuai kontrak tersebut.
 
@@ -606,47 +576,6 @@ Dengan begitu, sistem tidak dapat memberikan nilai sembarangan pada status admin
 Selain itu, konsep interface juga digunakan pada **lapisan DAO (Data Access Object)** — seperti `LaporanDAO` dan `UserDAO` — di mana setiap kelas memiliki struktur metode yang mirip (misalnya `save()`, `update()`, `delete()`, `findAll()`), namun dengan implementasi berbeda sesuai jenis data yang diolah.
 Penerapan prinsip ini membuat kode **lebih modular, mudah diuji, dan dapat dikembangkan tanpa mengubah kode utama**.
 
----
-
-## 🎯 **Kesimpulan Penerapan Lima Pilar OOP pada Sistem SEAMantau**
-
-Penerapan **Object-Oriented Programming (OOP)** pada sistem **SEAMantau** berperan penting dalam membangun arsitektur aplikasi yang **terstruktur, aman, dan mudah dikembangkan**. Kelima pilar OOP—**Encapsulation, Inheritance, Abstraction, Polymorphism, dan Interface**—telah diterapkan secara konsisten di seluruh komponen sistem.
-
-Berikut kesimpulan penerapannya:
-
-### 1. **Encapsulation**
-
-Diterapkan pada setiap kelas model seperti `Laporan`, `User`, `Nelayan`, dan `Pegawai`, dengan penggunaan **modifier `private`** untuk atribut dan **getter-setter** untuk akses data. Hal ini menjaga keamanan data dan memastikan setiap perubahan atribut dilakukan secara terkontrol, sehingga mencegah manipulasi langsung dari luar kelas.
-
-### 2. **Inheritance**
-
-Kelas `User` berperan sebagai **superclass** bagi `Admin`, `Pegawai`, dan `Nelayan`. Melalui pewarisan (`extends`), seluruh atribut umum seperti `nama`, `username`, `email`, dan `alamat` diwarisi oleh subclass, yang kemudian menambahkan atribut spesifik masing-masing. Hal ini mengurangi duplikasi kode dan mempermudah pengelolaan entitas yang memiliki karakteristik mirip.
-
-### 3. **Abstraction**
-
-Kelas `User` juga berfungsi sebagai **abstraksi umum** bagi seluruh tipe pengguna. Dengan pendekatan ini, kode yang berhubungan dengan entitas pengguna dapat menggunakan `User` sebagai tipe referensi umum tanpa memerlukan detail spesifik subclass-nya. Abstraksi ini menyederhanakan logika bisnis dan menjaga fleksibilitas sistem.
-
-### 4. **Polymorphism**
-
-Melalui kelas `LaporanDAO`, konsep polymorphism diwujudkan dalam bentuk metode dengan **nama sama tetapi perilaku berbeda**, seperti `save()`, `update()`, dan `findById()`. Setiap metode beroperasi terhadap objek yang sama (`Laporan`), namun memiliki fungsi yang berbeda sesuai konteksnya. Hal ini memungkinkan sistem menangani berbagai operasi dengan efisien dan dinamis.
-
-### 5. **Interface**
-
-Konsep interface diterapkan melalui penggunaan **enum dan struktur DAO** yang berperan sebagai kontrak perilaku. Misalnya, `StatusAdmin` dan `StatusLaporan` memastikan nilai status hanya terbatas pada pilihan valid, sedangkan pola DAO memastikan setiap kelas data memiliki metode yang konsisten seperti `save()`, `update()`, dan `delete()`. Dengan pendekatan ini, sistem menjadi modular dan mudah dikembangkan.
-
----
-
-💡 **Secara keseluruhan**, penerapan kelima pilar OOP pada SEAMantau menciptakan sistem yang:
-
-* **Modular dan efisien**, karena setiap komponen memiliki tanggung jawab spesifik,
-* **Aman dan konsisten**, berkat encapsulation dan interface,
-* **Fleksibel dan mudah dikembangkan**, melalui pewarisan, abstraksi, dan polymorphism.
-
-Dengan arsitektur OOP yang kuat ini, SEAMantau dapat terus dikembangkan tanpa harus mengubah struktur utama, menjadikannya **sistem pelaporan kelautan yang handal, scalable, dan maintainable.**
-
----
-
-```
 ## 🗂️ Struktur Folder
 ```
   SEAMantau/
@@ -717,6 +646,7 @@ Dengan arsitektur OOP yang kuat ini, SEAMantau dapat terus dikembangkan tanpa ha
       ├── MapPicker.java
       └── ManajemenWilayahTangkap.java
 ```
+
 - `controller`	Berisi logika bisnis dan penghubung antara view dan model. Mengatur alur data, autentikasi, validasi, dan aksi CRUD.
 - `dao`	Data Access Object, menangani koneksi dan transaksi dengan database menggunakan Hibernate ORM.
 - `image`	Menyimpan file aset grafis seperti logo, ikon, atau ilustrasi aplikasi.
