@@ -644,8 +644,6 @@ Konsep interface diterapkan melalui penggunaan **enum dan struktur DAO** yang be
 
 Dengan arsitektur OOP yang kuat ini, SEAMantau dapat terus dikembangkan tanpa harus mengubah struktur utama, menjadikannya **sistem pelaporan kelautan yang handal, scalable, dan maintainable.**
 
----
-
   ```
 ## 🗂️ Struktur Folder
 ```
