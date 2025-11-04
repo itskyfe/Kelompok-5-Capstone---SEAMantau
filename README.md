@@ -325,17 +325,19 @@ Setiap role memiliki hak akses dan tampilan GUI yang berbeda. Berikut penjelasan
 ### Halaman Utama ###
 Menampilkan logo, judul, serta deskripsi singkat mengenai tujuan program untuk pemantauan ekosistem laut dan dilengkapi dengan tombol Sign Up dan Login sebagai navigasi awal.
 
-<img width="804" height="505" alt="image" src="https://github.com/user-attachments/assets/bf6bbd28-3670-4850-8ffc-8585120253da" />
+<img width="784" height="478" alt="image" src="https://github.com/user-attachments/assets/f0f26ac9-89b9-483a-9089-fcfd7d193b6b" />
+
 
 ### Halaman Registrasi ###
 Berisi kolom Nama, Username, Password, Email, Nomor Telepon, dan Alamat. Setelah mengisi data dengan lengkap, pengguna menekan tombol Buat Akun untuk registrasi. Selain itu, tersedia juga opsi “Login” bagi pengguna yang sudah memiliki akun.
 
-<img width="804" height="507" alt="image" src="https://github.com/user-attachments/assets/6990ce91-2d61-45c9-b818-f78cbc9ea59e" />
+<img width="815" height="490" alt="image" src="https://github.com/user-attachments/assets/d68addfa-bcc9-477a-a91a-6b4383ad1792" />
+
 
 ### Halaman Masuk ###
 Pengguna mengisi username dan password, lalu menekan tombol Submit untuk melanjutkan ke dashboard sesuai peran masing-masing. Terdapat juga tautan “Sign Up” untuk pengguna baru.
 
-<img width="805" height="504" alt="image" src="https://github.com/user-attachments/assets/50099865-add4-4d6d-bd54-e431412e71ec" />
+<img width="784" height="457" alt="image" src="https://github.com/user-attachments/assets/cead5c8f-48fd-480c-a405-b07fcc4bbf4e" />
 
 
 ### 1. Admin ###
