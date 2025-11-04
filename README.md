@@ -407,7 +407,8 @@ Halaman ini digunakan untuk meninjau data pengajuan kapal yang dikirim oleh nela
 #### ↳ Menu ####
 Setelah berhasil login, User akan diarahkan ke halaman utama yang menampilkan dua menu pilihan, yaitu Buat Pengaduan dan Daftar Sebagai Nelayan. Dari halaman ini, User dapat memilih untuk melaporkan pengaduan baru atau mendaftar menjadi akun nelayan. Terdapat juga tombol Profil untuk mengubah data pribadi dan tombol Keluar untuk logout dari sistem.
 
-<img width="807" height="508" alt="image" src="https://github.com/user-attachments/assets/900ea8cf-65c4-43e9-8596-ce010bcf9293" />
+<img width="782" height="474" alt="image" src="https://github.com/user-attachments/assets/8dce2be5-579b-4bba-b03e-db16f34bf914" />
+
 
 ---
 #### ↳ Profil User ####
@@ -415,7 +416,8 @@ Halaman ini menampilkan data pribadi pengguna seperti Nama, Username, Password, 
 User dapat memperbarui datanya jika ada perubahan, kemudian menekan tombol Simpan Perubahan untuk menyimpan hasil edit.
 Tombol Kembali digunakan untuk kembali ke menu utama.
 
-<img width="807" height="506" alt="image" src="https://github.com/user-attachments/assets/67ba7a20-a9d9-4004-8a5e-70e7fae2577d" />
+<img width="807" height="497" alt="image" src="https://github.com/user-attachments/assets/21a6beba-6715-47ad-8e1d-22d89afbe417" />
+
 
 ---
 #### ↳ Form Laporan Pengaduan ####
@@ -423,7 +425,8 @@ Halaman ini digunakan User untuk membuat laporan pengaduan baru terkait kondisi 
 Formulir pengaduan berisi kolom Nama, Titik Koordinat, Deskripsi, Catatan, Status, dan opsi untuk mengunggah bukti foto.
 Setelah seluruh data diisi dengan benar, User dapat menekan tombol Simpan untuk mengirim laporan pengaduan.
 
-<img width="807" height="508" alt="image" src="https://github.com/user-attachments/assets/b9c80cf5-ba12-4cdc-9fb5-49d4f8efa149" />
+<img width="794" height="496" alt="image" src="https://github.com/user-attachments/assets/78b07513-1f67-410a-8e53-1ef7bb4dd358" />
+
 
 ---
 #### ↳ Daftar Sebagai Nelayan ####
@@ -432,7 +435,8 @@ Formulir pendaftaran memuat kolom NIB, Nomor Registrasi Kapal, Nama Kapal, Kateg
 Setelah data diisi lengkap, User menekan tombol Submit untuk mengirim permohonan pendaftaran sebagai nelayan.
 Tombol Kembali di bagian atas dapat digunakan untuk kembali ke menu utama tanpa menyimpan data.
 
-<img width="806" height="508" alt="image" src="https://github.com/user-attachments/assets/d2b9a03c-847a-406e-bb41-93dd29d49882" />
+<img width="796" height="498" alt="image" src="https://github.com/user-attachments/assets/dd70d0c8-8bfb-42bf-afd1-01d7a94ca40d" />
+
 
 
 ### 4. Nelayan ###
