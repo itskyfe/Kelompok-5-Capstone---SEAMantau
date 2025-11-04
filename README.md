@@ -193,8 +193,8 @@ Sistem memberikan peringatan apabila username atau password salah, membantu meni
   │   ├── Nelayan.java
   │   ├── Pegawai.java
   │   ├── User.java
-  │   ├── WilayahTangkap.java
-  │   └── Main.java
+  │   └── WilayahTangkap.java
+  │   Main.java
   │
   ├── model/enums/
   │   ├── JenisPengaduan.java
@@ -213,6 +213,7 @@ Sistem memberikan peringatan apabila username atau password salah, membantu meni
   │   └── credentials.json
   │
   └── view/
+      ├── Main.java
       ├── LandingPage.java
       ├── LoginPage.java
       ├── SignUpUser.java
