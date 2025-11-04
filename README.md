@@ -405,10 +405,11 @@ Halaman ini digunakan Pegawai untuk memverifikasi dan mengelola akun milik nelay
 <img width="795" height="497" alt="image" src="https://github.com/user-attachments/assets/312a34fd-4cee-4431-ba18-41d3a7297519" />
 
 
-#### ↳ Buka Pengajuan Kapal ####
-Halaman ini digunakan untuk meninjau data pengajuan kapal yang dikirim oleh nelayan. Form berisi kolom Username, NIB, Nomor Registrasi, Kategori, Jenis Kapal, Status, dan Bukti Foto. Pegawai juga dapat membuka bukti pendukung, lalu menentukan apakah pengajuan disetujui atau ditolak dengan menekan tombol Simpan setelah melakukan verifikasi.
+#### ↳ Open Foto Kapal ####
+Tombol ini digunakan Pegawai untuk membuka bukti foto kapal yang diajukan nelayan, lalu menentukan apakah pengajuan disetujui atau ditolak dengan menekan tombol Simpan setelah melakukan verifikasi.
 
-<img width="772" height="510" alt="image" src="https://github.com/user-attachments/assets/8bba3a14-144d-447f-8540-8769f4c8fb6e" />
+<img width="796" height="495" alt="image" src="https://github.com/user-attachments/assets/e9741b0c-990f-4c9e-9b09-e3689bd02d6c" />
+
 
 
 ### 3. User Biasa ###
