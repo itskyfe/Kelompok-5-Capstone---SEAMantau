@@ -444,30 +444,35 @@ Tombol Kembali di bagian atas dapat digunakan untuk kembali ke menu utama tanpa 
 #### ↳ Menu ####
 Setelah berhasil login, Nelayan akan diarahkan ke halaman utama yang menampilkan dua menu utama, yaitu Buat Pengaduan dan Buat Laporan Penangkapan. Dari sini, Nelayan dapat memilih untuk mencatat aktivitas tangkapan ikan atau membuat laporan pengaduan terkait kegiatan di laut. Terdapat juga tombol Profil untuk mengelola data pribadi dan tombol Keluar untuk logout dari sistem.
 
-<img width="807" height="507" alt="image" src="https://github.com/user-attachments/assets/21b06f1e-7a06-4ece-9b58-8fb02c29d144" />
+<img width="780" height="478" alt="image" src="https://github.com/user-attachments/assets/4cc1dd1e-001a-4a4a-a832-c7c5a7b84360" />
+
 
 ---
 #### ↳ Profil Nelayan ####
 Halaman ini menampilkan informasi pribadi nelayan seperti Nama, Username, Password, Email, Nomor Handphone, Alamat, dan NIB.
 Selain itu, pada bagian bawah terdapat tabel yang menampilkan daftar kapal milik nelayan. Nelayan dapat menekan tombol Tambah Kapal untuk mendaftarkan kapal baru, atau Hapus Kapal untuk menghapus kapal yang sudah tidak digunakan. Setelah melakukan perubahan, tombol Simpan digunakan untuk menyimpan semua pembaruan data.
 
-<img width="806" height="506" alt="image" src="https://github.com/user-attachments/assets/2cbf75eb-f836-40ed-97d3-964c6dcfb356" />
+<img width="806" height="496" alt="image" src="https://github.com/user-attachments/assets/e0232ae1-e12e-4895-958e-a12aada9a333" />
+
 
 #### ↳ Form Tambah Kapal ####
 Halaman ini digunakan untuk menambahkan data kapal baru yang dimiliki oleh nelayan. Formulir terdiri dari kolom Nomor Registrasi Kapal, Nama Kapal, Kategori, Jenis Kapal, serta opsi Upload Foto Kapal. Setelah data diisi lengkap, Nelayan dapat menekan tombol Submit untuk menyimpan kapal baru ke dalam sistem. Tombol Kembali di pojok kanan atas digunakan untuk kembali ke halaman profil tanpa menyimpan data.
 
-<img width="806" height="509" alt="image" src="https://github.com/user-attachments/assets/6f377b86-6e6c-4048-9745-3b4aa5907310" />
+<img width="795" height="497" alt="image" src="https://github.com/user-attachments/assets/31fed65b-a43e-4508-8cc9-16b9dbc1903e" />
+
 
 ---
 #### ↳ Form Laporan Pengaduan ####
 Pada halaman ini, Nelayan dapat membuat dan mengelola laporan pengaduan terkait aktivitas di laut. Formulir berisi kolom Jenis Pengaduan, Titik Koordinat, Deskripsi, dan Bukti Foto yang dapat diunggah langsung dari perangkat. Setelah data dimasukkan, Nelayan dapat menekan tombol Tambah untuk menyimpan pengaduan baru, Ubah untuk memperbarui laporan, atau Hapus jika laporan tidak diperlukan lagi. Semua data pengaduan yang dikirim akan muncul di tabel di bagian bawah halaman.
 
-<img width="808" height="507" alt="image" src="https://github.com/user-attachments/assets/c568ee2d-e93f-4de9-bf7c-fd25dec10ea4" />
+<img width="796" height="496" alt="image" src="https://github.com/user-attachments/assets/2a411702-3e8e-4eeb-9b2f-0b088673b9d7" />
+
 
 ---
 #### ↳ Form Laporan Penangkapan ####
 Halaman ini digunakan untuk mencatat kegiatan penangkapan ikan yang dilakukan oleh nelayan. Formulir terdiri dari kolom Nama Pelabuhan, Jenis Alat Tangkap, Kapal yang Digunakan, Wilayah Tangkap, Waktu Berangkat, Waktu Berlabuh, dan Foto Alat Tangkap.
 Nelayan dapat menambahkan laporan baru menggunakan tombol Tambah, menyelesaikan laporan dengan tombol Selesaikan, atau menghapus laporan dengan tombol Hapus. Data laporan yang sudah dikirim akan tampil dalam tabel pada bagian bawah halaman.
 
-<img width="786" height="504" alt="image" src="https://github.com/user-attachments/assets/c443e912-b61e-4105-9a0b-f51eb18d449b" />
+<img width="777" height="495" alt="image" src="https://github.com/user-attachments/assets/2fe0660c-b2c1-48cc-8c77-d03181f8956e" />
+
 
