@@ -400,16 +400,11 @@ Halaman ini menampilkan laporan hasil tangkapan dari nelayan. Formulir berisi ko
 
 ---
 #### ↳ Manajemen Akun Nelayan ####
-Halaman ini digunakan Pegawai untuk memverifikasi dan mengelola akun milik nelayan. Terdapat dua tabel utama, yaitu Daftar Akun Nelayan dan Daftar Kapal Nelayan. Pegawai dapat menekan tombol Acc untuk menyetujui pendaftaran atau Tolak jika data tidak valid. Selain itu, Tersedia juga tombol Open untuk melihat detail kapal yang diajukan.
+Halaman ini digunakan Pegawai untuk memverifikasi dan mengelola akun milik nelayan. Terdapat dua tabel utama, yaitu Daftar Akun Nelayan dan Daftar Kapal Nelayan. Pegawai dapat menekan tombol Acc untuk menyetujui pendaftaran atau Tolak jika data tidak valid. Selain itu, Tersedia juga tombol Open untuk melihat detail foto kapal yang diajukan.
 
 <img width="795" height="497" alt="image" src="https://github.com/user-attachments/assets/312a34fd-4cee-4431-ba18-41d3a7297519" />
 
-
-#### ↳ Open Foto Kapal ####
-Tombol ini digunakan Pegawai untuk membuka bukti foto kapal yang diajukan nelayan, lalu menentukan apakah pengajuan disetujui atau ditolak dengan menekan tombol Simpan setelah melakukan verifikasi.
-
 <img width="796" height="495" alt="image" src="https://github.com/user-attachments/assets/e9741b0c-990f-4c9e-9b09-e3689bd02d6c" />
-
 
 
 ### 3. User Biasa ###
