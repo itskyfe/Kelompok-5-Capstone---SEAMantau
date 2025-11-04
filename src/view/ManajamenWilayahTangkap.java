@@ -9,6 +9,12 @@ import dao.WilayahTangkapDAO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.WilayahTangkap;
+import java.util.List; 
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -17,34 +23,61 @@ import model.WilayahTangkap;
 public class ManajamenWilayahTangkap extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ManajamenWilayahTangkap.class.getName());
+    private final WilayahController controller = new WilayahController();
+    private List<WilayahTangkap> currentWilayahList;
 
-    /**
-     * Creates new form manajemenAkunPegawai
-     */
+
     public ManajamenWilayahTangkap() {
         initComponents();
         setLocationRelativeTo(null);
-            loadTabel();
-
+        loadTabel();
         
+        DocumentFilter filter = new DocumentFilter() {
+            private final Pattern regex = Pattern.compile("[0-9.,\\s-]*"); // Izinkan angka, koma, titik, spasi, minus
+
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                if (string == null) return;
+                if (regex.matcher(string).matches()) {
+                    super.insertString(fb, offset, string, attr);
+                }
+            }
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                if (text == null) return;
+                if (regex.matcher(text).matches()) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        };
+        ((AbstractDocument) txtKoordinat.getDocument()).setDocumentFilter(filter);
+        // ---
     }
-private void kosongkanForm() {
-    txtNamaWilayah.setText("");
-    txtKoordinat.setText("");
-}
-
-private void loadTabel() {
-    DefaultTableModel model = new DefaultTableModel(
-        new Object[]{"Nama Wilayah Tangkap", "Titik Koordinat"}, 0
-    );
-
-    WilayahController controller = new WilayahController();
-    for (WilayahTangkap w : controller.getAllWilayah()) {
-        model.addRow(new Object[]{w.getNamaWilayah(), w.getKoordinat()});
+    
+    private void kosongkanForm() {
+        txtNamaWilayah.setText("");
+        txtKoordinat.setText("");
+        tblWilayah.clearSelection(); 
     }
 
-    tblWilayah.setModel(model);
-}
+    private void loadTabel() {
+        DefaultTableModel model = new DefaultTableModel(
+            new Object[]{"Nama Wilayah Tangkap", "Titik Koordinat"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        this.currentWilayahList = controller.getAllWilayah();
+        
+        for (WilayahTangkap w : this.currentWilayahList) {
+            model.addRow(new Object[]{w.getNamaWilayah(), w.getKoordinat()});
+        }
+
+        tblWilayah.setModel(model);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,45 +88,41 @@ private void loadTabel() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
-        txtNamaWilayah = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtKoordinat = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        btnKembali = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWilayah = new javax.swing.JTable();
         btnEditWilayah = new javax.swing.JButton();
-        btnKembali = new javax.swing.JButton();
         btnTambahWilayah = new javax.swing.JButton();
+        txtKoordinat = new javax.swing.JTextField();
+        txtNamaWilayah = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel2.setText("Nama Wilayah Tangkap");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, -1, -1));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtNamaWilayah.addActionListener(new java.awt.event.ActionListener() {
+        btnKembali.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnKembali.setForeground(new java.awt.Color(52, 99, 146));
+        btnKembali.setText("Kembali");
+        btnKembali.setFocusPainted(false);
+        btnKembali.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNamaWilayahActionPerformed(evt);
+                btnKembaliActionPerformed(evt);
             }
         });
-        getContentPane().add(txtNamaWilayah, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 410, 30));
+        jPanel1.add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 100, 30));
 
-        jLabel3.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel3.setText("Titik Koordinat");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, -1, -1));
-
-        txtKoordinat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtKoordinatActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtKoordinat, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, 410, 30));
-
+        tblWilayah.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        tblWilayah.setForeground(new java.awt.Color(52, 99, 146));
         tblWilayah.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -104,7 +133,16 @@ private void loadTabel() {
             new String [] {
                 "Nama Wilayah Tangkap", "Titik Koordinat"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblWilayah.getTableHeader().setReorderingAllowed(false);
         tblWilayah.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblWilayahMouseClicked(evt);
@@ -112,32 +150,21 @@ private void loadTabel() {
         });
         jScrollPane1.setViewportView(tblWilayah);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 290, 410, 170));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 360, 140));
 
-        btnEditWilayah.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnEditWilayah.setForeground(new java.awt.Color(0, 102, 0));
+        btnEditWilayah.setBackground(new java.awt.Color(153, 153, 153));
+        btnEditWilayah.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnEditWilayah.setForeground(new java.awt.Color(255, 255, 255));
         btnEditWilayah.setText("Edit");
         btnEditWilayah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditWilayahActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEditWilayah, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 240, 90, 30));
+        jPanel1.add(btnEditWilayah, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 245, 90, 30));
 
-        btnKembali.setBackground(new java.awt.Color(0, 51, 102));
-        btnKembali.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnKembali.setForeground(new java.awt.Color(255, 255, 255));
-        btnKembali.setText("Kembali");
-        btnKembali.setBorderPainted(false);
-        btnKembali.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKembaliActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 30, 100, 30));
-
-        btnTambahWilayah.setBackground(new java.awt.Color(0, 51, 102));
-        btnTambahWilayah.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnTambahWilayah.setBackground(new java.awt.Color(52, 99, 146));
+        btnTambahWilayah.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnTambahWilayah.setForeground(new java.awt.Color(255, 255, 255));
         btnTambahWilayah.setText("Tambah");
         btnTambahWilayah.addActionListener(new java.awt.event.ActionListener() {
@@ -145,17 +172,48 @@ private void loadTabel() {
                 btnTambahWilayahActionPerformed(evt);
             }
         });
-        getContentPane().add(btnTambahWilayah, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 240, 90, 30));
+        jPanel1.add(btnTambahWilayah, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 245, 90, 30));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        txtKoordinat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtKoordinatActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtKoordinat, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 360, 30));
+
+        txtNamaWilayah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNamaWilayahActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtNamaWilayah, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 140, 360, 30));
+
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel3.setText("Titik Koordinat");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 90, -1));
+
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel2.setText("Nama Wilayah Tangkap");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel8.setText("MANAJEMEN WILAYAH TANGKAP");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, -1, -1));
+        jLabel8.setText("Wilayah Tangkap");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, -1, -1));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 500, 460));
+        jLabel10.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel10.setText("Manajemen");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, -1, -1));
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background.jpg"))); // NOI18N
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 480, 500));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, -1, -1));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background Pegawai.png"))); // NOI18N
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
 
         pack();
@@ -170,27 +228,27 @@ private void loadTabel() {
     }//GEN-LAST:event_txtKoordinatActionPerformed
 
     private void btnEditWilayahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditWilayahActionPerformed
-        // TODO add your handling code here:
-    int selectedRow = tblWilayah.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Pilih baris yang ingin diedit!");
-        return;
-    }
+        int selectedRow = tblWilayah.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Pilih baris yang ingin diedit!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    String namaLama = tblWilayah.getValueAt(selectedRow, 0).toString();
+        WilayahTangkap wilayah = this.currentWilayahList.get(selectedRow);
 
-    WilayahTangkapDAO dao = new WilayahTangkapDAO();
-    WilayahTangkap wilayah = dao.findByNama(namaLama); // nanti kita buat fungsi baru ini di DAO
-
-    if (wilayah != null) {
-        wilayah.setNamaWilayah(txtNamaWilayah.getText());
-        wilayah.setKoordinat(txtKoordinat.getText());
-
-        WilayahController controller = new WilayahController();
-        controller.updateWilayah(wilayah);
-        loadTabel();
-        kosongkanForm();
-    }
+        if (wilayah != null) {
+            wilayah.setNamaWilayah(txtNamaWilayah.getText());
+            wilayah.setKoordinat(txtKoordinat.getText());
+            
+            try {
+                controller.updateWilayah(wilayah); 
+                JOptionPane.showMessageDialog(this, "Data wilayah berhasil diperbarui!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                loadTabel();
+                kosongkanForm();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal update: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnEditWilayahActionPerformed
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
@@ -200,24 +258,25 @@ private void loadTabel() {
     }//GEN-LAST:event_btnKembaliActionPerformed
 
     private void btnTambahWilayahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahWilayahActionPerformed
-        // TODO add your handling code here:
-            WilayahController controller = new WilayahController();
-        controller.tambahWilayah(txtNamaWilayah.getText(), txtKoordinat.getText());
-        loadTabel();
-        kosongkanForm();
+        try {
+            controller.tambahWilayah(txtNamaWilayah.getText(), txtKoordinat.getText());
+            
+            JOptionPane.showMessageDialog(this, "Wilayah baru berhasil ditambahkan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            loadTabel();
+            kosongkanForm();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal menambah: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace(); 
+        }
     }//GEN-LAST:event_btnTambahWilayahActionPerformed
 
     private void tblWilayahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblWilayahMouseClicked
-        // TODO add your handling code here:
         int selectedRow = tblWilayah.getSelectedRow();
-    if (selectedRow != -1) {
-        // Ambil data dari baris yang diklik
-        String namaWilayah = tblWilayah.getValueAt(selectedRow, 0).toString();
-        String koordinat = tblWilayah.getValueAt(selectedRow, 1).toString();
-
-        // Tampilkan di field input
-        txtNamaWilayah.setText(namaWilayah);
-        txtKoordinat.setText(koordinat);
+        if (selectedRow != -1) {
+            WilayahTangkap wilayah = this.currentWilayahList.get(selectedRow);
+            txtNamaWilayah.setText(wilayah.getNamaWilayah());
+            txtKoordinat.setText(wilayah.getKoordinat());
     }
     }//GEN-LAST:event_tblWilayahMouseClicked
 
@@ -250,6 +309,8 @@ private void loadTabel() {
     private javax.swing.JButton btnEditWilayah;
     private javax.swing.JButton btnKembali;
     private javax.swing.JButton btnTambahWilayah;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;

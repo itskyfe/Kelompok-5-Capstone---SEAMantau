@@ -38,13 +38,14 @@ public class LandingPage extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setPreferredSize(new java.awt.Dimension(800, 520));
         setResizable(false);
         getContentPane().setLayout(null);
 
-        btnSignUp.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnSignUp.setForeground(new java.awt.Color(0, 51, 102));
+        btnSignUp.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnSignUp.setForeground(new java.awt.Color(52, 99, 146));
         btnSignUp.setText("Sign Up");
+        btnSignUp.setFocusPainted(false);
         btnSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSignUpMouseClicked(evt);
@@ -56,19 +57,20 @@ public class LandingPage extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnSignUp);
-        btnSignUp.setBounds(560, 50, 100, 30);
+        btnSignUp.setBounds(565, 45, 84, 30);
 
-        btnLogin.setBackground(new java.awt.Color(0, 51, 102));
-        btnLogin.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnLogin.setBackground(new java.awt.Color(52, 99, 146));
+        btnLogin.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Login");
+        btnLogin.setFocusPainted(false);
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
             }
         });
         getContentPane().add(btnLogin);
-        btnLogin.setBounds(670, 50, 72, 30);
+        btnLogin.setBounds(665, 45, 84, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Landing Page.png"))); // NOI18N
         getContentPane().add(jLabel1);

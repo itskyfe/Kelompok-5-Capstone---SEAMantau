@@ -15,9 +15,7 @@ public class MenuUser extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuUser.class.getName());
     private User userLogin;
 
-    /**
-     * Creates new form menuPage
-     */
+
     public MenuUser() {
         initComponents();
         setLocationRelativeTo(null);
@@ -40,59 +38,36 @@ public class MenuUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        btnProfil = new javax.swing.JButton();
+        btnKeluar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         btnPengaduan = new javax.swing.JButton();
         btnDaftar = new javax.swing.JButton();
-        btnKeluar = new javax.swing.JButton();
-        btnProfil = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setPreferredSize(new java.awt.Dimension(800, 520));
         setResizable(false);
         getContentPane().setLayout(null);
 
-        btnPengaduan.setBackground(new java.awt.Color(0, 51, 102));
-        btnPengaduan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnPengaduan.setForeground(new java.awt.Color(255, 255, 255));
-        btnPengaduan.setText("Buat Pengaduan");
-        btnPengaduan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnPengaduan.setBorderPainted(false);
-        btnPengaduan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPengaduanActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPengaduan);
-        btnPengaduan.setBounds(220, 230, 370, 36);
+        jLabel2.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Pilih Menu Untuk Melanjutkan");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(120, 190, 560, 90);
 
-        btnDaftar.setBackground(new java.awt.Color(0, 51, 102));
-        btnDaftar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDaftar.setForeground(new java.awt.Color(255, 255, 255));
-        btnDaftar.setText("Daftar Sebagai Nelayan");
-        btnDaftar.setBorderPainted(false);
-        btnDaftar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDaftarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnDaftar);
-        btnDaftar.setBounds(220, 290, 370, 36);
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnKeluar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnKeluar.setForeground(new java.awt.Color(0, 51, 102));
-        btnKeluar.setText("Keluar");
-        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKeluarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnKeluar);
-        btnKeluar.setBounds(680, 30, 90, 30);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo Dark.png"))); // NOI18N
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
-        btnProfil.setBackground(new java.awt.Color(0, 51, 102));
-        btnProfil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnProfil.setBackground(new java.awt.Color(52, 99, 146));
+        btnProfil.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnProfil.setForeground(new java.awt.Color(255, 255, 255));
         btnProfil.setText("Profil");
         btnProfil.addActionListener(new java.awt.event.ActionListener() {
@@ -100,35 +75,76 @@ public class MenuUser extends javax.swing.JFrame {
                 btnProfilActionPerformed(evt);
             }
         });
-        getContentPane().add(btnProfil);
-        btnProfil.setBounds(580, 30, 84, 30);
+        jPanel2.add(btnProfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 84, 30));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("PILIH MENU UNTUK MELANJUTKAN");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(190, 120, 440, 90);
+        btnKeluar.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnKeluar.setForeground(new java.awt.Color(52, 99, 146));
+        btnKeluar.setText("Keluar");
+        btnKeluar.setFocusPainted(false);
+        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKeluarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnKeluar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 40, 90, 30));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo.png"))); // NOI18N
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(10, 10, 193, 55);
+        jLabel3.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel3.setText("Selamat Datang, User");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
 
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(0, 0, 800, 110);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnPengaduan.setBackground(new java.awt.Color(52, 99, 146));
+        btnPengaduan.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnPengaduan.setForeground(new java.awt.Color(255, 255, 255));
+        btnPengaduan.setText("Buat Pengaduan");
+        btnPengaduan.setBorder(btnDaftar.getBorder());
+        btnPengaduan.setBorderPainted(false);
+        btnPengaduan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPengaduanActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnPengaduan, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 240, 50));
+
+        btnDaftar.setBackground(new java.awt.Color(52, 99, 146));
+        btnDaftar.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnDaftar.setForeground(new java.awt.Color(255, 255, 255));
+        btnDaftar.setText("Daftar Sebagai Nelayan");
+        btnDaftar.setBorderPainted(false);
+        btnDaftar.setFocusable(false);
+        btnDaftar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDaftarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDaftar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 240, 50));
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 360, 800, 140);
+
+        bg.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background.jpg"))); // NOI18N
         getContentPane().add(bg);
-        bg.setBounds(0, 0, 800, 500);
+        bg.setBounds(0, 20, 800, 480);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPengaduanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPengaduanActionPerformed
         // TODO add your handling code here:
-        new LaporanPengaduan().setVisible(true);
+        new FormLaporanPengaduan(this.userLogin).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPengaduanActionPerformed
 
     private void btnProfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfilActionPerformed
         // TODO add your handling code here:
-        new ProfilUser(userLogin).setVisible(true);
+        new ProfilUser(this.userLogin).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnProfilActionPerformed
 
@@ -185,5 +201,8 @@ public class MenuUser extends javax.swing.JFrame {
     private javax.swing.JButton btnProfil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

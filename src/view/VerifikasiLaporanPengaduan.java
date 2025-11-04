@@ -4,22 +4,132 @@
  */
 package view;
 
+import dao.LaporanDAO;
+import dao.LaporanPengaduanDAO;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Laporan;
+import model.LaporanPengaduan;
+import model.Pegawai; 
+import model.enums.StatusLaporan;
+import model.enums.StatusPengaduan;
+
 /**
  *
  * @author rfebr
  */
 public class VerifikasiLaporanPengaduan extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VerifikasiLaporanPengaduan.class.getName());
+    private final Pegawai pegawaiLogin;
+    private final LaporanDAO laporanDAO = new LaporanDAO();
+    private final LaporanPengaduanDAO laporanPengaduanDAO = new LaporanPengaduanDAO();
+    private List<LaporanPengaduan> listPengaduan;
+    private List<Laporan> listLaporan;
 
-    /**
-     * Creates new form verifikasiLaporanPengaduan
-     */
-    public VerifikasiLaporanPengaduan() {
+
+
+    public VerifikasiLaporanPengaduan(Pegawai pegawai) {
         initComponents();
         setLocationRelativeTo(null);
-    }
+        this.pegawaiLogin = pegawai;
+        setTitle("Verifikasi Laporan - " + this.pegawaiLogin.getNama());
 
+        setupFilters(); 
+        
+        loadTblPengaduan();
+        loadTblPenangkapan();
+    }
+private void setupFilters() {
+        filterPengaduan.removeAllItems();
+        filterPengaduan.addItem("Tugas Saya (Default)");
+        filterPengaduan.addItem("Selesai");
+        filterPengaduan.addItem("Semua Laporan");
+
+        filterPenangkapan.removeAllItems();
+        filterPenangkapan.addItem("Tugas (Menunggu/Berlayar)");
+        filterPenangkapan.addItem("Selesai (Diverifikasi)");
+        filterPenangkapan.addItem("Ditolak"); 
+        
+        filterPengaduan.addActionListener(e -> loadTblPengaduan());
+        filterPenangkapan.addActionListener(e -> loadTblPenangkapan());
+    }
+    public void loadTblPengaduan() {
+        DefaultTableModel model = (DefaultTableModel) tblPengaduan.getModel();
+        model.setRowCount(0);
+        String filter = (String) filterPengaduan.getSelectedItem();
+        
+        switch (filter) {
+            case "Tugas Saya (Default)":
+                this.listPengaduan = laporanPengaduanDAO.findTugasPegawai(this.pegawaiLogin.getUserId());
+                break;
+            case "Selesai":
+                this.listPengaduan = laporanPengaduanDAO.findByStatus(StatusPengaduan.Selesai);
+                break;
+            case "Semua Laporan":
+                this.listPengaduan = laporanPengaduanDAO.findAll();
+                break;
+            default:
+                this.listPengaduan = laporanPengaduanDAO.findTugasPegawai(this.pegawaiLogin.getUserId());
+                break;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        
+        if (this.listPengaduan != null) { 
+            for (LaporanPengaduan lap : this.listPengaduan) {
+                model.addRow(new Object[]{
+                    lap.getTanggalPengaduan().format(formatter),
+                    lap.getJenisPengaduan(),
+                    lap.getDeskripsi(),
+                    lap.getTitikKoordinat(),
+                    lap.getStatusPengaduan(),
+                    lap.getCatatan() != null ? lap.getCatatan() : "-"
+                });
+            }
+        }
+    }
+    
+    public void loadTblPenangkapan() {
+        DefaultTableModel model = (DefaultTableModel) tblPenangkapan.getModel();
+        model.setRowCount(0);
+        String filter = (String) filterPenangkapan.getSelectedItem();
+        
+        switch (filter) {
+            case "Tugas (Menunggu/Berlayar)":
+                this.listLaporan = laporanDAO.findTugasPenangkapan();
+                break;
+            case "Selesai (Diverifikasi)":
+                this.listLaporan = laporanDAO.findByStatus(StatusLaporan.Diverifikasi);
+                break;
+            case "Ditolak": 
+                this.listLaporan = laporanDAO.findByStatus(StatusLaporan.Ditolak);
+                break;
+            default:
+                this.listLaporan = laporanDAO.findTugasPenangkapan();
+                break;
+        }
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        if (this.listLaporan != null) { 
+            for (Laporan lap : this.listLaporan) {
+                String waktuBerangkat = lap.getWaktuBerangkat() != null ? lap.getWaktuBerangkat().format(formatter) : "-";
+                String waktuBerlabuh = lap.getWaktuBerlabuh() != null ? lap.getWaktuBerlabuh().format(formatter) : "Masih Berlayar";
+                
+                model.addRow(new Object[]{
+                    waktuBerangkat,
+                    lap.getNamaPelabuhan(),
+                    waktuBerlabuh,
+                    lap.getWilayah().getNamaWilayah(),
+                    lap.getAlatTangkap(),
+                    lap.getStatusLaporan(),
+                    lap.getCatatan() != null ? lap.getCatatan() : "-"
+                });
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,10 +154,14 @@ public class VerifikasiLaporanPengaduan extends javax.swing.JFrame {
         btnRefreshPenangkapan = new javax.swing.JButton();
         btnRefreshPengaduan = new javax.swing.JButton();
         bg = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        tblPengaduan.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         tblPengaduan.setForeground(new java.awt.Color(0, 51, 102));
         tblPengaduan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -63,17 +177,24 @@ public class VerifikasiLaporanPengaduan extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Long.class, java.lang.Object.class, java.lang.Object.class, java.lang.Long.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        tblPengaduan.setColumnSelectionAllowed(true);
+        tblPengaduan.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblPengaduan);
-        tblPengaduan.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 700, 140));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 700, 110));
 
+        tblPenangkapan.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         tblPenangkapan.setForeground(new java.awt.Color(0, 51, 102));
         tblPenangkapan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -90,7 +211,7 @@ public class VerifikasiLaporanPengaduan extends javax.swing.JFrame {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Long.class
             };
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, false, true, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -101,26 +222,27 @@ public class VerifikasiLaporanPengaduan extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblPenangkapan.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tblPenangkapan);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 700, 150));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, 700, 110));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("VERIFIKASI LAPORAN");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
+        jLabel1.setText("Verifikasi Laporan");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("LAPORAN PENGADUAN");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
+        jLabel2.setText("Laporan Pengaduan");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("LAPORAN PENANGKAPAN");
+        jLabel3.setText("Laporan Penangkapan");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, -1, -1));
 
-        btnKembali.setBackground(new java.awt.Color(0, 51, 102));
+        btnKembali.setBackground(new java.awt.Color(52, 99, 146));
         btnKembali.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnKembali.setForeground(new java.awt.Color(255, 255, 255));
         btnKembali.setText("Kembali");
@@ -132,113 +254,126 @@ public class VerifikasiLaporanPengaduan extends javax.swing.JFrame {
         });
         getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 20, 100, 30));
 
-        btnOpenPenangkapan.setBackground(new java.awt.Color(0, 51, 102));
-        btnOpenPenangkapan.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnOpenPenangkapan.setBackground(new java.awt.Color(52, 99, 146));
+        btnOpenPenangkapan.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnOpenPenangkapan.setForeground(new java.awt.Color(255, 255, 255));
-        btnOpenPenangkapan.setText("OPEN");
+        btnOpenPenangkapan.setText("Open");
         btnOpenPenangkapan.setBorderPainted(false);
         btnOpenPenangkapan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpenPenangkapanActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOpenPenangkapan, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 290, -1, 30));
+        getContentPane().add(btnOpenPenangkapan, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 300, -1, 30));
 
-        btnOpenPengaduan.setBackground(new java.awt.Color(0, 51, 102));
-        btnOpenPengaduan.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnOpenPengaduan.setBackground(new java.awt.Color(52, 99, 146));
+        btnOpenPengaduan.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnOpenPengaduan.setForeground(new java.awt.Color(255, 255, 255));
-        btnOpenPengaduan.setText("OPEN");
+        btnOpenPengaduan.setText("Open");
         btnOpenPengaduan.setBorderPainted(false);
         btnOpenPengaduan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpenPengaduanActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOpenPengaduan, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 80, -1, 30));
+        getContentPane().add(btnOpenPengaduan, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 130, -1, 30));
 
+        filterPenangkapan.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         filterPenangkapan.setForeground(new java.awt.Color(0, 51, 102));
         filterPenangkapan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(filterPenangkapan, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 290, 140, 30));
+        getContentPane().add(filterPenangkapan, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 150, 30));
 
+        filterPengaduan.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         filterPengaduan.setForeground(new java.awt.Color(0, 51, 102));
         filterPengaduan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(filterPengaduan, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 80, 150, 30));
+        getContentPane().add(filterPengaduan, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 130, 150, 30));
 
-        btnRefreshPenangkapan.setBackground(new java.awt.Color(0, 51, 102));
-        btnRefreshPenangkapan.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnRefreshPenangkapan.setBackground(new java.awt.Color(52, 99, 146));
+        btnRefreshPenangkapan.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnRefreshPenangkapan.setForeground(new java.awt.Color(255, 255, 255));
-        btnRefreshPenangkapan.setText("SEGARKAN");
+        btnRefreshPenangkapan.setText("Segarkan");
         btnRefreshPenangkapan.setBorderPainted(false);
         btnRefreshPenangkapan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshPenangkapanActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRefreshPenangkapan, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 290, 100, 30));
+        getContentPane().add(btnRefreshPenangkapan, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 300, 100, 30));
 
-        btnRefreshPengaduan.setBackground(new java.awt.Color(0, 51, 102));
-        btnRefreshPengaduan.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnRefreshPengaduan.setBackground(new java.awt.Color(52, 99, 146));
+        btnRefreshPengaduan.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnRefreshPengaduan.setForeground(new java.awt.Color(255, 255, 255));
-        btnRefreshPengaduan.setText("SEGARKAN");
+        btnRefreshPengaduan.setText("Segarkan");
         btnRefreshPengaduan.setBorderPainted(false);
         btnRefreshPengaduan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshPengaduanActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRefreshPengaduan, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 80, 100, 30));
+        getContentPane().add(btnRefreshPengaduan, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 130, 100, 30));
 
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background.jpg"))); // NOI18N
-        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background Pegawai.png"))); // NOI18N
+        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 740, 400));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo Dark.png"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 15, -1, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
-        // TODO add your handling code here:
-        new MenuPegawai().setVisible(true);
+        new MenuPegawai(this.pegawaiLogin).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
 
     private void btnOpenPenangkapanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenPenangkapanActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = tblPenangkapan.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Pilih laporan penangkapan dari tabel.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        Laporan laporan = this.listLaporan.get(selectedRow);
+        
+        String filter = (String) filterPenangkapan.getSelectedItem();
+        boolean isEditable = filter.equals("Tugas (Menunggu/Berlayar)");
+        
+        new OpenPenangkapan(this, this.pegawaiLogin, laporan, isEditable).setVisible(true);
     }//GEN-LAST:event_btnOpenPenangkapanActionPerformed
 
     private void btnOpenPengaduanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenPengaduanActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = tblPengaduan.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Pilih laporan pengaduan dari tabel.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        LaporanPengaduan pengaduan = this.listPengaduan.get(selectedRow);
+        
+        String filter = (String) filterPengaduan.getSelectedItem();
+        boolean isEditable = filter.equals("Tugas Saya (Default)");
+        
+        new OpenPengaduan(this, this.pegawaiLogin, pengaduan, isEditable).setVisible(true);
     }//GEN-LAST:event_btnOpenPengaduanActionPerformed
 
     private void btnRefreshPenangkapanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshPenangkapanActionPerformed
-        // TODO add your handling code here:
+        loadTblPenangkapan();
     }//GEN-LAST:event_btnRefreshPenangkapanActionPerformed
 
     private void btnRefreshPengaduanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshPengaduanActionPerformed
-        // TODO add your handling code here:
+        loadTblPengaduan();
     }//GEN-LAST:event_btnRefreshPengaduanActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VerifikasiLaporanPengaduan().setVisible(true));
+   
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -253,6 +388,8 @@ public class VerifikasiLaporanPengaduan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblPenangkapan;

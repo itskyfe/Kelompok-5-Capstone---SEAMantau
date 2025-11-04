@@ -1,21 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import model.LaporanPengaduan;
+import model.enums.StatusPengaduan; 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
-
 import java.util.List;
 
-/**
- * DAO untuk entitas LaporanPengaduan
- * @author TUF
- */
 public class LaporanPengaduanDAO {
 
     public void save(LaporanPengaduan laporanPengaduan) {
@@ -26,7 +18,7 @@ public class LaporanPengaduanDAO {
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -38,9 +30,23 @@ public class LaporanPengaduanDAO {
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
+    
+        public void delete(LaporanPengaduan laporanPengaduan) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            session.delete(laporanPengaduan);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+//            e.printStackTrace();
+            throw e; 
+        }
+    }
+
 
     public LaporanPengaduan findById(Integer id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -57,11 +63,12 @@ public class LaporanPengaduanDAO {
         }
     }
 
-    public List<LaporanPengaduan> findByStatus(String status) {
+
+    public List<LaporanPengaduan> findByStatus(StatusPengaduan status) { 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<LaporanPengaduan> query = session.createQuery(
-                "FROM LaporanPengaduan WHERE status = :status", LaporanPengaduan.class);
-            query.setParameter("status", status);
+                "FROM LaporanPengaduan WHERE statusPengaduan = :status", LaporanPengaduan.class); 
+            query.setParameter("status", status); 
             return query.list();
         }
     }
@@ -69,6 +76,19 @@ public class LaporanPengaduanDAO {
     public List<LaporanPengaduan> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM LaporanPengaduan", LaporanPengaduan.class).list();
+        }
+    }
+    
+    public List<LaporanPengaduan> findTugasPegawai(Integer pegawaiId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<LaporanPengaduan> query = session.createQuery(
+                "FROM LaporanPengaduan WHERE statusPengaduan = :menunggu OR (statusPengaduan = :diproses AND pegawai.userId = :pegawaiId)", 
+                LaporanPengaduan.class
+            );
+            query.setParameter("menunggu", StatusPengaduan.Menunggu);
+            query.setParameter("diproses", StatusPengaduan.Diproses);
+            query.setParameter("pegawaiId", pegawaiId);
+            return query.list();
         }
     }
 }

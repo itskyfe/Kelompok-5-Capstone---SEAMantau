@@ -1,57 +1,45 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 import model.User;
+import model.Pegawai;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
-
 import java.util.List;
 
-/**
- *
- * @author TUF
- */
 public class UserDAO {
-     public void save(User user) {
+    
+    public void save(User user) throws Exception { 
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             session.save(user);
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            e.printStackTrace();
+            if (tx != null && tx.getStatus().canRollback()) tx.rollback(); 
+            throw e; 
         }
     }
-     
-     public User findByNip(Integer nip) {
-    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-        Query<User> query = session.createQuery("FROM User WHERE nip = :nip", User.class);
-        query.setParameter("nip", nip);
-        return query.uniqueResult();
+    
+    public void update(User user) throws Exception {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            session.update(user);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.getStatus().canRollback()) tx.rollback(); 
+            throw e; 
+        }
     }
-}
 
-     
-
-        public boolean update(User user) {
-                Transaction tx = null;
-                try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-                    tx = session.beginTransaction();
-                    session.update(user);
-                    tx.commit();
-                    return true;
-                } catch (Exception e) {
-                    if (tx != null) tx.rollback();
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-
+    public Pegawai findByNip(String nip) { 
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Pegawai> query = session.createQuery("FROM Pegawai WHERE nip = :nip", Pegawai.class);
+            query.setParameter("nip", nip);
+            return query.uniqueResult();
+        }
+    }
 
     public User findById(Integer id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -63,7 +51,8 @@ public class UserDAO {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE email = :email", User.class);
             query.setParameter("email", email);
-            return query.uniqueResult();
+            List<User> users = query.list();
+            return (users != null && !users.isEmpty()) ? users.get(0) : null;
         }
     }
 
@@ -72,14 +61,13 @@ public class UserDAO {
             return session.createQuery("FROM User", User.class).list();
         }
     }
+    
     public User findByUsername(String username) {
-    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-        Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
-        query.setParameter("username", username);
-        return query.uniqueResult();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
+            query.setParameter("username", username);
+            List<User> users = query.list();
+            return (users != null && !users.isEmpty()) ? users.get(0) : null;
+        }
     }
-}
-    
-
-    
 }

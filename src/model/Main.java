@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+import com.google.api.client.json.gson.GsonFactory;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import util.DBConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,7 +22,7 @@ import view.*;
  */
 public class Main {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, GeneralSecurityException {   
                 java.awt.EventQueue.invokeLater(() -> new LandingPage().setVisible(true));
 
 //        SessionFactory factory = HibernateUtil.getSessionFactory();

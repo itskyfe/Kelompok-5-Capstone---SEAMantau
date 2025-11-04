@@ -9,9 +9,8 @@ import java.io.Serializable;
 public class Kapal implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "no_registrasi")
-    private Integer noRegistrasi;
+    @Column(name = "no_registrasi", length = 18) 
+    private String noRegistrasi; 
 
     @ManyToOne
     @JoinColumn(name = "nelayan_id", nullable = false)
@@ -30,14 +29,14 @@ public class Kapal implements Serializable {
     private String fotoKapal;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status_kapal", nullable = false, columnDefinition = "ENUM('Aktif','Nonaktif') DEFAULT 'Nonaktif'")
+    @Column(name = "status_kapal", nullable = false, columnDefinition = "ENUM('Aktif','Nonaktif','Dihapus') DEFAULT 'Nonaktif'")
     private StatusKapal statusKapal;
 
 
 
     /* ---------- getter & setter ---------- */
-    public Integer getNoRegistrasi() { return noRegistrasi; }
-    public void setNoRegistrasi(Integer noRegistrasi) { this.noRegistrasi = noRegistrasi; }
+    public String getNoRegistrasi() { return noRegistrasi; }
+    public void setNoRegistrasi(String noRegistrasi) { this.noRegistrasi = noRegistrasi; } // Ganti jadi String
 
     public Nelayan getNelayan() { return nelayan; }
     public void setNelayan(Nelayan nelayan) { this.nelayan = nelayan; }

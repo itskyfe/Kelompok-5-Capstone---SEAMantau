@@ -15,13 +15,13 @@ import model.enums.*;
 public class LoginPage extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginPage.class.getName());
+    private final AttemptLimiter loginLimiter;
 
-    /**
-     * Creates new form loginPage
-     */
+
     public LoginPage() {
         initComponents();
          setLocationRelativeTo(null);
+         this.loginLimiter = new AttemptLimiter();
 
     }
 
@@ -47,24 +47,25 @@ public class LoginPage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 500));
         setResizable(false);
-        setSize(new java.awt.Dimension(800, 500));
+        setSize(new java.awt.Dimension(800, 520));
         getContentPane().setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setText("Username:");
+        jLabel1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel1.setText("Username");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(260, 160, 70, 20);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("Password: ");
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel2.setText("Password");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(260, 235, 70, 15);
+        jLabel2.setBounds(260, 235, 70, 16);
 
-        btnSignUp.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        btnSignUp.setFont(new java.awt.Font("Poppins", 0, 10)); // NOI18N
         btnSignUp.setForeground(new java.awt.Color(0, 51, 102));
         btnSignUp.setText("Sign Up");
         btnSignUp.setBorder(null);
         btnSignUp.setContentAreaFilled(false);
+        btnSignUp.setInheritsPopupMenu(true);
         btnSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSignUpActionPerformed(evt);
@@ -81,10 +82,11 @@ public class LoginPage extends javax.swing.JFrame {
         getContentPane().add(txtUsername);
         txtUsername.setBounds(260, 190, 290, 30);
 
-        btnSubmit.setBackground(new java.awt.Color(0, 51, 102));
-        btnSubmit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSubmit.setBackground(new java.awt.Color(52, 99, 146));
+        btnSubmit.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         btnSubmit.setForeground(new java.awt.Color(255, 255, 255));
-        btnSubmit.setText("SUBMIT");
+        btnSubmit.setText("Submit");
+        btnSubmit.setFocusPainted(false);
         btnSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSubmitActionPerformed(evt);
@@ -101,6 +103,7 @@ public class LoginPage extends javax.swing.JFrame {
         getContentPane().add(txtPassword);
         txtPassword.setBounds(260, 260, 290, 30);
 
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel3.setText("Belum punya akun?");
         getContentPane().add(jLabel3);
         jLabel3.setBounds(340, 370, 120, 16);
@@ -108,7 +111,7 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo Dark.png"))); // NOI18N
         jLabel4.setText("jLabel4");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(300, 80, 190, 80);
+        jLabel4.setBounds(300, 75, 190, 80);
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Login.png"))); // NOI18N
         getContentPane().add(bg);
@@ -122,67 +125,67 @@ public class LoginPage extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
-    String username = txtUsername.getText().trim();
-    String password = new String(txtPassword.getPassword()).trim();
+        if (loginLimiter.hasReachedLimit()) {
+            loginLimiter.onLimitReached(); 
+            return;
+        }
+        
+        String username = txtUsername.getText().trim();
+        String password = new String(txtPassword.getPassword()).trim();
 
-    if (username.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Username dan password tidak boleh kosong!",
+                "Login Gagal", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        controller.AuthController authController = new controller.AuthController();
+        model.User user = authController.login(username, password);
+
+        if (user == null) {
+            loginLimiter.recordFailedLogin();
+            return;
+        }
+
+
+        loginLimiter.resetAttempts(); 
+        
         javax.swing.JOptionPane.showMessageDialog(this,
-            "Username dan password tidak boleh kosong!",
-            "Login Gagal", javax.swing.JOptionPane.WARNING_MESSAGE);
-        return;
-    }
+            "Login berhasil, selamat datang " + user.getNama() + "!");
 
-    controller.AuthController authController = new controller.AuthController();
-    model.User user = authController.login(username, password);
-
-    if (user == null) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Username atau password salah!",
-            "Login Gagal", javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-        javax.swing.JOptionPane.showMessageDialog(this,
-        "Login berhasil, selamat datang " + user.getNama() + "!");
-
-    if (user.getRole() == null) {
-        new MenuUser(user).setVisible(true);
-        this.dispose();
-        return;
-    }
-
-    switch (user.getRole()) {
-        case Admin:
-            if (user instanceof model.Admin admin) {
-                if (admin.getStatus() == model.enums.StatusAdmin.Nonaktif) {
-                    javax.swing.JOptionPane.showMessageDialog(this,
-                        "Akun Admin nonaktif. Mengarahkan ke MenuUser.");
-                    new MenuUser(user).setVisible(true);
-                } else {
-                    new MenuAdmin((Admin)user).setVisible(true); // Admin diarahkan ke MenuPegawai
-                }
-            }  break;
-
-        case Pegawai:
-            new MenuPegawai((Pegawai)user).setVisible(true);
-            break;
-
-        case Nelayan:
-            if (user instanceof model.Nelayan nelayan) {
-                if (nelayan.getStatusNelayan() == model.enums.StatusNelayan.Nonaktif) {
-                    javax.swing.JOptionPane.showMessageDialog(this,
-                        "Akun Nelayan nonaktif. Mengarahkan ke MenuUser.");
-                    new MenuUser(user).setVisible(true);
-                } else {
-                    new MenuNelayan((Nelayan)user).setVisible(true);
-                }
-            } break;
-        default:
+        if (user.getRole() == null) {
             new MenuUser(user).setVisible(true);
-            break;
-    }
+            this.dispose();
+            return;
+        }
 
-    this.dispose();
+        switch (user.getRole()) {
+            case Admin:
+                if (user instanceof model.Admin admin) {
+                        new MenuAdmin(admin).setVisible(true); 
+                }  break;
+
+            case Pegawai:
+                new MenuPegawai((Pegawai)user).setVisible(true);
+                break;
+
+            case Nelayan:
+                if (user instanceof model.Nelayan nelayan) {
+                    if (nelayan.getStatusNelayan() == model.enums.StatusNelayan.Nonaktif) {
+                        javax.swing.JOptionPane.showMessageDialog(this,
+                            "Akun Nelayan nonaktif. Mengarahkan ke MenuUser.");
+                        new MenuUser(user).setVisible(true);
+                    } else {
+                        new MenuNelayan((Nelayan)user).setVisible(true);
+                    }
+                } break;
+            default:
+                new MenuUser(user).setVisible(true);
+                break;
+        }
+
+        this.dispose();
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed

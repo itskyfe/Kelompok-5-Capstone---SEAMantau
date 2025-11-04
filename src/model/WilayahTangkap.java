@@ -27,4 +27,9 @@ public class WilayahTangkap implements Serializable {
 
     public String getNamaWilayah() { return namaWilayah; }
     public void setNamaWilayah(String namaWilayah) { this.namaWilayah = namaWilayah; }
+    
+    @Override
+    public String toString() {
+        return namaWilayah;
+    }
 }

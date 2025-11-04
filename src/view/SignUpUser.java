@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author rfebr
@@ -12,9 +14,7 @@ public class SignUpUser extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SignUpUser.class.getName());
 
-    /**
-     * Creates new form signUpPage
-     */
+
     public SignUpUser() {
         initComponents();
         setLocationRelativeTo(null);
@@ -44,26 +44,31 @@ public class SignUpUser extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtAlamat = new javax.swing.JTextField();
         btnBuatAkun = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        btnLogin = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(830, 500));
+        setPreferredSize(new java.awt.Dimension(830, 530));
         setResizable(false);
         getContentPane().setLayout(null);
 
-        title.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        title.setForeground(new java.awt.Color(0, 51, 102));
+        title.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+        title.setForeground(new java.awt.Color(52, 99, 146));
         title.setText("SIGN UP");
         getContentPane().add(title);
-        title.setBounds(510, 20, 110, 29);
+        title.setBounds(510, 20, 110, 37);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(52, 99, 146));
         jLabel2.setText("Nama");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(410, 60, 40, 15);
+        jLabel2.setBounds(410, 60, 40, 19);
 
+        txtNama.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtNama.setForeground(new java.awt.Color(52, 98, 146));
         txtNama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNamaActionPerformed(evt);
@@ -72,11 +77,14 @@ public class SignUpUser extends javax.swing.JFrame {
         getContentPane().add(txtNama);
         txtNama.setBounds(410, 80, 313, 30);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(52, 99, 146));
         jLabel3.setText("Username");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(410, 120, 60, 15);
+        jLabel3.setBounds(410, 120, 60, 19);
 
+        txtUsername.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtUsername.setForeground(new java.awt.Color(52, 98, 146));
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsernameActionPerformed(evt);
@@ -85,6 +93,8 @@ public class SignUpUser extends javax.swing.JFrame {
         getContentPane().add(txtUsername);
         txtUsername.setBounds(410, 140, 313, 30);
 
+        txtEmail.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(52, 98, 146));
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -93,23 +103,31 @@ public class SignUpUser extends javax.swing.JFrame {
         getContentPane().add(txtEmail);
         txtEmail.setBounds(410, 260, 313, 30);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(52, 99, 146));
         jLabel4.setText("Password");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(410, 180, 60, 15);
+        jLabel4.setBounds(410, 180, 60, 19);
+
+        txtPassword.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtPassword.setForeground(new java.awt.Color(52, 98, 146));
         getContentPane().add(txtPassword);
         txtPassword.setBounds(410, 200, 313, 30);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(52, 99, 146));
         jLabel5.setText("Email");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(410, 240, 40, 15);
+        jLabel5.setBounds(410, 240, 40, 19);
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(52, 99, 146));
         jLabel6.setText("Nomor Telepon");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(410, 300, 90, 15);
+        jLabel6.setBounds(410, 300, 90, 19);
 
+        txtNoTelepon.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtNoTelepon.setForeground(new java.awt.Color(52, 98, 146));
         txtNoTelepon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNoTeleponActionPerformed(evt);
@@ -118,11 +136,14 @@ public class SignUpUser extends javax.swing.JFrame {
         getContentPane().add(txtNoTelepon);
         txtNoTelepon.setBounds(410, 320, 313, 30);
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(52, 99, 146));
         jLabel7.setText("Alamat");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(410, 360, 50, 15);
+        jLabel7.setBounds(410, 360, 50, 19);
 
+        txtAlamat.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtAlamat.setForeground(new java.awt.Color(52, 98, 146));
         txtAlamat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAlamatActionPerformed(evt);
@@ -131,10 +152,11 @@ public class SignUpUser extends javax.swing.JFrame {
         getContentPane().add(txtAlamat);
         txtAlamat.setBounds(410, 380, 313, 30);
 
-        btnBuatAkun.setBackground(new java.awt.Color(0, 51, 102));
-        btnBuatAkun.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBuatAkun.setBackground(new java.awt.Color(52, 99, 146));
+        btnBuatAkun.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         btnBuatAkun.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuatAkun.setText("BUAT AKUN");
+        btnBuatAkun.setText("Buat Akun");
+        btnBuatAkun.setFocusPainted(false);
         btnBuatAkun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuatAkunActionPerformed(evt);
@@ -143,13 +165,36 @@ public class SignUpUser extends javax.swing.JFrame {
         getContentPane().add(btnBuatAkun);
         btnBuatAkun.setBounds(410, 430, 313, 30);
 
+        jLabel8.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel8.setText("Sudah Punya Akun?");
+        getContentPane().add(jLabel8);
+        jLabel8.setBounds(480, 470, 120, 16);
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnLogin.setBackground(new java.awt.Color(0, 51, 102));
+        btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(0, 153, 255));
+        btnLogin.setText("Login");
+        btnLogin.setBorder(null);
+        btnLogin.setContentAreaFilled(false);
+        btnLogin.setDefaultCapable(false);
+        btnLogin.setFocusPainted(false);
+        btnLogin.setFocusable(false);
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 469, 40, -1));
+
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(340, 0, 470, 510);
+        jPanel1.setBounds(330, 0, 470, 510);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo.png"))); // NOI18N
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(70, 220, 190, 80);
+        jLabel9.setBounds(60, 220, 190, 80);
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Sign up.png"))); // NOI18N
         getContentPane().add(bg);
@@ -179,22 +224,40 @@ public class SignUpUser extends javax.swing.JFrame {
     }//GEN-LAST:event_txtAlamatActionPerformed
 
     private void btnBuatAkunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuatAkunActionPerformed
-        // TODO add your handling code here:
         controller.AuthController auth = new controller.AuthController();
 
-    String nama = txtNama.getText().trim();
-    String username = txtUsername.getText().trim();
-    String password = new String(txtPassword.getPassword()).trim();
-    String email = txtEmail.getText().trim();
-    String noTelepon = txtNoTelepon.getText().trim();
-    String alamat = txtAlamat.getText().trim();
+        String nama = txtNama.getText().trim();
+        String username = txtUsername.getText().trim();
+        String password = new String(txtPassword.getPassword()).trim();
+        String email = txtEmail.getText().trim();
+        String noTelepon = txtNoTelepon.getText().trim();
+        String alamat = txtAlamat.getText().trim();
 
-    boolean sukses = auth.signUpUser(nama, username, password, email, noTelepon, alamat);
-    if (sukses) {
-        new view.LoginPage().setVisible(true);
-        this.dispose();
-    }
+        try {
+            auth.signUpUser(nama, username, password, email, noTelepon, alamat);
+            
+            JOptionPane.showMessageDialog(this, 
+                "Akun berhasil dibuat! Silakan login.", 
+                "Sukses", 
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            new view.LoginPage().setVisible(true);
+            this.dispose();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Gagal membuat akun: " + e.getMessage(), 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace(); 
+        }
     }//GEN-LAST:event_btnBuatAkunActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+        new LoginPage().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,12 +287,14 @@ public class SignUpUser extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
     private javax.swing.JButton btnBuatAkun;
+    private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel title;

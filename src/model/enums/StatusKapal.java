@@ -1,5 +1,5 @@
 package model.enums;
 
 public enum StatusKapal {
-    Aktif, Nonaktif
+    Aktif, Nonaktif,Dihapus
 }

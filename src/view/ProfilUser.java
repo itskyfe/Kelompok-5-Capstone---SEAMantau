@@ -16,21 +16,18 @@ import org.mindrot.jbcrypt.BCrypt;
 public class ProfilUser extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ProfilUser.class.getName());
-    private UserController userController = new UserController();
+    private final UserController userController = new UserController();
     private User currentUser;
 
-    /**
-     * Creates new form userProfile
-     */
+
      public ProfilUser(User user) {
         initComponents();
         setLocationRelativeTo(null);
         this.currentUser = user;
-        loadUserData();
-        
-        btnSimpan.addActionListener(e -> updateProfil());
+        loadUserData();        
     }
-     private void loadUserData() {
+     
+    private void loadUserData() {
         txtNama.setText(currentUser.getNama());
         txtUsername.setText(currentUser.getUsername());
         txtEmail.setText(currentUser.getEmail());
@@ -39,45 +36,42 @@ public class ProfilUser extends javax.swing.JFrame {
         jPasswordField1.setText("");
     }
 
-private void updateProfil() {
-    // ambil input sementara
-    String nama = txtNama.getText().trim();
-    String username = txtUsername.getText().trim();
-    String email = txtEmail.getText().trim();
-    String noHp = txtHp.getText().trim();
-    String alamat = txtAlamat.getText().trim();
-    String newPassword = new String(jPasswordField1.getPassword()).trim();
+    private void updateProfil() {
+        String nama = txtNama.getText().trim();
+        String username = txtUsername.getText().trim();
+        String email = txtEmail.getText().trim();
+        String noHp = txtHp.getText().trim();
+        String alamat = txtAlamat.getText().trim();
+        String newPassword = new String(jPasswordField1.getPassword()).trim();
 
-    // buat salinan user sementara
-    User tempUser = new User();
-    tempUser.setUserId(currentUser.getUserId());
-    tempUser.setNama(nama);
-    tempUser.setUsername(username);
-    tempUser.setEmail(email);
-    tempUser.setNoHp(noHp);
-    tempUser.setAlamat(alamat);
-    tempUser.setRole(currentUser.getRole()); // biar gak hilang
+        User tempUser = new User();
+        tempUser.setUserId(currentUser.getUserId());
+        tempUser.setNama(nama);
+        tempUser.setUsername(username);
+        tempUser.setEmail(email);
+        tempUser.setNoHp(noHp);
+        tempUser.setAlamat(alamat);
+        tempUser.setRole(currentUser.getRole());
 
-    if (!newPassword.isEmpty()) {
-        String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-        tempUser.setPassword(hashed);
-    } else {
-        tempUser.setPassword(currentUser.getPassword());
+        if (!newPassword.isEmpty()) {
+            String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            tempUser.setPassword(hashed);
+        } else {
+            tempUser.setPassword(currentUser.getPassword());
+        }
+
+        try {
+            userController.updateProfil(tempUser, newPassword);
+
+            JOptionPane.showMessageDialog(this, "Profil berhasil diperbarui!");
+            this.currentUser = tempUser;
+            jPasswordField1.setText(""); 
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal memperbarui profil: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            loadUserData();
+        }
     }
-
-    // kirim ke controller
-    boolean success = userController.updateProfil(tempUser);
-
-    if (success) {
-        JOptionPane.showMessageDialog(this, "Profil berhasil diperbarui!");
-        // baru update currentUser kalau sukses
-        this.currentUser = tempUser;
-    } else {
-        JOptionPane.showMessageDialog(this, "Gagal memperbarui profil! Username sudah dipakai.");
-        // kembalikan tampilan ke data asli dari currentUser
-        loadUserData();
-    }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,88 +90,121 @@ private void updateProfil() {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         txtAlamat = new javax.swing.JTextPane();
-        jLabel7 = new javax.swing.JLabel();
-        btnKembali = new javax.swing.JButton();
-        btnSimpan = new javax.swing.JButton();
         txtHp = new javax.swing.JTextField();
         txtNama = new javax.swing.JTextField();
         txtUsername = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        btnKembali = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btnSimpan = new javax.swing.JButton();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nama");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 60, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 60, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Username");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 90, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 90, -1));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Password");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, 80, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 80, -1));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Email");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 230, 60, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 60, -1));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("No. Handphone");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 120, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 120, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Alamat");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 70, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 190, 70, -1));
 
+        txtAlamat.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtAlamat.setForeground(new java.awt.Color(52, 99, 146));
         jScrollPane6.setViewportView(txtAlamat);
 
-        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, 340, 70));
+        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 210, 340, 150));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("PROFIL");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, -1, -1));
+        txtHp.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtHp.setForeground(new java.awt.Color(52, 99, 146));
+        getContentPane().add(txtHp, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 340, 30));
 
-        btnKembali.setBackground(new java.awt.Color(0, 51, 102));
-        btnKembali.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnKembali.setForeground(new java.awt.Color(255, 255, 255));
+        txtNama.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtNama.setForeground(new java.awt.Color(52, 99, 146));
+        getContentPane().add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 340, 30));
+
+        txtUsername.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtUsername.setForeground(new java.awt.Color(52, 99, 146));
+        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 340, 30));
+
+        txtEmail.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(52, 99, 146));
+        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 340, 30));
+
+        jPasswordField1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jPasswordField1.setForeground(new java.awt.Color(52, 99, 146));
+        getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 340, 30));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel7.setText("Profil User");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 25, -1, -1));
+
+        btnKembali.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnKembali.setForeground(new java.awt.Color(52, 99, 146));
         btnKembali.setText("Kembali");
-        btnKembali.setBorderPainted(false);
+        btnKembali.setFocusPainted(false);
         btnKembali.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnKembaliActionPerformed(evt);
             }
         });
-        getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 20, 80, 30));
+        jPanel2.add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(678, 35, -1, 30));
 
-        btnSimpan.setBackground(new java.awt.Color(0, 51, 102));
-        btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo Dark.png"))); // NOI18N
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 25, -1, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 100));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnSimpan.setBackground(new java.awt.Color(52, 99, 146));
+        btnSimpan.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnSimpan.setForeground(new java.awt.Color(255, 255, 255));
-        btnSimpan.setText("SIMPAN PERUBAHAN");
+        btnSimpan.setText("Simpan Perubahan");
         btnSimpan.setBorderPainted(false);
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSimpanActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 450, 340, 30));
-        getContentPane().add(txtHp, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, 340, 30));
-        getContentPane().add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 340, 30));
-        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, 340, 30));
-        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 340, 30));
-        getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, 340, 30));
+        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 340, 30));
 
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 810, 100));
+
+        bg.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background.jpg"))); // NOI18N
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
 
@@ -185,13 +212,13 @@ private void updateProfil() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
-        // TODO add your handling code here:
-        new MenuUser(currentUser).setVisible(true);
+        new MenuUser(this.currentUser).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         // TODO add your handling code here:
+        updateProfil();
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     /**
@@ -229,6 +256,9 @@ private void updateProfil() {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextPane txtAlamat;

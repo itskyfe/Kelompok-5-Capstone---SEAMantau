@@ -15,16 +15,12 @@ import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
-/**
- * Dialog untuk memilih titik koordinat di peta OpenStreetMap.
- * Klik kiri untuk memilih lokasi.
- */
+
 public class MapPicker extends JDialog {
     private JXMapViewer mapViewer;
     private JButton btnSelect;
     private GeoPosition selectedPosition;
 
-    // Getter untuk mengambil koordinat terpilih
     public GeoPosition getSelectedPosition() {
         return selectedPosition;
     }
@@ -39,10 +35,7 @@ public class MapPicker extends JDialog {
     }
 
     private void initComponents() {
-        // --- Setup Map Viewer ---
         mapViewer = new JXMapViewer();
-
-        // 🔧 FIX HTTPS TileFactoryInfo
         TileFactoryInfo info = new TileFactoryInfo(
                 0, 19, 19,
                 256, true, true,
@@ -60,17 +53,14 @@ public class MapPicker extends JDialog {
         System.setProperty("http.agent", "Mozilla/5.0 (Java JXMapViewer)");
         mapViewer.setTileFactory(tileFactory);
 
-        // Atur posisi awal (contoh: Jakarta)
         mapViewer.setAddressLocation(new GeoPosition(-6.2000, 106.8167));
         mapViewer.setZoom(5);
 
-        // Tambahkan kontrol zoom & geser
         mapViewer.addMouseListener(new PanMouseInputListener(mapViewer));
         mapViewer.addMouseMotionListener(new PanMouseInputListener(mapViewer));
         mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
         mapViewer.addMouseListener(new CenterMapListener(mapViewer));
 
-        // Tambahkan event klik untuk ambil koordinat
         mapViewer.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -82,7 +72,6 @@ public class MapPicker extends JDialog {
             }
         });
 
-        // --- Panel tombol kontrol ---
         JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnSelect = new JButton("Pilih Lokasi");
         JButton btnCancel = new JButton("Batal");
@@ -97,13 +86,11 @@ public class MapPicker extends JDialog {
         controlPanel.add(btnCancel);
         controlPanel.add(btnSelect);
 
-        // Gabungkan semua komponen
         setLayout(new BorderLayout());
         add(mapViewer, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.SOUTH);
     }
 
-    // Update title saat user klik peta
     private void updateTitle() {
         if (selectedPosition != null) {
             String lat = String.format("%.6f", selectedPosition.getLatitude());

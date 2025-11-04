@@ -4,11 +4,17 @@
  */
 package view;
 
+import controller.NelayanController;
 import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import jnafilechooser.api.JnaFileChooser;
+import model.Kapal;
+import model.Nelayan;
 import model.User;
+import model.enums.StatusKapal;
+import model.enums.StatusNelayan;
 
 /**
  *
@@ -16,13 +22,11 @@ import model.User;
  */
 
 public class SignUpNelayan extends javax.swing.JFrame {
-        private String selectedImagePath;  
+    private String selectedImagePath;  
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SignUpNelayan.class.getName());
     private User currentUser;
 
-    /**
-     * Creates new form signUpNelayanPage
-     */
+
     public SignUpNelayan(User user) {
         initComponents();
         this.currentUser = user;
@@ -96,12 +100,12 @@ public class SignUpNelayan extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnUpload = new javax.swing.JButton();
         btnSubmit = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
         dropJenisKapal = new javax.swing.JComboBox<>();
         dropKategori = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
         lblPreview = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
@@ -109,23 +113,41 @@ public class SignUpNelayan extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(52, 99, 146));
         jLabel1.setText("NIB");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, -1));
+
+        txtNIB.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtNIB.setForeground(new java.awt.Color(52, 99, 146));
+        txtNIB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNIBActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtNIB, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, 310, 30));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(52, 99, 146));
         jLabel2.setText("No. Registrasi Kapal");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 150, -1, -1));
+
+        txtNoRegistrasi.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtNoRegistrasi.setForeground(new java.awt.Color(52, 99, 146));
+        txtNoRegistrasi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNoRegistrasiActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtNoRegistrasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 170, 310, 30));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(52, 99, 146));
         jLabel3.setText("Nama Kapal");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 210, -1, -1));
 
+        txtNamaKapal.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtNamaKapal.setForeground(new java.awt.Color(52, 99, 146));
         txtNamaKapal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNamaKapalActionPerformed(evt);
@@ -133,24 +155,25 @@ public class SignUpNelayan extends javax.swing.JFrame {
         });
         getContentPane().add(txtNamaKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 230, 310, 30));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(52, 99, 146));
         jLabel4.setText("Jenis Kapal");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, -1, -1));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(52, 99, 146));
         jLabel5.setText("Kategori");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(52, 99, 146));
         jLabel6.setText("Foto Kapal:");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 400, -1, -1));
 
-        btnUpload.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnUpload.setForeground(new java.awt.Color(0, 51, 102));
+        btnUpload.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnUpload.setForeground(new java.awt.Color(52, 99, 146));
         btnUpload.setText("Upload");
+        btnUpload.setFocusPainted(false);
         btnUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUploadActionPerformed(evt);
@@ -158,8 +181,8 @@ public class SignUpNelayan extends javax.swing.JFrame {
         });
         getContentPane().add(btnUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 395, 80, 30));
 
-        btnSubmit.setBackground(new java.awt.Color(0, 51, 102));
-        btnSubmit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnSubmit.setBackground(new java.awt.Color(52, 99, 146));
+        btnSubmit.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnSubmit.setForeground(new java.awt.Color(255, 255, 255));
         btnSubmit.setText("SUBMIT");
         btnSubmit.addActionListener(new java.awt.event.ActionListener() {
@@ -169,12 +192,8 @@ public class SignUpNelayan extends javax.swing.JFrame {
         });
         getContentPane().add(btnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 440, 310, 30));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel8.setText("DAFTAR SEBAGAI NELAYAN");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, -1, -1));
-
-        dropJenisKapal.setForeground(new java.awt.Color(0, 51, 102));
+        dropJenisKapal.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        dropJenisKapal.setForeground(new java.awt.Color(52, 99, 146));
         dropJenisKapal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         dropJenisKapal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,7 +202,8 @@ public class SignUpNelayan extends javax.swing.JFrame {
         });
         getContentPane().add(dropJenisKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 350, 310, 30));
 
-        dropKategori.setForeground(new java.awt.Color(0, 51, 102));
+        dropKategori.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        dropKategori.setForeground(new java.awt.Color(52, 99, 146));
         dropKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         dropKategori.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,21 +213,28 @@ public class SignUpNelayan extends javax.swing.JFrame {
         getContentPane().add(dropKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 290, 310, 30));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setFocusable(false);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton4.setBackground(new java.awt.Color(0, 51, 102));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Kembali");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 80, 30));
-
+        lblPreview.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         lblPreview.setText("jLabel7");
         jPanel1.add(lblPreview, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 400, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel8.setText("DAFTAR SEBAGAI NELAYAN");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, -1, -1));
+
+        jButton5.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(52, 99, 146));
+        jButton5.setText("Kembali");
+        jButton5.setFocusPainted(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 90, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 470, 500));
 
@@ -233,29 +260,97 @@ public class SignUpNelayan extends javax.swing.JFrame {
     
     boolean result = fileChooser.showOpenDialog(this);
 
-    if (result) { // True jika file dipilih
-        File selectedFile = fileChooser.getSelectedFile();
-        
-        if (selectedFile != null) {
-            selectedImagePath = selectedFile.getAbsolutePath();
+    if (result) { 
+            File selectedFile = fileChooser.getSelectedFile();
+            
+            if (selectedFile != null) {
+                
+                
+                long fileSizeInBytes = selectedFile.length();
+                long fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+                
+                long MAX_FILE_SIZE_MB = 5; 
 
-            lblPreview.setText("File terpilih: " + selectedFile.getName());
-            lblPreview.setVisible(true);
+                if (fileSizeInMB > MAX_FILE_SIZE_MB) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Ukuran file terlalu besar (" + fileSizeInMB + " MB).\nBatas maksimal adalah " + MAX_FILE_SIZE_MB + " MB.", 
+                        "Error Ukuran File", 
+                        JOptionPane.ERROR_MESSAGE);
+                    
+
+                    selectedImagePath = null;
+                    lblPreview.setVisible(false);
+                    return; 
+                }
+
+                selectedImagePath = selectedFile.getAbsolutePath();
+                lblPreview.setText("File terpilih: " + selectedFile.getName());
+                lblPreview.setVisible(true);
+            }
         }
-    }
     
         
     }//GEN-LAST:event_btnUploadActionPerformed
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSubmitActionPerformed
+      try {
+            if (selectedImagePath == null || selectedImagePath.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Silakan pilih foto kapal.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            String nib = txtNIB.getText().trim();
+            if (nib.isEmpty() || !nib.matches("\\d+") || nib.length() != 13) {
+                 JOptionPane.showMessageDialog(this, "NIB harus angka 13 digit.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        new MenuUser().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
+            String noRegistrasi = txtNoRegistrasi.getText().trim();
+            if (noRegistrasi.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No. Registrasi Kapal tidak boleh kosong.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (noRegistrasi.length() < 8 || noRegistrasi.length() > 18) {
+                JOptionPane.showMessageDialog(this, "No. Registrasi Kapal harus 8-18 karakter.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String namaKapal = txtNamaKapal.getText().trim();
+            if (namaKapal.length() < 5 || namaKapal.length() > 20) {
+                JOptionPane.showMessageDialog(this, "Nama Kapal harus 5-20 karakter.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            if (dropKategori.getSelectedIndex() <= 0 || dropJenisKapal.getSelectedIndex() <= 0) {
+                JOptionPane.showMessageDialog(this, "Kategori dan Jenis Kapal harus dipilih.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            Nelayan nelayan = new Nelayan();
+            nelayan.setNib(nib); 
+            nelayan.setStatusNelayan(StatusNelayan.Nonaktif); 
+
+            Kapal kapal = new Kapal();
+            kapal.setNamaKapal(namaKapal); 
+            kapal.setKategoriKapal(dropKategori.getSelectedItem().toString());
+            kapal.setJenisKapal(dropJenisKapal.getSelectedItem().toString());
+            kapal.setStatusKapal(StatusKapal.Nonaktif);
+            kapal.setNoRegistrasi(noRegistrasi); 
+
+            File fotoFile = new File(selectedImagePath);
+
+            NelayanController controller = new NelayanController();
+            controller.prosesPendaftaran(nelayan, kapal, fotoFile, currentUser, "1Yi7XdhhVUxrx_v_f0axkj-oBU_es-Hsa"); 
+
+            JOptionPane.showMessageDialog(this, "Pendaftaran berhasil, status sementara: Nonaktif");
+            new MenuUser(currentUser).setVisible(true);
+            this.dispose();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void dropKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropKategoriActionPerformed
         // TODO add your handling code here:
@@ -265,6 +360,19 @@ public class SignUpNelayan extends javax.swing.JFrame {
     private void dropJenisKapalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropJenisKapalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dropJenisKapalActionPerformed
+
+    private void txtNIBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNIBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNIBActionPerformed
+
+    private void txtNoRegistrasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNoRegistrasiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNoRegistrasiActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        new MenuUser(currentUser).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,7 +403,7 @@ public class SignUpNelayan extends javax.swing.JFrame {
     private javax.swing.JButton btnUpload;
     private javax.swing.JComboBox<String> dropJenisKapal;
     private javax.swing.JComboBox<String> dropKategori;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

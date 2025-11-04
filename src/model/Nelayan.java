@@ -13,24 +13,27 @@ public class Nelayan extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "nib", nullable = false, unique = true)
-    private Integer nib;
+
+    
+    @Column(name = "nib", nullable = false, unique = true, length = 13)
+    private String nib;
+
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_nelayan", nullable = false,
             columnDefinition = "ENUM('Aktif','Nonaktif') DEFAULT 'Nonaktif'")
     private StatusNelayan statusNelayan;
 
-    // 🔹 Relasi One-to-Many ke Kapal
     @OneToMany(mappedBy = "nelayan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Kapal> daftarKapal = new ArrayList<>();
 
     /* ---------- Getter & Setter ---------- */
-    public Integer getNib() {
+    public String getNib() {
         return nib;
     }
 
-    public void setNib(Integer nib) {
+    public void setNib(String nib) {
         this.nib = nib;
     }
 
@@ -50,7 +53,6 @@ public class Nelayan extends User implements Serializable {
         this.daftarKapal = daftarKapal;
     }
 
-    // 🔹 Helper method biar aman manipulasi relasi dua arah
     public void tambahKapal(Kapal kapal) {
         daftarKapal.add(kapal);
         kapal.setNelayan(this);

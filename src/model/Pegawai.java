@@ -9,16 +9,14 @@ import java.io.Serializable;
 public class Pegawai extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+@Column(name = "nip", nullable = false, unique = true, length = 18)
+    private String nip;
 
-    @Column(name = "nip", nullable = false, unique = true)
-    private Integer nip;
-
-    /* ---------- Getter & Setter ---------- */
-    public Integer getNip() {
+    public String getNip() {
         return nip;
     }
 
-    public void setNip(Integer nip) {
+    public void setNip(String nip) {
         this.nip = nip;
     }
 

@@ -36,114 +36,142 @@ public class OpenKapal extends javax.swing.JFrame {
         txtNIB = new javax.swing.JTextField();
         txtJenisKapal = new javax.swing.JTextField();
         txtNoRegistrasi = new javax.swing.JTextField();
-        btnKembali = new javax.swing.JButton();
         txtUsername = new javax.swing.JTextField();
         txtKategori = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        comboStatus = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
         btnFoto = new javax.swing.JButton();
         btnSimpan = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        comboStatus = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btnKembali = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Username");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 70, -1));
 
-        jLabel3.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("No. Registrasi");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, 80, -1));
 
-        jLabel4.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("NIB");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 20, -1));
 
-        jLabel5.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Jenis");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, -1, -1));
-        getContentPane().add(txtNIB, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 310, 30));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 250, -1, -1));
 
+        txtNIB.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        getContentPane().add(txtNIB, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 280, 30));
+
+        txtJenisKapal.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         txtJenisKapal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtJenisKapalActionPerformed(evt);
             }
         });
-        getContentPane().add(txtJenisKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 310, 30));
-        getContentPane().add(txtNoRegistrasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 310, 30));
+        getContentPane().add(txtJenisKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 270, 300, 30));
 
-        btnKembali.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnKembali.setForeground(new java.awt.Color(0, 51, 102));
+        txtNoRegistrasi.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        getContentPane().add(txtNoRegistrasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 330, 280, 30));
+
+        txtUsername.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 280, 30));
+
+        txtKategori.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtKategoriActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 210, 300, 30));
+
+        jLabel8.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Kategori");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 190, -1, -1));
+
+        jLabel6.setBackground(new java.awt.Color(0, 51, 102));
+        jLabel6.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Pengajuan Kapal");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, -1, -1));
+
+        btnFoto.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnFoto.setForeground(new java.awt.Color(0, 51, 102));
+        btnFoto.setText("Open");
+        btnFoto.setFocusPainted(false);
+        btnFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFotoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 330, -1, 30));
+
+        btnSimpan.setBackground(new java.awt.Color(52, 99, 146));
+        btnSimpan.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnSimpan.setForeground(new java.awt.Color(255, 255, 255));
+        btnSimpan.setText("Simpan");
+        btnSimpan.setBorderPainted(false);
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, 310, 30));
+
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Bukti Foto");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 335, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Status");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 335, -1, -1));
+
+        comboStatus.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        comboStatus.setForeground(new java.awt.Color(0, 51, 102));
+        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboStatusActionPerformed(evt);
+            }
+        });
+        getContentPane().add(comboStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(425, 330, 110, 30));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background Pegawai.png"))); // NOI18N
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 670, 380));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnKembali.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnKembali.setForeground(new java.awt.Color(52, 99, 146));
         btnKembali.setText("Kembali");
         btnKembali.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnKembaliActionPerformed(evt);
             }
         });
-        getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 30, -1, 30));
-        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 310, 30));
+        jPanel1.add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 30, -1, 30));
 
-        txtKategori.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtKategoriActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 310, 30));
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo Dark.png"))); // NOI18N
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
 
-        jLabel8.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel8.setText("Kategori");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, -1));
-
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel6.setBackground(new java.awt.Color(0, 51, 102));
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel6.setText("PENGAJUAN KAPAL");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, -1));
-
-        jLabel7.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel7.setText("Status");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, -1, -1));
-
-        comboStatus.setForeground(new java.awt.Color(0, 51, 102));
-        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(comboStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 360, 110, 30));
-
-        jLabel2.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel2.setText("Bukti Foto");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, -1, -1));
-
-        btnFoto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnFoto.setForeground(new java.awt.Color(0, 51, 102));
-        btnFoto.setText("Open");
-        btnFoto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFotoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, -1, 30));
-
-        btnSimpan.setBackground(new java.awt.Color(0, 51, 102));
-        btnSimpan.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnSimpan.setForeground(new java.awt.Color(255, 255, 255));
-        btnSimpan.setText("SIMPAN");
-        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimpanActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 310, 30));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 370, 460));
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background.jpg"))); // NOI18N
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 760, 510));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -166,9 +194,12 @@ public class OpenKapal extends javax.swing.JFrame {
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
         // TODO add your handling code here:
-        new ManajemenAkunNelayan().setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_btnKembaliActionPerformed
+
+    private void comboStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboStatusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,6 +232,7 @@ public class OpenKapal extends javax.swing.JFrame {
     private javax.swing.JButton btnSimpan;
     private javax.swing.JComboBox<String> comboStatus;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

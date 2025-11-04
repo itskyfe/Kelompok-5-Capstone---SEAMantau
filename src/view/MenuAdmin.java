@@ -41,34 +41,59 @@ public class MenuAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnManajemenAkun = new javax.swing.JButton();
-        btnManajemenWilayah = new javax.swing.JButton();
         btnKeluar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btnManajemenWilayah = new javax.swing.JButton();
+        btnManajemenAkun = new javax.swing.JButton();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setPreferredSize(new java.awt.Dimension(800, 520));
         setResizable(false);
         getContentPane().setLayout(null);
 
-        btnManajemenAkun.setBackground(new java.awt.Color(0, 51, 102));
-        btnManajemenAkun.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnManajemenAkun.setForeground(new java.awt.Color(255, 255, 255));
-        btnManajemenAkun.setText("Manajemen Akun Pegawai");
-        btnManajemenAkun.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnManajemenAkun.setBorderPainted(false);
-        btnManajemenAkun.addActionListener(new java.awt.event.ActionListener() {
+        btnKeluar.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnKeluar.setForeground(new java.awt.Color(52, 99, 146));
+        btnKeluar.setText("Keluar");
+        btnKeluar.setFocusPainted(false);
+        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnManajemenAkunActionPerformed(evt);
+                btnKeluarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManajemenAkun);
-        btnManajemenAkun.setBounds(220, 230, 370, 36);
+        getContentPane().add(btnKeluar);
+        btnKeluar.setBounds(670, 40, 90, 30);
 
-        btnManajemenWilayah.setBackground(new java.awt.Color(0, 51, 102));
-        btnManajemenWilayah.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo Dark.png"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(20, 30, 193, 55);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel4.setText("Selamat Datang, Admin");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
+
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(0, 0, 800, 110);
+
+        jLabel2.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Pilih Menu Untuk Melanjutkan");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(120, 190, 610, 90);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnManajemenWilayah.setBackground(new java.awt.Color(52, 99, 146));
+        btnManajemenWilayah.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnManajemenWilayah.setForeground(new java.awt.Color(255, 255, 255));
         btnManajemenWilayah.setText("Manajemen Wilayah Tangkap");
         btnManajemenWilayah.setBorderPainted(false);
@@ -77,31 +102,25 @@ public class MenuAdmin extends javax.swing.JFrame {
                 btnManajemenWilayahActionPerformed(evt);
             }
         });
-        getContentPane().add(btnManajemenWilayah);
-        btnManajemenWilayah.setBounds(220, 290, 370, 36);
+        jPanel1.add(btnManajemenWilayah, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 240, 50));
 
-        btnKeluar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnKeluar.setForeground(new java.awt.Color(0, 51, 102));
-        btnKeluar.setText("Keluar");
-        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
+        btnManajemenAkun.setBackground(new java.awt.Color(52, 99, 146));
+        btnManajemenAkun.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnManajemenAkun.setForeground(new java.awt.Color(255, 255, 255));
+        btnManajemenAkun.setText("Manajemen Akun Pegawai");
+        btnManajemenAkun.setBorder(btnManajemenWilayah.getBorder());
+        btnManajemenAkun.setBorderPainted(false);
+        btnManajemenAkun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKeluarActionPerformed(evt);
+                btnManajemenAkunActionPerformed(evt);
             }
         });
-        getContentPane().add(btnKeluar);
-        btnKeluar.setBounds(680, 30, 90, 30);
+        jPanel1.add(btnManajemenAkun, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 240, 50));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("PILIH MENU UNTUK MELANJUTKAN");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(190, 120, 440, 90);
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 360, 800, 140);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo.png"))); // NOI18N
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(10, 10, 193, 55);
-
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background.jpg"))); // NOI18N
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background Admin.png"))); // NOI18N
         getContentPane().add(bg);
         bg.setBounds(0, 0, 800, 500);
 
@@ -158,5 +177,8 @@ public class MenuAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnManajemenWilayah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

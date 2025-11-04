@@ -4,7 +4,7 @@
  */
 package view;
 
-import controller.PegawaiController;
+import controller.PegawaiController; 
 import dao.UserDAO;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,68 +21,70 @@ import model.enums.Role;
 public class ManajemenAkunPegawai extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ManajemenAkunPegawai.class.getName());
-    private Pegawai selectedPegawai;
+    private Pegawai selectedPegawai; 
+    private final PegawaiController controller = new PegawaiController(); 
+    private List<Pegawai> currentPegawaiList; 
 
-    /**
-     * Creates new form manajemenAkunPegawai
-     */
+
     public ManajemenAkunPegawai() {
         initComponents();
         setLocationRelativeTo(null);
         loadTablePegawai();
     }
+    
     private void kosongkanForm() {
-    txtNama.setText("");
-    txtUsername.setText("");
-    txtPassword1.setText("");
-    txtEmail.setText("");
-    txtNoTelepon.setText("");
-    txtAlamat.setText("");
-    txtNip.setText("");
-    
-    tblPegawai.clearSelection();
-}
-
-private void loadTablePegawai() {
-    try {
-        UserDAO userDAO = new UserDAO();
-        List<User> semuaUser = userDAO.findAll();
-
-        // filter hanya pegawai
-        List<Pegawai> daftarPegawai = new ArrayList<>();
-        for (User u : semuaUser) {
-            if (u instanceof Pegawai && u.getRole() == Role.Pegawai) {
-                daftarPegawai.add((Pegawai) u);
-            }
-        }
-
-        // siapkan model tabel
-        DefaultTableModel model = new DefaultTableModel();
-        model.setColumnIdentifiers(new String[]{
-            "Nama", "Username", "Password", "NIP", "Email", "Nomor Telepon", "Alamat"
-        });
-
-        // isi baris tabel
-        for (Pegawai p : daftarPegawai) {
-            model.addRow(new Object[]{
-                p.getNama(),
-                p.getUsername(),
-                p.getPassword(),
-                p.getNip(),
-                p.getEmail(),
-                p.getNoHp(),
-                p.getAlamat()
-            });
-        }
-
-        tblPegawai.setModel(model);
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Gagal memuat data pegawai: " + e.getMessage());
+        txtNama.setText("");
+        txtUsername.setText("");
+        txtPassword1.setText("");
+        txtEmail.setText("");
+        txtNoTelepon.setText("");
+        txtAlamat.setText("");
+        txtNip.setText("");
+        
+        tblPegawai.clearSelection();
+        selectedPegawai = null; 
     }
-    
-}
+
+    private void loadTablePegawai() {
+        try {
+            UserDAO userDAO = new UserDAO();
+            List<User> semuaUser = userDAO.findAll();
+
+
+            this.currentPegawaiList = new ArrayList<>();
+            for (User u : semuaUser) {
+                if (u instanceof Pegawai && u.getRole() == Role.Pegawai) {
+                    this.currentPegawaiList.add((Pegawai) u);
+                }
+            }
+
+            DefaultTableModel model = new DefaultTableModel() {
+                 @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false; 
+                }
+            };
+            model.setColumnIdentifiers(new String[]{
+                "Nama", "Username", "Password", "NIP", "Email", "Nomor Telepon", "Alamat"
+            });
+
+            for (Pegawai p : this.currentPegawaiList) {
+                model.addRow(new Object[]{
+                    p.getNama(),
+                    p.getUsername(),
+                    "********", 
+                    p.getNip(),
+                    p.getEmail(),
+                    p.getNoHp(),
+                    p.getAlamat()
+                });
+            }
+            tblPegawai.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Gagal memuat data pegawai: " + e.getMessage());
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,98 +95,67 @@ private void loadTablePegawai() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         txtNama = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtNip = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtNoTelepon = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        txtAlamat = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPegawai = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        txtPassword1 = new javax.swing.JPasswordField();
-        btnUpdate = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        btnUpdate = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        txtPassword1 = new javax.swing.JPasswordField();
+        txtAlamat = new javax.swing.JTextField();
+        txtNoTelepon = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtUsername = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         btnTambah = new javax.swing.JButton();
-        txtUsername = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Nama");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, -1, -1));
-
         txtNama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNamaActionPerformed(evt);
             }
         });
-        getContentPane().add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 290, 30));
+        getContentPane().add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 105, 200, 30));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(52, 99, 146));
         jLabel3.setText("Username");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, -1, -1));
 
         txtNip.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNipActionPerformed(evt);
             }
         });
-        getContentPane().add(txtNip, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 290, 30));
+        getContentPane().add(txtNip, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 265, 200, 30));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(52, 99, 146));
         jLabel4.setText("Password");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Email");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 60, 60, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 195, -1, -1));
 
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
             }
         });
-        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 80, 340, 30));
+        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 105, 230, 30));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Nomor Telepon");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 120, 110, -1));
-
-        txtNoTelepon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNoTeleponActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtNoTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 140, 340, 30));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Alamat");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 180, 70, -1));
-
-        txtAlamat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAlamatActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtAlamat, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 200, 340, 30));
-
+        tblPegawai.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        tblPegawai.setForeground(new java.awt.Color(52, 99, 146));
         tblPegawai.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -193,9 +164,18 @@ private void loadTablePegawai() {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nama", "Username", "Password", "NIP", "Email", "Nomor Telepon", "Alamat"
+                "Nama", "Username", "Password", "NIP", "Email", "No. Telepon", "Alamat"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblPegawai.getTableHeader().setReorderingAllowed(false);
         tblPegawai.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblPegawaiMouseClicked(evt);
@@ -203,74 +183,108 @@ private void loadTablePegawai() {
         });
         jScrollPane1.setViewportView(tblPegawai);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 660, 170));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, 460, 130));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(52, 99, 146));
         jLabel1.setText("NIP");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
-        getContentPane().add(txtPassword1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 290, 30));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 248, -1, -1));
 
-        btnUpdate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnUpdate.setForeground(new java.awt.Color(0, 102, 0));
-        btnUpdate.setText("Edit");
-        btnUpdate.setBorder(null);
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 260, 80, 30));
-
-        jButton6.setBackground(new java.awt.Color(0, 51, 102));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(52, 99, 146));
         jButton6.setText("Kembali");
-        jButton6.setBorder(null);
+        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(52, 99, 146)));
+        jButton6.setFocusPainted(false);
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 20, 100, 30));
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 450, 90, 30));
 
-        jButton7.setBackground(new java.awt.Color(153, 0, 0));
-        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Hapus");
-        jButton7.setBorder(null);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnUpdate.setBackground(new java.awt.Color(153, 153, 153));
+        btnUpdate.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setText("Edit");
+        btnUpdate.setBorder(null);
+        btnUpdate.setBorderPainted(false);
+        btnUpdate.setFocusPainted(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 260, 80, 30));
+        jPanel1.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 265, 60, 30));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("MANAJEMEN AKUN PEGAWAI");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+        jLabel7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel7.setText("Alamat");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 195, 50, -1));
+        jPanel1.add(txtPassword1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 215, 200, 30));
 
-        btnTambah.setBackground(new java.awt.Color(0, 51, 102));
-        btnTambah.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
-        btnTambah.setText("Tambah");
-        btnTambah.setBorder(null);
-        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+        txtAlamat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahActionPerformed(evt);
+                txtAlamatActionPerformed(evt);
             }
         });
-        getContentPane().add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, 80, 30));
+        jPanel1.add(txtAlamat, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 215, 230, 30));
+
+        txtNoTelepon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNoTeleponActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtNoTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 230, 30));
+
+        jLabel6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel6.setText("Nomor Telepon");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 110, -1));
 
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsernameActionPerformed(evt);
             }
         });
-        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 290, 30));
+        jPanel1.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 200, 30));
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background.jpg"))); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel2.setText("Nama");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 85, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel5.setText("Email");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 85, 60, -1));
+
+        jLabel8.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel8.setText("Manajemen Akun Pegawai");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 25, -1, -1));
+
+        btnTambah.setBackground(new java.awt.Color(0, 51, 102));
+        btnTambah.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambah.setText("Tambah");
+        btnTambah.setBorder(null);
+        btnTambah.setFocusPainted(false);
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 265, 80, 30));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 560, 500));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo.png"))); // NOI18N
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background Pegawai.png"))); // NOI18N
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
 
         pack();
@@ -298,71 +312,30 @@ private void loadTablePegawai() {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
  int selectedRow = tblPegawai.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Pilih pegawai dulu dari tabel!");
-        return;
-    }
-
-    try {
-        String username = tblPegawai.getValueAt(selectedRow, 1).toString();
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.findByUsername(username);
-
-        if (user instanceof Pegawai) {
-            Pegawai pegawai = (Pegawai) user;
-
-            // ambil input dari field
-            String nama = txtNama.getText().trim();
-            String newUsername = txtUsername.getText().trim();
-            String email = txtEmail.getText().trim();
-            String noHp = txtNoTelepon.getText().trim();
-            String alamat = txtAlamat.getText().trim();
-            String passwordBaru = new String(txtPassword1.getPassword()).trim();
-            String nipText = txtNip.getText().trim();
-
-            if (nama.isEmpty() || newUsername.isEmpty() || email.isEmpty() || nipText.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Semua field wajib diisi!");
-                return;
-            }
-
-            // pastikan NIP angka
-            if (!nipText.matches("\\d+")) {
-                JOptionPane.showMessageDialog(this, "NIP harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            Integer newNip = Integer.valueOf(nipText);
-
-            // update data dasar
-            pegawai.setNama(nama);
-            pegawai.setUsername(newUsername);
-            pegawai.setEmail(email);
-            pegawai.setNoHp(noHp);
-            pegawai.setAlamat(alamat);
-            pegawai.setNip(newNip);
-
-            // kalau password diisi baru, hash ulang
-            if (!passwordBaru.isEmpty()) {
-                String hashed = org.mindrot.jbcrypt.BCrypt.hashpw(passwordBaru, org.mindrot.jbcrypt.BCrypt.gensalt());
-                pegawai.setPassword(hashed);
-            }
-
-            PegawaiController controller = new PegawaiController();
-            boolean success = controller.updatePegawai(pegawai);
-
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Data pegawai berhasil diperbarui!");
-                loadTablePegawai();
-                kosongkanForm();
-            } else {
-                JOptionPane.showMessageDialog(this, "Gagal memperbarui data pegawai! Mungkin username/email/NIP sudah dipakai.");
-            }
+    if (selectedPegawai == null) {
+            JOptionPane.showMessageDialog(this, "Pilih pegawai dulu dari tabel!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
-    
+        try {
+            controller.updatePegawai(
+                selectedPegawai,
+                txtNama.getText(),
+                txtUsername.getText(),
+                new String(txtPassword1.getPassword()),
+                txtEmail.getText(),
+                txtNoTelepon.getText(),
+                txtAlamat.getText(),
+                txtNip.getText() 
+            );
+
+            JOptionPane.showMessageDialog(this, "Data pegawai berhasil diperbarui!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            loadTablePegawai();
+            kosongkanForm();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal memperbarui: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace();
     }    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -371,73 +344,53 @@ private void loadTablePegawai() {
         this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        // TODO add your handling code here:
-            // TODO add your handling code here:
-try {
-        PegawaiController controller = new PegawaiController();
-        boolean sukses = controller.tambahPegawai(
-            txtNama.getText(),
-            txtUsername.getText(),
-            new String(txtPassword1.getPassword()),
-            txtEmail.getText(),
-            txtNoTelepon.getText(),
-            txtAlamat.getText(),
-            Integer.valueOf(txtNip.getText()) // ganti txtPassword ke txtNip kalau udah rename
-        );
+        try {
+            controller.tambahPegawai(
+                txtNama.getText(),
+                txtUsername.getText(),
+                new String(txtPassword1.getPassword()),
+                txtEmail.getText(),
+                txtNoTelepon.getText(),
+                txtAlamat.getText(),
+                txtNip.getText() 
+            );
 
-        if (sukses) {
+            JOptionPane.showMessageDialog(this, "Pegawai baru berhasil ditambahkan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
             loadTablePegawai();
             kosongkanForm();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal menambah: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
-    }
 
 
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void tblPegawaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPegawaiMouseClicked
-        // TODO add your handling code here:int selectedRow = tblPegawai.getSelectedRow();
-    int selectedRow = tblPegawai.getSelectedRow();
-    if (selectedRow != -1) {
-        try {
-            String username = tblPegawai.getValueAt(selectedRow, 1).toString();
-
-            UserDAO userDAO = new UserDAO();
-            User user = userDAO.findByUsername(username);
-
-            if (user instanceof Pegawai) {
-                selectedPegawai = (Pegawai) user;
-
-                // isi form
+     int selectedRow = tblPegawai.getSelectedRow();
+        if (selectedRow != -1) {
+            try {
+                this.selectedPegawai = this.currentPegawaiList.get(selectedRow);
+                
                 txtNama.setText(selectedPegawai.getNama());
                 txtUsername.setText(selectedPegawai.getUsername());
-                txtNip.setText(String.valueOf(selectedPegawai.getNip()));
+                txtNip.setText(selectedPegawai.getNip()); 
                 txtEmail.setText(selectedPegawai.getEmail());
                 txtNoTelepon.setText(selectedPegawai.getNoHp());
                 txtAlamat.setText(selectedPegawai.getAlamat());
+                txtPassword1.setText(""); 
 
-                // password tidak ditampilkan (karena sudah di-hash)
-                txtPassword1.setText("");
-            } else {
-                JOptionPane.showMessageDialog(this, "Data yang dipilih bukan pegawai!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Gagal memuat data pegawai: " + e.getMessage());
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Gagal memuat data pegawai: " + e.getMessage());
         }
-    }
     }//GEN-LAST:event_tblPegawaiMouseClicked
 
     /**
@@ -469,8 +422,8 @@ try {
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -479,6 +432,7 @@ try {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPegawai;
     private javax.swing.JTextField txtAlamat;

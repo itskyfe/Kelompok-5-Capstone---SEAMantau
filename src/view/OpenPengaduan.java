@@ -4,21 +4,85 @@
  */
 package view;
 
+import controller.VerifikasiController;
+import java.awt.Desktop;
+import java.net.URI;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import model.LaporanPengaduan;
+import model.Pegawai;
+import model.enums.StatusPengaduan;
 /**
  *
  * @author rfebr
  */
-public class OpenPengaduan extends javax.swing.JFrame {
+public class OpenPengaduan extends JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(OpenPengaduan.class.getName());
+    private final VerifikasiLaporanPengaduan parentFrame;
+    private final Pegawai pegawaiLogin;
+    private final LaporanPengaduan laporan;
+    private final boolean isEditable;
+    private final VerifikasiController controller = new VerifikasiController();
 
-    /**
-     * Creates new form tambahKapal
-     */
-    public OpenPengaduan() {
+    public OpenPengaduan(VerifikasiLaporanPengaduan parent, Pegawai pegawai, LaporanPengaduan laporan, boolean isEditable) {
+        super(parent, true); 
+        this.parentFrame = parent;
+        this.pegawaiLogin = pegawai;
+        this.laporan = laporan;
+        this.isEditable = isEditable;
+        
         initComponents();
+        
+        loadDataToForm();
+        setupFormMode();
+        
+        setLocationRelativeTo(parent);
     }
-
+    
+    private void loadDataToForm() {
+        txtNama.setText(laporan.getUser().getNama());
+        txtKoordinat.setText(laporan.getTitikKoordinat());
+        txtDeskripsi.setText(laporan.getDeskripsi()); 
+        txtCatatan.setText(laporan.getCatatan() != null ? laporan.getCatatan() : "");
+        
+        drpStatus.removeAllItems();
+        for (StatusPengaduan status : StatusPengaduan.values()) {
+            drpStatus.addItem(status.toString()); 
+        }
+        drpStatus.setSelectedItem(laporan.getStatusPengaduan().toString()); 
+    }
+    
+    private void setupFormMode() {
+        if (isEditable) {
+            txtCatatan.setEditable(true);
+            drpStatus.setEnabled(true);
+            btnSimpan.setEnabled(true);
+            btnSimpan.setText("SIMPAN");
+            btnOpenKoordinat.setEnabled(false); 
+        } else {
+            txtCatatan.setEditable(false);
+            drpStatus.setEnabled(false);
+            btnSimpan.setEnabled(false);
+            btnSimpan.setText("Mode Lihat Saja (Read-Only)");
+            btnOpenKoordinat.setEnabled(false);
+        }
+    }
+    
+    private void openLinkInBrowser(String url) {
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                if (url == null || url.isEmpty()) { throw new Exception("URL Foto tidak ditemukan."); }
+                if (!url.startsWith("http://") && !url.startsWith("https://")) { url = "https://" + url; }
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal membuka link: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Fitur buka browser tidak didukung di sistem ini.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,111 +100,190 @@ public class OpenPengaduan extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtNama = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        btnSimpan = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        drpStatus = new javax.swing.JComboBox<>();
+        txtKoordinat = new javax.swing.JTextField();
+        btnOpenKoordinat = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDeskripsi = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtCatatan = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nama");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
 
-        jLabel2.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Bukti Foto");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 410, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 345, -1, -1));
 
-        jLabel3.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Deskripsi");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 180, -1, -1));
 
-        jLabel4.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Titik Koordinat");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, -1, -1));
 
-        jLabel5.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Catatan");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 280, -1, -1));
 
         jLabel6.setBackground(new java.awt.Color(0, 51, 102));
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel6.setText("LAPORAN PENGADUAN");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, -1, -1));
-        getContentPane().add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 310, 30));
+        jLabel6.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Laporan Pengaduan");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, -1, -1));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 51, 102));
+        txtNama.setEditable(false);
+        txtNama.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        getContentPane().add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 290, 30));
+
+        jButton1.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(52, 99, 146));
         jButton1.setText("Open");
+        jButton1.setFocusPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, -1, 30));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, -1, 30));
 
-        jButton2.setBackground(new java.awt.Color(0, 51, 102));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("SIMPAN");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnSimpan.setBackground(new java.awt.Color(0, 51, 102));
+        btnSimpan.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnSimpan.setForeground(new java.awt.Color(255, 255, 255));
+        btnSimpan.setText("Simpan");
+        btnSimpan.setBorderPainted(false);
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnSimpanActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 310, 30));
+        getContentPane().add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, 310, 30));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 320, 310, 70));
-
-        jLabel7.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Status");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 410, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 345, -1, -1));
 
-        jComboBox1.setForeground(new java.awt.Color(0, 51, 102));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, 110, 30));
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 232, 310, 60));
+        drpStatus.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        drpStatus.setForeground(new java.awt.Color(0, 51, 102));
+        drpStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(drpStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 340, 100, 30));
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 51, 102));
-        jButton3.setText("Kembali");
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 30, -1, 30));
+        txtKoordinat.setEditable(false);
+        txtKoordinat.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        txtKoordinat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtKoordinatActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtKoordinat, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, 200, 30));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 310, 70));
+        btnOpenKoordinat.setBackground(new java.awt.Color(153, 153, 153));
+        btnOpenKoordinat.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnOpenKoordinat.setForeground(new java.awt.Color(255, 255, 255));
+        btnOpenKoordinat.setText("Open");
+        btnOpenKoordinat.setBorderPainted(false);
+        btnOpenKoordinat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenKoordinatActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnOpenKoordinat, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, 80, 30));
+
+        txtDeskripsi.setEditable(false);
+        txtDeskripsi.setColumns(20);
+        txtDeskripsi.setRows(5);
+        jScrollPane1.setViewportView(txtDeskripsi);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, 290, 60));
+
+        txtCatatan.setColumns(20);
+        txtCatatan.setRows(5);
+        jScrollPane2.setViewportView(txtCatatan);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, 290, 70));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background Pegawai.png"))); // NOI18N
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 680, 370));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 450, 480));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Sign up.png"))); // NOI18N
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 760, 510));
+        jButton3.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(0, 51, 102));
+        jButton3.setText("Kembali");
+        jButton3.setFocusPainted(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 30, -1, 30));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo Dark.png"))); // NOI18N
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        new ImageViewerDialog(this, this.laporan.getDokumentasi()).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        StatusPengaduan statusBaru = StatusPengaduan.valueOf((String) drpStatus.getSelectedItem());
+        String catatanBaru = txtCatatan.getText().trim();
+        String koordinatBaru = txtKoordinat.getText().trim(); 
+        
+        try {
+            controller.verifikasiLaporanPengaduan(this.laporan, this.pegawaiLogin, statusBaru, catatanBaru );
+            JOptionPane.showMessageDialog(this, "Laporan berhasil diupdate!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            
+            this.parentFrame.loadTblPengaduan(); 
+            this.dispose();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal update: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSimpanActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtKoordinatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKoordinatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtKoordinatActionPerformed
+
+    private void btnOpenKoordinatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenKoordinatActionPerformed
+    String koor = txtKoordinat.getText().trim();
+        if (koor.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Koordinat kosong.");
+            return;
+        }
+        openLinkInBrowser("https://maps.google.com/maps?q=" + koor);
+    }//GEN-LAST:event_btnOpenKoordinatActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,14 +307,14 @@ public class OpenPengaduan extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new OpenPengaduan().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOpenKoordinat;
+    private javax.swing.JButton btnSimpan;
+    private javax.swing.JComboBox<String> drpStatus;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -179,11 +322,14 @@ public class OpenPengaduan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea txtCatatan;
+    private javax.swing.JTextArea txtDeskripsi;
+    private javax.swing.JTextField txtKoordinat;
     private javax.swing.JTextField txtNama;
     // End of variables declaration//GEN-END:variables
 }

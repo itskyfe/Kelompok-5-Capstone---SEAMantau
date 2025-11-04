@@ -13,9 +13,7 @@ public class MenuPegawai extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuPegawai.class.getName());
     private Pegawai  pegawaiLogin;
 
-    /**
-     * Creates new form menuPage
-     */
+
     public MenuPegawai() {
         initComponents();
         setLocationRelativeTo(null);
@@ -37,80 +35,102 @@ public class MenuPegawai extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnVerifikasiLaporan = new javax.swing.JButton();
-        btnManajemenAkun = new javax.swing.JButton();
         btnKeluar = new javax.swing.JButton();
         btnProfil = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btnVerifikasiLaporan = new javax.swing.JButton();
+        btnManajemenAkun = new javax.swing.JButton();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setPreferredSize(new java.awt.Dimension(800, 520));
         setResizable(false);
         getContentPane().setLayout(null);
 
-        btnVerifikasiLaporan.setBackground(new java.awt.Color(0, 51, 102));
-        btnVerifikasiLaporan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnVerifikasiLaporan.setForeground(new java.awt.Color(255, 255, 255));
-        btnVerifikasiLaporan.setText("Verifikasi Laporan");
-        btnVerifikasiLaporan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnVerifikasiLaporan.setBorderPainted(false);
-        btnVerifikasiLaporan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerifikasiLaporanActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnVerifikasiLaporan);
-        btnVerifikasiLaporan.setBounds(220, 230, 370, 36);
-
-        btnManajemenAkun.setBackground(new java.awt.Color(0, 51, 102));
-        btnManajemenAkun.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnManajemenAkun.setForeground(new java.awt.Color(255, 255, 255));
-        btnManajemenAkun.setText("Manajemen Akun Nelayan");
-        btnManajemenAkun.setBorderPainted(false);
-        btnManajemenAkun.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnManajemenAkunActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnManajemenAkun);
-        btnManajemenAkun.setBounds(220, 290, 370, 36);
-
-        btnKeluar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnKeluar.setForeground(new java.awt.Color(0, 51, 102));
+        btnKeluar.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnKeluar.setForeground(new java.awt.Color(52, 99, 146));
         btnKeluar.setText("Keluar");
+        btnKeluar.setFocusPainted(false);
         btnKeluar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnKeluarActionPerformed(evt);
             }
         });
         getContentPane().add(btnKeluar);
-        btnKeluar.setBounds(680, 30, 90, 30);
+        btnKeluar.setBounds(670, 40, 90, 30);
 
-        btnProfil.setBackground(new java.awt.Color(0, 51, 102));
-        btnProfil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnProfil.setBackground(new java.awt.Color(52, 99, 146));
+        btnProfil.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnProfil.setForeground(new java.awt.Color(255, 255, 255));
         btnProfil.setText("Profil");
+        btnProfil.setFocusPainted(false);
         btnProfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProfilActionPerformed(evt);
             }
         });
         getContentPane().add(btnProfil);
-        btnProfil.setBounds(580, 30, 84, 30);
+        btnProfil.setBounds(570, 40, 84, 30);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("PILIH MENU UNTUK MELANJUTKAN");
+        jLabel2.setText("Pilih Menu Untuk Melanjutkan");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(190, 120, 440, 90);
+        jLabel2.setBounds(120, 190, 610, 90);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo Dark.png"))); // NOI18N
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(10, 10, 193, 55);
+        jLabel1.setBounds(20, 30, 193, 55);
 
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background.jpg"))); // NOI18N
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel4.setText("Selamat Datang, Pegawai");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
+
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(0, 0, 800, 110);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnVerifikasiLaporan.setBackground(new java.awt.Color(52, 99, 146));
+        btnVerifikasiLaporan.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnVerifikasiLaporan.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerifikasiLaporan.setText("Verifikasi Laporan");
+        btnVerifikasiLaporan.setBorder(btnManajemenAkun.getBorder());
+        btnVerifikasiLaporan.setBorderPainted(false);
+        btnVerifikasiLaporan.setFocusPainted(false);
+        btnVerifikasiLaporan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerifikasiLaporanActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVerifikasiLaporan, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 240, 50));
+
+        btnManajemenAkun.setBackground(new java.awt.Color(52, 99, 146));
+        btnManajemenAkun.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnManajemenAkun.setForeground(new java.awt.Color(255, 255, 255));
+        btnManajemenAkun.setText("Manajemen Akun Nelayan");
+        btnManajemenAkun.setBorderPainted(false);
+        btnManajemenAkun.setFocusPainted(false);
+        btnManajemenAkun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManajemenAkunActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnManajemenAkun, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 240, 50));
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 360, 800, 140);
+
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background Pegawai.png"))); // NOI18N
         getContentPane().add(bg);
         bg.setBounds(0, 0, 800, 500);
 
@@ -118,14 +138,13 @@ public class MenuPegawai extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerifikasiLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerifikasiLaporanActionPerformed
-        // TODO add your handling code here:
-        new VerifikasiLaporanPengaduan().setVisible(true);
+        new VerifikasiLaporanPengaduan(this.pegawaiLogin).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnVerifikasiLaporanActionPerformed
 
     private void btnProfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfilActionPerformed
         // TODO add your handling code here:
-      new ProfilPegawai(pegawaiLogin).setVisible(true);
+      new ProfilPegawai(this.pegawaiLogin).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnProfilActionPerformed
 
@@ -137,7 +156,7 @@ public class MenuPegawai extends javax.swing.JFrame {
 
     private void btnManajemenAkunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManajemenAkunActionPerformed
         // TODO add your handling code here:
-        new ManajemenAkunNelayan().setVisible(true);
+        new ManajemenAkunNelayan(this.pegawaiLogin).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnManajemenAkunActionPerformed
 
@@ -174,5 +193,8 @@ public class MenuPegawai extends javax.swing.JFrame {
     private javax.swing.JButton btnVerifikasiLaporan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

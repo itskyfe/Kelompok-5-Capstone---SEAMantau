@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import util.HibernateUtil;
 import javax.swing.JOptionPane;
 import org.mindrot.jbcrypt.BCrypt;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -18,6 +19,10 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class AuthController {
     private final UserDAO userDAO = new UserDAO();
+    private static final Pattern EMAIL_REGEX = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
+    private static final Pattern PHONE_REGEX = Pattern.compile("^\\d{10,12}$"); 
+    private static final Pattern NAME_USER_REGEX = Pattern.compile("^.{5,20}$"); 
+    private static final Pattern PASS_REGEX = Pattern.compile("^.{5,20}$"); 
 
     
 
@@ -56,56 +61,48 @@ public User login(String username, String password) {
     
     return user;
 }
-    
-        public boolean signUpUser(String nama, String username, String password,
-                              String email, String noTelepon, String alamat) {
-        if (nama.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(null, 
-                "Nama, Username, dan Password wajib diisi!", 
-                "Input tidak lengkap", 
-                JOptionPane.WARNING_MESSAGE);
-            return false;
+
+    public void signUpUser(String nama, String username, String password,
+                           String email, String noTelepon, String alamat) throws Exception {
+        
+        if (nama.isBlank() || username.isBlank() || password.isBlank() || email.isBlank() || noTelepon.isBlank() || alamat.isBlank()) {
+            throw new Exception("Semua field wajib diisi!");
+        }
+        if (!NAME_USER_REGEX.matcher(nama).matches()) {
+            throw new Exception("Nama harus 5-20 karakter.");
+        }
+        if (!NAME_USER_REGEX.matcher(username).matches()) {
+            throw new Exception("Username harus 5-20 karakter.");
+        }
+        if (!PASS_REGEX.matcher(password).matches()) {
+            throw new Exception("Password harus 5-20 karakter.");
+        }
+        if (!EMAIL_REGEX.matcher(email).matches()) {
+            throw new Exception("Format email tidak valid (contoh: user@gmail.com).");
+        }
+        if (!PHONE_REGEX.matcher(noTelepon).matches()) {
+            throw new Exception("Nomor Telepon harus angka, 10-12 digit.");
         }
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction tx = session.beginTransaction();
-
-            // cek username udah dipakai belum
-            Query<User> q = session.createQuery("FROM User WHERE username = :uname", User.class);
-            q.setParameter("uname", username);
-            if (!q.list().isEmpty()) {
-                JOptionPane.showMessageDialog(null, 
-                    "Username sudah digunakan!", 
-                    "Gagal", 
-                    JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-
-            // bikin user baru
-            User newUser = new User();
-            newUser.setNama(nama);
-            newUser.setUsername(username);
-            String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
-            newUser.setPassword(hashed);
-            newUser.setEmail(email);
-            newUser.setNoHp(noTelepon);
-            newUser.setAlamat(alamat);
-            newUser.setRole(null); // default null
-
-            session.save(newUser);
-            tx.commit();
-            JOptionPane.showMessageDialog(null, 
-                "Akun berhasil dibuat! Silakan login.", 
-                "Sukses", 
-                JOptionPane.INFORMATION_MESSAGE);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, 
-                "Terjadi kesalahan saat membuat akun.", 
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
-            return false;
+        if (userDAO.findByUsername(username) != null) {
+            throw new Exception("Username '" + username + "' sudah digunakan!");
         }
+        if (userDAO.findByEmail(email) != null) {
+            throw new Exception("Email '" + email + "' sudah digunakan!");
+        }
+
+        User newUser = new User();
+        newUser.setNama(nama);
+        newUser.setUsername(username);
+        String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+        newUser.setPassword(hashed);
+        newUser.setEmail(email);
+        newUser.setNoHp(noTelepon);
+        newUser.setAlamat(alamat);
+        newUser.setRole(null);
+
+
+        userDAO.save(newUser); 
     }
 }
+

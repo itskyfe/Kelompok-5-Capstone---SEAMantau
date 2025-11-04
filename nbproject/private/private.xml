@@ -3,15 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/donlot/SEAMantaur/SEAMantau/src/view/MenuAdmin.java</file>
-            <file>file:/D:/donlot/SEAMantaur/SEAMantau/src/model/Main.java</file>
-            <file>file:/D:/donlot/SEAMantaur/SEAMantau/src/view/ManajamenWilayahTangkap.java</file>
-            <file>file:/D:/donlot/SEAMantaur/SEAMantau/src/view/ManajemenAkunPegawai.java</file>
-            <file>file:/D:/donlot/SEAMantaur/SEAMantau/src/view/SignUpNelayan.java</file>
-            <file>file:/D:/donlot/SEAMantaur/SEAMantau/src/view/OpenKapal.java</file>
-            <file>file:/D:/donlot/SEAMantaur/SEAMantau/src/view/LandingPage.java</file>
-            <file>file:/D:/donlot/SEAMantaur/SEAMantau/src/view/LaporanPengaduan.java</file>
-            <file>file:/D:/donlot/SEAMantaur/SEAMantau/src/view/MapPicker.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/OpenPengaduan.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/VerifikasiLaporanPengaduan.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/OpenPenangkapan.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/controller/WilayahController.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/dao/WilayahTangkapDAO.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/ManajamenWilayahTangkap.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/MenuAdmin.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/MenuNelayan.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/MenuUser.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/MenuPegawai.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/ProfilNelayan.java</file>
+            <file>file:/D:/donlot/SEAMantaugar/SEAMantau/SEAMantaur/SEAMantau/src/view/ProfilPegawai.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 import dao.WilayahTangkapDAO;
 import model.WilayahTangkap;
 import java.util.List;
-import javax.swing.JOptionPane;
+
 /**
  *
  * @author TUF
@@ -14,28 +10,49 @@ import javax.swing.JOptionPane;
 public class WilayahController {
     private final WilayahTangkapDAO wilayahDAO = new WilayahTangkapDAO();
 
-    public void tambahWilayah(String namaWilayah, String koordinat) {
-        if (namaWilayah.isEmpty() || koordinat.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Semua field wajib diisi!");
-            return;
+
+    public void tambahWilayah(String namaWilayah, String koordinat) throws Exception {
+        if (namaWilayah == null || namaWilayah.trim().isEmpty() || 
+            koordinat == null || koordinat.trim().isEmpty()) {
+            throw new Exception("Nama Wilayah dan Koordinat tidak boleh kosong.");
+        }
+        if (namaWilayah.trim().length() < 5 || koordinat.trim().length() < 5) {
+            throw new Exception("Nama Wilayah dan Koordinat harus minimal 5 karakter.");
+        }
+        
+        if (wilayahDAO.findByNama(namaWilayah.trim()) != null) {
+            throw new Exception("Nama Wilayah '" + namaWilayah.trim() + "' sudah terdaftar.");
         }
 
         WilayahTangkap wilayah = new WilayahTangkap();
-        wilayah.setNamaWilayah(namaWilayah);
-        wilayah.setKoordinat(koordinat);
+        wilayah.setNamaWilayah(namaWilayah.trim());
+        wilayah.setKoordinat(koordinat.trim());
 
         wilayahDAO.save(wilayah);
-        JOptionPane.showMessageDialog(null, "Wilayah berhasil ditambahkan!");
     }
 
-    public void updateWilayah(WilayahTangkap wilayah) {
+
+    public void updateWilayah(WilayahTangkap wilayah) throws Exception {
         if (wilayah == null) {
-            JOptionPane.showMessageDialog(null, "Pilih wilayah terlebih dahulu!");
-            return;
+            throw new Exception("Pilih wilayah terlebih dahulu!");
+        }
+        
+        String nama = wilayah.getNamaWilayah();
+        String koordinat = wilayah.getKoordinat();
+
+        if (nama == null || nama.trim().isEmpty() || koordinat == null || koordinat.trim().isEmpty()) {
+            throw new Exception("Nama Wilayah dan Koordinat tidak boleh kosong.");
+        }
+        if (nama.trim().length() < 5 || koordinat.trim().length() < 5) {
+            throw new Exception("Nama Wilayah dan Koordinat harus minimal 5 karakter.");
+        }
+
+        WilayahTangkap cekDuplikat = wilayahDAO.findByNama(nama.trim());
+        if (cekDuplikat != null && !cekDuplikat.getWilayahId().equals(wilayah.getWilayahId())) {
+            throw new Exception("Nama Wilayah '" + nama.trim() + "' sudah dipakai oleh data lain.");
         }
 
         wilayahDAO.update(wilayah);
-        JOptionPane.showMessageDialog(null, "Wilayah berhasil diperbarui!");
     }
 
     public List<WilayahTangkap> getAllWilayah() {

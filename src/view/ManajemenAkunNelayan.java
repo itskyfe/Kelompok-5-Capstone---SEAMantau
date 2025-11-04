@@ -4,6 +4,21 @@
  */
 package view;
 
+import controller.PegawaiController;
+import dao.KapalDAO;
+import dao.NelayanDAO;
+import java.awt.Desktop;
+import java.net.URI;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Kapal;
+import model.Nelayan;
+import model.Pegawai; 
+import model.enums.StatusKapal;
+import model.enums.StatusNelayan;
+import java.awt.Desktop;  
+import java.net.URI;      
 /**
  *
  * @author rfebr
@@ -11,14 +26,92 @@ package view;
 public class ManajemenAkunNelayan extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ManajemenAkunNelayan.class.getName());
+    private final Pegawai pegawaiLogin;
+    private final PegawaiController controller = new PegawaiController();
+    private final NelayanDAO nelayanDAO = new NelayanDAO();
+    private final KapalDAO kapalDAO = new KapalDAO();
+    private List<Nelayan> listNelayanNonaktif;
+    private List<Kapal> listKapalNonaktif;
 
-    /**
-     * Creates new form AccNelayan
-     */
-    public ManajemenAkunNelayan() {
+
+    public ManajemenAkunNelayan(Pegawai pegawai) {
         initComponents();
-        setLocationRelativeTo(null);    
+        this.pegawaiLogin = pegawai;
+        setLocationRelativeTo(null);   
+        setTitle("Manajemen Akun - " + this.pegawaiLogin.getNama());        
+        loadTblAkunNelayan();
+        loadTblKapal();
     }
+    private void loadTblAkunNelayan() {
+        DefaultTableModel model = (DefaultTableModel) tblAkunNelayan.getModel();
+        model.setRowCount(0); 
+        
+        this.listNelayanNonaktif = nelayanDAO.findByStatus(StatusNelayan.Nonaktif);
+        
+        for (Nelayan nelayan : this.listNelayanNonaktif) {
+            model.addRow(new Object[]{
+                nelayan.getNama(), 
+                nelayan.getNib(),
+                nelayan.getNoHp()   
+            });
+        }
+    }
+    
+    private void loadTblKapal() {
+        DefaultTableModel model = (DefaultTableModel) tblKapal.getModel();
+        model.setRowCount(0); 
+        
+        this.listKapalNonaktif = kapalDAO.findAllByStatusAndNelayanStatus(StatusKapal.Nonaktif, StatusNelayan.Aktif);
+        
+        for (Kapal kapal : this.listKapalNonaktif) {
+            model.addRow(new Object[]{
+                kapal.getNelayan().getUsername(), 
+                kapal.getNelayan().getNib(),    
+                kapal.getNoRegistrasi(),
+                kapal.getKategoriKapal(),
+                kapal.getJenisKapal()
+            });
+        }
+    }
+    
+    private Nelayan getSelectedNelayan() {
+        int selectedRow = tblAkunNelayan.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih akun nelayan dari tabel atas.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        return this.listNelayanNonaktif.get(selectedRow);
+    }
+    
+    private Kapal getSelectedKapal() {
+        int selectedRow = tblKapal.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih kapal dari tabel bawah.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        return this.listKapalNonaktif.get(selectedRow);
+    }
+    
+    // --- METHOD HELPER: BUKA LINK DI BROWSER ---
+//    private void openLinkInBrowser(String url) {
+//        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+//            try {
+//                // Pastikan URL valid
+//                if (url == null || url.isEmpty()) {
+//                    throw new Exception("URL Foto tidak ditemukan.");
+//                }
+//                // Tambahkan https:// jika belum ada (penting untuk Google Drive)
+//                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+//                    url = "https://" + url;
+//                }
+//                Desktop.getDesktop().browse(new URI(url));
+//            } catch (Exception e) {
+//                JOptionPane.showMessageDialog(this, "Gagal membuka link: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Fitur buka browser tidak didukung di sistem ini.", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,9 +123,6 @@ public class ManajemenAkunNelayan extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        btnKembali = new javax.swing.JButton();
-        btnAccKapal = new javax.swing.JButton();
-        btnTolakKapal = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAkunNelayan = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -41,44 +131,24 @@ public class ManajemenAkunNelayan extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         btnAccAkun = new javax.swing.JButton();
         btnTolakAkun = new javax.swing.JButton();
+        btnKembali = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        btnTolakKapal = new javax.swing.JButton();
+        btnAccKapal = new javax.swing.JButton();
         btnOpenKapal = new javax.swing.JButton();
+        logo = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("MANAJEMEN AKUN NELAYAN");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, -1, -1));
+        jLabel1.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(52, 99, 146));
+        jLabel1.setText("Manajemen Akun Nelayan");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 40, -1, -1));
 
-        btnKembali.setBackground(new java.awt.Color(0, 51, 102));
-        btnKembali.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnKembali.setForeground(new java.awt.Color(255, 255, 255));
-        btnKembali.setText("Kembali");
-        btnKembali.setBorderPainted(false);
-        btnKembali.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKembaliActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 30, -1, 30));
-
-        btnAccKapal.setBackground(new java.awt.Color(0, 102, 0));
-        btnAccKapal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnAccKapal.setForeground(new java.awt.Color(255, 255, 255));
-        btnAccKapal.setText("ACC");
-        btnAccKapal.setBorderPainted(false);
-        getContentPane().add(btnAccKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 270, -1, 30));
-
-        btnTolakKapal.setBackground(new java.awt.Color(153, 0, 0));
-        btnTolakKapal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnTolakKapal.setForeground(new java.awt.Color(255, 255, 255));
-        btnTolakKapal.setText("TOLAK");
-        btnTolakKapal.setBorderPainted(false);
-        getContentPane().add(btnTolakKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 270, -1, 30));
-
+        tblAkunNelayan.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         tblAkunNelayan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -89,15 +159,24 @@ public class ManajemenAkunNelayan extends javax.swing.JFrame {
             new String [] {
                 "Nama", "NIB", "No. HP"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblAkunNelayan.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblAkunNelayan);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 670, 150));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 410, 120));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(52, 99, 146));
         jLabel2.setText("Daftar Akun Nelayan");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, -1, -1));
 
         tblKapal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,57 +188,204 @@ public class ManajemenAkunNelayan extends javax.swing.JFrame {
             new String [] {
                 "Username", "NIB", "No. Registrasi", "Kategori", "Jenis"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblKapal.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tblKapal);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 670, 170));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 310, 410, 120));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(52, 99, 146));
         jLabel3.setText("Daftar Kapal Nelayan");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, 20));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, -1, 20));
 
-        btnAccAkun.setBackground(new java.awt.Color(0, 102, 0));
-        btnAccAkun.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnAccAkun.setBackground(new java.awt.Color(0, 122, 63));
+        btnAccAkun.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnAccAkun.setForeground(new java.awt.Color(255, 255, 255));
-        btnAccAkun.setText("ACC");
+        btnAccAkun.setText("Acc");
         btnAccAkun.setBorderPainted(false);
-        getContentPane().add(btnAccAkun, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 70, -1, 30));
+        btnAccAkun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccAkunActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAccAkun, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 100, -1, 30));
 
-        btnTolakAkun.setBackground(new java.awt.Color(153, 0, 0));
-        btnTolakAkun.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnTolakAkun.setBackground(new java.awt.Color(204, 0, 0));
+        btnTolakAkun.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnTolakAkun.setForeground(new java.awt.Color(255, 255, 255));
-        btnTolakAkun.setText("TOLAK");
+        btnTolakAkun.setText("Tolak");
         btnTolakAkun.setBorderPainted(false);
-        getContentPane().add(btnTolakAkun, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 70, -1, 30));
+        btnTolakAkun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTolakAkunActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnTolakAkun, new org.netbeans.lib.awtextra.AbsoluteConstraints(668, 100, -1, 30));
 
-        btnOpenKapal.setBackground(new java.awt.Color(0, 51, 102));
-        btnOpenKapal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnKembali.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnKembali.setForeground(new java.awt.Color(52, 99, 146));
+        btnKembali.setText("Kembali");
+        btnKembali.setFocusPainted(false);
+        btnKembali.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKembaliActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 440, -1, 30));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnTolakKapal.setBackground(new java.awt.Color(204, 0, 0));
+        btnTolakKapal.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnTolakKapal.setForeground(new java.awt.Color(255, 255, 255));
+        btnTolakKapal.setText("Tolak");
+        btnTolakKapal.setBorderPainted(false);
+        btnTolakKapal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTolakKapalActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnTolakKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, -1, 30));
+
+        btnAccKapal.setBackground(new java.awt.Color(0, 122, 63));
+        btnAccKapal.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        btnAccKapal.setForeground(new java.awt.Color(255, 255, 255));
+        btnAccKapal.setText("Acc");
+        btnAccKapal.setBorderPainted(false);
+        btnAccKapal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccKapalActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAccKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 270, -1, 30));
+
+        btnOpenKapal.setBackground(new java.awt.Color(52, 99, 146));
+        btnOpenKapal.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         btnOpenKapal.setForeground(new java.awt.Color(255, 255, 255));
-        btnOpenKapal.setText("OPEN");
+        btnOpenKapal.setText("Open");
         btnOpenKapal.setBorderPainted(false);
         btnOpenKapal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpenKapalActionPerformed(evt);
             }
         });
-        getContentPane().add(btnOpenKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 270, -1, 30));
+        jPanel1.add(btnOpenKapal, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 270, -1, 30));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background.jpg"))); // NOI18N
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 530, 500));
+
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo.png"))); // NOI18N
+        getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Background Pegawai.png"))); // NOI18N
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpenKapalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenKapalActionPerformed
-        // TODO add your handling code here:
+      Kapal kapal = getSelectedKapal();
+        if (kapal == null) return;
+        
+        String url = kapal.getFotoKapal();
+        
+        new ImageViewerDialog(this, url).setVisible(true);
     }//GEN-LAST:event_btnOpenKapalActionPerformed
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
-        // TODO add your handling code here:
-        new MenuPegawai().setVisible(true);
+        new MenuPegawai(this.pegawaiLogin).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
+
+    private void btnAccAkunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccAkunActionPerformed
+        Nelayan nelayan = getSelectedNelayan();
+        if (nelayan == null) return;
+        
+        int response = JOptionPane.showConfirmDialog(
+            this, "Yakin ingin menyetujui akun nelayan: " + nelayan.getNama() + "?",
+            "Konfirmasi ACC Akun", JOptionPane.YES_NO_OPTION
+        );
+        
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                controller.verifikasiAkunNelayan(nelayan);
+                JOptionPane.showMessageDialog(this, "Akun " + nelayan.getNama() + " berhasil diaktifkan.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                loadTblAkunNelayan(); 
+                loadTblKapal();       
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal ACC Akun: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnAccAkunActionPerformed
+
+    private void btnTolakAkunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTolakAkunActionPerformed
+        Nelayan nelayan = getSelectedNelayan();
+        if (nelayan == null) return;
+        
+        int response = JOptionPane.showConfirmDialog(
+            this, "Yakin ingin MENOLAK/MENGHAPUS pendaftaran " + nelayan.getNama() + "?\nData nelayan dan kapal pertamanya akan dihapus permanen.",
+            "Konfirmasi TOLAK Akun", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
+        );
+        
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                controller.tolakAkunNelayan(nelayan);
+                JOptionPane.showMessageDialog(this, "Akun " + nelayan.getNama() + " berhasil ditolak dan dihapus.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                loadTblAkunNelayan(); 
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal TOLAK Akun: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnTolakAkunActionPerformed
+
+    private void btnAccKapalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccKapalActionPerformed
+        Kapal kapal = getSelectedKapal();
+        if (kapal == null) return;
+        
+        int response = JOptionPane.showConfirmDialog(
+            this, "Yakin ingin menyetujui kapal: " + kapal.getNamaKapal() + " (" + kapal.getNoRegistrasi() + ")?",
+            "Konfirmasi ACC Kapal", JOptionPane.YES_NO_OPTION
+        );
+        
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                controller.verifikasiKapal(kapal);
+                JOptionPane.showMessageDialog(this, "Kapal " + kapal.getNamaKapal() + " berhasil diaktifkan.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                loadTblKapal(); 
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal ACC Kapal: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnAccKapalActionPerformed
+
+    private void btnTolakKapalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTolakKapalActionPerformed
+        Kapal kapal = getSelectedKapal();
+        if (kapal == null) return;
+        
+        int response = JOptionPane.showConfirmDialog(
+            this, "Yakin ingin MENOLAK/MENGHAPUS kapal " + kapal.getNamaKapal() + "?\nData kapal akan dihapus permanen.",
+            "Konfirmasi TOLAK Kapal", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
+        );
+        
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                controller.tolakKapal(kapal);
+                JOptionPane.showMessageDialog(this, "Kapal " + kapal.getNamaKapal() + " berhasil ditolak dan dihapus.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                loadTblKapal(); 
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal TOLAK Kapal: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnTolakKapalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,7 +409,6 @@ public class ManajemenAkunNelayan extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new ManajemenAkunNelayan().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -197,8 +422,10 @@ public class ManajemenAkunNelayan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel logo;
     private javax.swing.JTable tblAkunNelayan;
     private javax.swing.JTable tblKapal;
     // End of variables declaration//GEN-END:variables

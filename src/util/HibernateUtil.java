@@ -16,11 +16,9 @@ public class HibernateUtil {
 
     static {
         try {
-            // Membaca konfigurasi dari hibernate.cfg.xml
             sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-            System.out.println("✅ Koneksi Hibernate ke Database berhasil!");
         } catch (HibernateException ex) {
-            System.err.println("❌ Gagal membuat SessionFactory: " + ex);
+            System.err.println("Gagal membuat SessionFactory: " + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
@@ -31,6 +29,6 @@ public class HibernateUtil {
 
     public static void shutdown() {
         getSessionFactory().close();
-        System.out.println("🔒 SessionFactory ditutup.");
+        System.out.println("SessionFactory ditutup.");
     }
 }
